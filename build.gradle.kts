@@ -53,7 +53,7 @@ kotlin {
 }
 
 
-tasks.create("macosTest") {
+val macosTest by tasks.creating<Task> {
 	dependsOn("linkTestDebugExecutableMacosX64")
 	group = JavaBasePlugin.VERIFICATION_GROUP
 
@@ -67,7 +67,7 @@ tasks.create("macosTest") {
 }
 
 
-tasks.create("iosTest") {
+val iosTest by tasks.creating<Task> {
 	val device = findProperty("iosDevice")?.toString() ?: "iPhone 8"
 	dependsOn("linkTestDebugExecutableIosX64")
 	group = JavaBasePlugin.VERIFICATION_GROUP
@@ -79,4 +79,9 @@ tasks.create("iosTest") {
 			commandLine("xcrun", "simctl", "spawn", device, binary.absolutePath)
 		}
 	}
+}
+
+tasks.named("check") {
+	dependsOn("iosTest")
+	dependsOn("macosTest")
 }

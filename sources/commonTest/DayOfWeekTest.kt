@@ -19,7 +19,8 @@ object DayOfWeekTest {
 		).forEach { (value, string) ->
 			assertJsonSerialization(
 				value = value,
-				json = """ "$string" """
+				json = """ "$string" """,
+				serializer = DayOfWeek.serializer()
 			)
 		}
 
