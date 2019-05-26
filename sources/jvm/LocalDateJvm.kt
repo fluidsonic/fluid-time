@@ -9,7 +9,7 @@ actual val LocalDate.dayOfWeek: DayOfWeek
 
 
 actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp =
-	toPlatform().atStartOfDay(timeZone.toZoneId()).toInstant().toCommon()
+	toPlatform().atStartOfDay(timeZone.toPlatform()).toInstant().toCommon()
 
 
 actual fun LocalDate.minusDays(daysToSubtract: Long): LocalDate =

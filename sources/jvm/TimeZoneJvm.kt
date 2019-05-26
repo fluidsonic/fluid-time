@@ -3,7 +3,7 @@ package com.github.fluidsonic.fluid.time
 import org.threeten.bp.*
 
 
-fun TimeZone.toZoneId() =
+fun TimeZone.toPlatform() =
 	platform.value
 
 

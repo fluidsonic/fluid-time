@@ -9,15 +9,15 @@ actual val Timestamp.dayOfWeek: DayOfWeek
 
 
 actual fun Timestamp.toLocalDate(timeZone: TimeZone) =
-	toPlatform().atZone(timeZone.toZoneId()).toLocalDate().toCommon()
+	toPlatform().atZone(timeZone.toPlatform()).toLocalDate().toCommon()
 
 
 actual fun Timestamp.toLocalDateTime(timeZone: TimeZone) =
-	toPlatform().atZone(timeZone.toZoneId()).toLocalDateTime().toCommon()
+	toPlatform().atZone(timeZone.toPlatform()).toLocalDateTime().toCommon()
 
 
 actual fun Timestamp.toLocalTime(timeZone: TimeZone) =
-	toPlatform().atZone(timeZone.toZoneId()).toLocalTime().toCommon()
+	toPlatform().atZone(timeZone.toPlatform()).toLocalTime().toCommon()
 
 
 fun Timestamp.toPlatform(): PlatformTimestamp =

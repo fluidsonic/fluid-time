@@ -3,6 +3,10 @@ package com.github.fluidsonic.fluid.time
 import platform.Foundation.*
 
 
+fun TimeZone.toPlatform() =
+	platform
+
+
 actual typealias Platform_TimeZone = NSTimeZone
 
 
