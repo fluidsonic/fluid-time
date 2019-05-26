@@ -1,6 +1,9 @@
 package com.github.fluidsonic.fluid.time
 
+import kotlinx.serialization.*
 
+
+@Serializable(with = LocalDateTimeSerializer::class)
 class LocalDateTime private constructor(
 	val date: LocalDate,
 	val time: LocalTime
@@ -86,3 +89,18 @@ class LocalDateTime private constructor(
 expect val LocalDateTime.dayOfWeek: DayOfWeek
 
 expect fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp
+
+
+@Serializer(forClass = LocalDateTime::class)
+internal object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
+
+	override fun deserialize(decoder: Decoder) =
+		decoder.decodeString().let { string ->
+			LocalDateTime.parse(string) ?: throw SerializationException("Invalid ISO 8601 date/time format: $string")
+		}
+
+
+	override fun serialize(encoder: Encoder, obj: LocalDateTime) {
+		encoder.encodeString(obj.toString())
+	}
+}

@@ -1,6 +1,9 @@
 package com.github.fluidsonic.fluid.time
 
+import kotlinx.serialization.*
 
+
+@Serializable(with = TimestampSerializer::class)
 class Timestamp private constructor(
 	val secondsSince1970: Seconds,
 	val partialNanosecond: NanosecondOfSecond
@@ -182,3 +185,18 @@ expect val Timestamp.dayOfWeek: DayOfWeek
 expect fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate
 expect fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime
 expect fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime
+
+
+@Serializer(forClass = Timestamp::class)
+internal object TimestampSerializer : KSerializer<Timestamp> {
+
+	override fun deserialize(decoder: Decoder) =
+		decoder.decodeString().let { string ->
+			Timestamp.parse(string) ?: throw SerializationException("Invalid ISO 8601 timestamp format: $string")
+		}
+
+
+	override fun serialize(encoder: Encoder, obj: Timestamp) {
+		encoder.encodeString(obj.toString())
+	}
+}

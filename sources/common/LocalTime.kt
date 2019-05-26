@@ -1,6 +1,9 @@
 package com.github.fluidsonic.fluid.time
 
+import kotlinx.serialization.*
 
+
+@Serializable(with = LocalTimeSerializer::class)
 class LocalTime private constructor(
 	val hour: HourOfDay,
 	val minute: MinuteOfHour,
@@ -155,4 +158,19 @@ private fun parseFraction(text: String): Long {
 		fraction *= 10
 
 	return fraction
+}
+
+
+@Serializer(forClass = LocalTime::class)
+internal object LocalTimeSerializer : KSerializer<LocalTime> {
+
+	override fun deserialize(decoder: Decoder) =
+		decoder.decodeString().let { string ->
+			LocalTime.parse(string) ?: throw SerializationException("Invalid ISO 8601 time format: $string")
+		}
+
+
+	override fun serialize(encoder: Encoder, obj: LocalTime) {
+		encoder.encodeString(obj.toString())
+	}
 }

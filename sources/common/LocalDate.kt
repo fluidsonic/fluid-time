@@ -1,8 +1,10 @@
 package com.github.fluidsonic.fluid.time
 
+import kotlinx.serialization.*
 import kotlin.math.*
 
 
+@Serializable(with = LocalDateSerializer::class)
 class LocalDate private constructor(
 	val year: Year,
 	val month: MonthOfYear,
@@ -137,3 +139,18 @@ expect fun LocalDate.plusDays(daysToAdd: Long): LocalDate
 
 fun LocalDate.atStartOfDay() =
 	atTime(LocalTime.midnight)
+
+
+@Serializer(forClass = LocalDate::class)
+internal object LocalDateSerializer : KSerializer<LocalDate> {
+
+	override fun deserialize(decoder: Decoder) =
+		decoder.decodeString().let { string ->
+			LocalDate.parse(string) ?: throw SerializationException("Invalid ISO 8601 date format: $string")
+		}
+
+
+	override fun serialize(encoder: Encoder, obj: LocalDate) {
+		encoder.encodeString(obj.toString())
+	}
+}

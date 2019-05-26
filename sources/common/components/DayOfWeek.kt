@@ -1,6 +1,10 @@
 package com.github.fluidsonic.fluid.time
 
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.*
 
+
+@Serializable(with = DayOfWeekSerializer::class)
 enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 
 	monday,
@@ -42,7 +46,7 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 
 
 	override fun plus(other: Days) =
-		unchecked((value + (other.value % 7) + 7) % 7)
+		values()[((ordinal + (other.value % 7) + 7) % 7).toInt()]
 
 
 	override fun toInt() =
@@ -74,7 +78,30 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 		}
 
 
+		fun serializer(): KSerializer<DayOfWeek> =
+			DayOfWeekSerializer
+
+
 		internal fun unchecked(value: Long) =
 			values()[(value - 1).toInt()]
+	}
+}
+
+
+@Serializer(forClass = DayOfWeek::class)
+internal object DayOfWeekSerializer : KSerializer<DayOfWeek> {
+
+	override val descriptor = StringDescriptor.withName("com.github.fluidsonic.fluid.time.DayOfWeek")
+
+
+	override fun deserialize(decoder: Decoder) =
+		decoder.decodeString().let { string ->
+			DayOfWeek.values().firstOrNull { it.name == string }
+				?: throw SerializationException("Invalid day of week: $string - valid values: ${DayOfWeek.values().joinToString { it.name }}")
+		}
+
+
+	override fun serialize(encoder: Encoder, obj: DayOfWeek) {
+		encoder.encodeString(obj.name)
 	}
 }

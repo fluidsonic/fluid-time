@@ -1,6 +1,10 @@
 package com.github.fluidsonic.fluid.time
 
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.*
 
+
+@Serializable(with = TimeZoneSerializer::class)
 class TimeZone private constructor(internal val platform: Platform_TimeZone) {
 
 	val id = platform.id
@@ -59,3 +63,21 @@ internal expect fun platform_timeZoneWithId(id: String): Platform_TimeZone?
 
 internal fun Platform_TimeZone.toCommon() =
 	TimeZone.withId(id)
+
+
+@Serializer(forClass = TimeZone::class)
+internal object TimeZoneSerializer : KSerializer<TimeZone> {
+
+	override val descriptor = StringDescriptor.withName("com.github.fluidsonic.fluid.time.TimeZone")
+
+
+	override fun deserialize(decoder: Decoder) =
+		decoder.decodeString().let { code ->
+			TimeZone.withId(code) ?: throw SerializationException("Unknown TimeZone id: $code")
+		}
+
+
+	override fun serialize(encoder: Encoder, obj: TimeZone) {
+		encoder.encodeString(obj.id)
+	}
+}
