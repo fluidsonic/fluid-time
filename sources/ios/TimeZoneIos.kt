@@ -10,7 +10,11 @@ internal actual fun Platform_TimeZone.daylightSavingTimeOffset(timestamp: Timest
 	Seconds(daylightSavingTimeOffsetForDate(timestamp.toPlatform()).toLong())
 
 
-internal actual val Platform_TimeZone.id: String get() = name
+internal actual val Platform_TimeZone.id: String
+	get() =
+		name.let { id ->
+			if (id == "GMT") "UTC" else id
+		}
 
 
 internal actual fun Platform_TimeZone.isDaylightSavingTime(timestamp: Timestamp) =
