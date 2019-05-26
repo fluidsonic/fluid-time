@@ -28,13 +28,16 @@ internal actual fun Platform_TimeZone.nextDaylightSavingTimeTransition(after: Ti
 	value.rules.nextTransition(after.toPlatform())?.instant?.toCommon()
 
 
-internal actual val platform_knownTimeZoneIds: Set<String> =
-	ZoneId.getAvailableZoneIds()
+internal actual object Platform_TimeZone_Static {
+
+	actual val knownTimeZoneIds: Set<String> =
+		ZoneId.getAvailableZoneIds()
 
 
-internal actual val platform_systemTimeZoneId: String
-	get() = ZoneId.systemDefault().id
+	actual val systemTimeZoneId: String
+		get() = ZoneId.systemDefault().id
 
 
-internal actual fun platform_timeZoneWithId(id: String): Platform_TimeZone? =
-	Platform_TimeZone(ZoneId.of(id))
+	actual fun timeZoneWithId(id: String): Platform_TimeZone? =
+		Platform_TimeZone(ZoneId.of(id))
+}

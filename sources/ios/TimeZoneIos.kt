@@ -21,14 +21,17 @@ internal actual fun Platform_TimeZone.nextDaylightSavingTimeTransition(after: Ti
 	nextDaylightSavingTimeTransitionAfterDate(after.toPlatform())?.toCommon()
 
 
-@Suppress("UNCHECKED_CAST")
-internal actual val platform_knownTimeZoneIds: Set<String> =
-	(Platform_TimeZone.knownTimeZoneNames as List<String>).toSet()
+internal actual object Platform_TimeZone_Static {
+
+	@Suppress("UNCHECKED_CAST")
+	actual val knownTimeZoneIds: Set<String> =
+		(Platform_TimeZone.knownTimeZoneNames as List<String>).toSet()
 
 
-internal actual val platform_systemTimeZoneId: String
-	get() = Platform_TimeZone.systemTimeZone.id
+	actual val systemTimeZoneId: String
+		get() = Platform_TimeZone.systemTimeZone.id
 
 
-internal actual fun platform_timeZoneWithId(id: String) =
-	Platform_TimeZone.timeZoneWithName(id)
+	actual fun timeZoneWithId(id: String) =
+		Platform_TimeZone.timeZoneWithName(id)
+}

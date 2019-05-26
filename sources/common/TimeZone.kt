@@ -1,5 +1,8 @@
 package com.github.fluidsonic.fluid.time
 
+import com.github.fluidsonic.fluid.time.Platform_TimeZone_Static.knownTimeZoneIds
+import com.github.fluidsonic.fluid.time.Platform_TimeZone_Static.systemTimeZoneId
+import com.github.fluidsonic.fluid.time.Platform_TimeZone_Static.timeZoneWithId
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.*
 
@@ -36,15 +39,15 @@ class TimeZone private constructor(internal val platform: Platform_TimeZone) {
 
 	companion object {
 
-		val knownIds get() = platform_knownTimeZoneIds
-		val system get() = withId(platform_systemTimeZoneId)!!
-		val utc = TimeZone(platform_timeZoneWithId("UTC")!!)
+		val knownIds get() = knownTimeZoneIds
+		val system get() = withId(systemTimeZoneId)!!
+		val utc = TimeZone(timeZoneWithId("UTC")!!)
 
 
 		// TODO add some caching
 		fun withId(id: String) = when (id) {
 			"UTC" -> utc
-			else -> platform_timeZoneWithId(id)?.let(::TimeZone)
+			else -> timeZoneWithId(id)?.let(::TimeZone)
 		}
 	}
 }
@@ -57,9 +60,13 @@ internal expect val Platform_TimeZone.id: String
 internal expect fun Platform_TimeZone.isDaylightSavingTime(timestamp: Timestamp): Boolean
 internal expect fun Platform_TimeZone.nextDaylightSavingTimeTransition(after: Timestamp): Timestamp?
 
-internal expect val platform_knownTimeZoneIds: Set<String>
-internal expect val platform_systemTimeZoneId: String
-internal expect fun platform_timeZoneWithId(id: String): Platform_TimeZone?
+internal expect object Platform_TimeZone_Static {
+
+	val knownTimeZoneIds: Set<String>
+	val systemTimeZoneId: String
+
+	fun timeZoneWithId(id: String): Platform_TimeZone?
+}
 
 internal fun Platform_TimeZone.toCommon() =
 	TimeZone.withId(id)
