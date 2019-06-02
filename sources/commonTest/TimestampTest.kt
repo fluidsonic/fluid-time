@@ -8,8 +8,8 @@ object TimestampTest {
 
 	@Test
 	fun testJson() = assertJsonSerialization(
-		value = Timestamp.firstIn1970,
-		json = """ "1970-01-01T00:00Z" """,
+		value = Timestamp.firstIn1970 + Milliseconds(123),
+		json = """ "1970-01-01T00:00:00.123Z" """,
 		serializer = Timestamp.serializer()
 	)
 }

@@ -1,12 +1,15 @@
 package com.github.fluidsonic.fluid.time
 
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.*
 import kotlin.math.*
 
 
 // TODO handle overflows
+@Serializable(with = DurationSerializer::class)
 class Duration private constructor(
 	val seconds: Seconds,
-	partialNanoseconds: Int // -999_999_999 .. 999_999_999
+	partialNanoseconds: Int // -999_999_999 .. 999_999_999 TODO use NanosecondOfSecond
 ) : DurationMeasurement.TimeBased<Duration> {
 
 	private val _partialNanoseconds = partialNanoseconds
@@ -299,7 +302,7 @@ class Duration private constructor(
 					append('.')
 
 					val nanosecondsString = nanoseconds.absoluteValue.toString()
-					for (length in nanosecondsString.length .. 9)
+					for (length in nanosecondsString.length until 9)
 						append('0')
 
 					append(nanosecondsString.trimEnd { it == '0' })
@@ -456,3 +459,21 @@ operator fun Int.times(other: Duration) =
 
 operator fun Long.times(other: Duration) =
 	other.times(this)
+
+
+@Serializer(forClass = Duration::class)
+internal object DurationSerializer : KSerializer<Duration> {
+
+	override val descriptor = StringDescriptor.withName("com.github.fluidsonic.fluid.time.Duration")
+
+
+	override fun deserialize(decoder: Decoder) =
+		decoder.decodeString().let { string ->
+			Duration.parse(string) ?: throw SerializationException("Invalid ISO 8601 duration format: $string")
+		}
+
+
+	override fun serialize(encoder: Encoder, obj: Duration) {
+		encoder.encodeString(obj.toString())
+	}
+}

@@ -95,7 +95,7 @@ class LocalTime private constructor(
 					}
 
 					val fractionString = fraction.toString()
-					for (length in fractionString.length .. fractionLength)
+					for (length in fractionString.length until fractionLength)
 						append('0')
 					append(fractionString)
 				}
