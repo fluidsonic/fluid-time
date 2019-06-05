@@ -12,4 +12,11 @@ object DurationTest {
 		json = """ "PT48H12M34.567S" """,
 		serializer = Duration.serializer()
 	)
+
+
+	@Test
+	fun testZero() {
+		assertEquals(expected = Seconds.zero, actual = Duration.zero.seconds)
+		assertEquals(expected = Nanoseconds.zero, actual = Duration.zero.partialNanoseconds)
+	}
 }

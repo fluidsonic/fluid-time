@@ -9,11 +9,8 @@ import kotlin.math.*
 @Serializable(with = DurationSerializer::class)
 class Duration private constructor(
 	val seconds: Seconds,
-	partialNanoseconds: Int // -999_999_999 .. 999_999_999 TODO use NanosecondOfSecond
+	val partialNanoseconds: Nanoseconds
 ) : DurationMeasurement.TimeBased<Duration> {
-
-	private val _partialNanoseconds = partialNanoseconds
-
 
 	override val absolute
 		get() = if (isNegative) -this else this
@@ -22,7 +19,7 @@ class Duration private constructor(
 	override fun compareTo(other: Duration): Int {
 		var result = seconds.compareTo(other.seconds)
 		if (result == 0)
-			result = _partialNanoseconds.compareTo(other._partialNanoseconds)
+			result = partialNanoseconds.compareTo(other.partialNanoseconds)
 
 		return result
 	}
@@ -49,20 +46,20 @@ class Duration private constructor(
 		this === other || (
 			other is Duration
 				&& seconds == other.seconds
-				&& _partialNanoseconds == other._partialNanoseconds
+				&& partialNanoseconds == other.partialNanoseconds
 			)
 
 
 	override fun hashCode() =
-		seconds.hashCode() xor _partialNanoseconds
+		seconds.hashCode() xor partialNanoseconds.hashCode()
 
 
 	override val isNegative
-		get() = seconds.isNegative || _partialNanoseconds < 0
+		get() = seconds.isNegative || partialNanoseconds.isNegative
 
 
 	override val isZero
-		get() = (seconds.value or _partialNanoseconds.toLong()) == 0L
+		get() = (seconds.value or partialNanoseconds.value) == 0L
 
 
 	override operator fun minus(other: Duration) =
@@ -131,10 +128,6 @@ class Duration private constructor(
 			microseconds = -microseconds,
 			nanoseconds = -nanoseconds
 		)
-
-
-	val partialNanoseconds: Nanoseconds
-		get() = Nanoseconds(_partialNanoseconds)
 
 
 	override operator fun plus(other: Duration) =
@@ -277,7 +270,7 @@ class Duration private constructor(
 			val hours = seconds / Seconds.perHour
 			val minutes = seconds % Seconds.perHour / Seconds.perMinute
 			val seconds = (seconds % Seconds.perMinute).value
-			val nanoseconds = _partialNanoseconds
+			val nanoseconds = partialNanoseconds.value
 
 			append("PT")
 			if (hours != 0L) {
@@ -288,7 +281,7 @@ class Duration private constructor(
 				append(minutes)
 				append('M')
 			}
-			if (seconds != 0L || _partialNanoseconds != 0 || length <= 2) {
+			if (seconds != 0L || nanoseconds != 0L || length <= 2) {
 				if (seconds != 0L)
 					append(seconds)
 				else {
@@ -298,7 +291,7 @@ class Duration private constructor(
 					append('0')
 				}
 
-				if (_partialNanoseconds != 0) {
+				if (nanoseconds != 0L) {
 					append('.')
 
 					val nanosecondsString = nanoseconds.absoluteValue.toString()
@@ -325,7 +318,7 @@ class Duration private constructor(
 			RegexOption.IGNORE_CASE
 		)
 
-		val zero = unchecked(seconds = 0)
+		val zero = Duration(seconds = Seconds.zero, partialNanoseconds = Nanoseconds.zero)
 
 
 		fun of(
@@ -429,7 +422,7 @@ class Duration private constructor(
 		internal fun unchecked(seconds: Seconds, partialNanoseconds: Nanoseconds = Nanoseconds.zero): Duration {
 			if ((seconds.value or partialNanoseconds.value) == 0L) return zero
 
-			return Duration(seconds, partialNanoseconds = partialNanoseconds.toInt())
+			return Duration(seconds, partialNanoseconds = partialNanoseconds)
 		}
 	}
 }
