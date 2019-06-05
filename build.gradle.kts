@@ -1,7 +1,7 @@
 import com.github.fluidsonic.fluid.library.*
 
 plugins {
-	id("com.github.fluidsonic.fluid-library") version "0.9.14"
+	id("com.github.fluidsonic.fluid-library") version "0.9.16"
 }
 
 fluidLibrary {
