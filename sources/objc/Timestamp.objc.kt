@@ -5,8 +5,9 @@ import kotlin.math.*
 import platform.Foundation.NSDate as PlatformTimestamp
 
 
-actual val Timestamp.dayOfWeek
-	get() = when (val weekday = platform_gregorianCalendar.component(NSWeekdayCalendarUnit, fromDate = toPlatform())) {
+actual fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek {
+	val components = platform_gregorianCalendar.componentsInTimeZone(timezone = timeZone.platform, fromDate = toPlatform())
+	return when (val weekday = components.weekday) {
 		1L -> DayOfWeek.sunday
 		2L -> DayOfWeek.monday
 		3L -> DayOfWeek.tuesday
@@ -16,6 +17,7 @@ actual val Timestamp.dayOfWeek
 		7L -> DayOfWeek.saturday
 		else -> error("unexpected weekday: $weekday")
 	}
+}
 
 
 actual fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate {

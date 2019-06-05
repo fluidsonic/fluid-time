@@ -4,7 +4,7 @@ import platform.Foundation.*
 
 
 actual val LocalDate.dayOfWeek
-	get() = atStartOfDay(TimeZone.utc).dayOfWeek
+	get() = atStartOfDay(TimeZone.utc).toDayOfWeek(TimeZone.utc)
 
 
 actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp {

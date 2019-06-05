@@ -9,7 +9,7 @@ import kotlin.test.*
 object TimestampTest {
 
 	@Test
-	fun testCreateionWithMillisecondsSince1970() {
+	fun testCreationWithMillisecondsSince1970() {
 		assertEquals(
 			expected = Timestamp.firstIn1970 + Hours(12),
 			actual = Timestamp.of(millisecondsSince1970 = Milliseconds(12 * 60 * 60 * 1000))
@@ -18,7 +18,7 @@ object TimestampTest {
 
 
 	@Test
-	fun testCreateionWithSecondsSince1970() {
+	fun testCreationWithSecondsSince1970() {
 		assertEquals(
 			expected = Timestamp.firstIn1970 + Hours(12),
 			actual = Timestamp.of(secondsSince1970 = Seconds(12 * 60 * 60))
@@ -49,6 +49,13 @@ object TimestampTest {
 			expected = Seconds(12 * 60 * 60),
 			actual = (Timestamp.firstIn1970 + Hours(12)).secondsSince1970
 		)
+	}
+
+
+	@Test
+	fun testToDayOfWeek() {
+		assertEquals(expected = DayOfWeek.thursday, actual = Timestamp.firstIn1970.toDayOfWeek(TimeZone.utc))
+		assertEquals(expected = DayOfWeek.wednesday, actual = Timestamp.firstIn1970.toDayOfWeek(TimeZone.withId("America/Los_Angeles")!!))
 	}
 
 

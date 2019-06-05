@@ -180,8 +180,7 @@ class Timestamp private constructor(
 }
 
 
-expect val Timestamp.dayOfWeek: DayOfWeek
-
+expect fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek
 expect fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate
 expect fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime
 expect fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime

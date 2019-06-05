@@ -4,8 +4,8 @@ import org.threeten.bp.DayOfWeek as PlatformDayOfWeek
 import org.threeten.bp.Instant as PlatformTimestamp
 
 
-actual val Timestamp.dayOfWeek: DayOfWeek
-	get() = PlatformDayOfWeek.from(toPlatform()).toCommon()
+actual fun Timestamp.toDayOfWeek(timeZone: TimeZone) =
+	toPlatform().atZone(timeZone.toPlatform()).dayOfWeek.toCommon()
 
 
 actual fun Timestamp.toLocalDate(timeZone: TimeZone) =
