@@ -6,7 +6,7 @@ plugins {
 
 fluidLibrary {
 	name = "fluid-time"
-	version = "0.9.9"
+	version = "0.9.10"
 }
 
 fluidLibraryVariant {
