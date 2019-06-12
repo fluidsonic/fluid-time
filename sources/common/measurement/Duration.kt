@@ -12,6 +12,11 @@ class Duration private constructor(
 	val partialNanoseconds: Nanoseconds
 ) : DurationMeasurement.TimeBased<Duration> {
 
+	init {
+		freeze()
+	}
+
+
 	override val absolute
 		get() = if (isNegative) -this else this
 

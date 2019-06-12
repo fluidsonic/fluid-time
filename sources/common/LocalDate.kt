@@ -11,6 +11,11 @@ class LocalDate private constructor(
 	val day: DayOfMonth
 ) : Comparable<LocalDate> {
 
+	init {
+		freeze()
+	}
+
+
 	fun atTime(hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
 		atTime(HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 

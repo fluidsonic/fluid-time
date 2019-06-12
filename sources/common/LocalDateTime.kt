@@ -9,6 +9,11 @@ class LocalDateTime private constructor(
 	val time: LocalTime
 ) : Comparable<LocalDateTime> {
 
+	init {
+		freeze()
+	}
+
+
 	override fun compareTo(other: LocalDateTime): Int {
 		var result = date.compareTo(other.date)
 		if (result == 0)

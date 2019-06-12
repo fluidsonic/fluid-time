@@ -9,6 +9,11 @@ class Timestamp private constructor(
 	val partialNanosecond: NanosecondOfSecond
 ) : Comparable<Timestamp> {
 
+	init {
+		freeze()
+	}
+
+
 	override fun compareTo(other: Timestamp): Int {
 		var result = secondsSince1970.compareTo(other.secondsSince1970)
 		if (result == 0)

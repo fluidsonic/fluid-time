@@ -13,6 +13,11 @@ class TimeZone private constructor(internal val platform: Platform_TimeZone) {
 	val id = platform.id
 
 
+	init {
+		freeze()
+	}
+
+
 	fun daylightSavingTimeOffset(timestamp: Timestamp) =
 		platform.daylightSavingTimeOffset(timestamp)
 

@@ -71,6 +71,11 @@ interface Clock {
 		override val timeZone: TimeZone
 	) : Clock {
 
+		init {
+			freeze()
+		}
+
+
 		override fun equals(other: Any?) =
 			this === other || (other is Fixed && timestamp == other.timestamp && timeZone == other.timeZone)
 
@@ -107,6 +112,11 @@ interface Clock {
 		val offset: Duration,
 		val source: Clock
 	) : Clock {
+
+		init {
+			freeze()
+		}
+
 
 		override fun equals(other: Any?) =
 			this === other || (other is Offset && offset == other.offset && source == other.source)
@@ -155,6 +165,11 @@ interface Clock {
 		override val timeZone: TimeZone
 	) : Clock {
 
+		init {
+			freeze()
+		}
+
+
 		override fun equals(other: Any?) =
 			this === other || (other is System && timeZone == other.timeZone)
 
@@ -191,6 +206,11 @@ interface Clock {
 		val interval: Nanoseconds,
 		val source: Clock
 	) : Clock {
+
+		init {
+			freeze()
+		}
+
 
 		override fun equals(other: Any?) =
 			this === other || (other is Tick && interval == other.interval && source == other.source)

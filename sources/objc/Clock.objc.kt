@@ -3,8 +3,10 @@ package com.github.fluidsonic.fluid.time
 import kotlinx.cinterop.*
 import platform.Foundation.*
 import platform.posix.*
+import kotlin.native.concurrent.*
 
 
+@ThreadLocal
 internal val platform_gregorianCalendar = NSCalendar.calendarWithIdentifier(NSCalendarIdentifierGregorian)!!
 
 
