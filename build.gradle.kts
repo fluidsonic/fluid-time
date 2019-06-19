@@ -1,7 +1,7 @@
 import com.github.fluidsonic.fluid.library.*
 
 plugins {
-	id("com.github.fluidsonic.fluid-library") version "0.9.16"
+	id("com.github.fluidsonic.fluid-library") version "0.9.19"
 }
 
 fluidLibrary {
@@ -21,19 +21,32 @@ kotlin {
 	sourceSets {
 		commonMain {
 			dependencies {
-				implementation(kotlinx("serialization-runtime", "0.11.0"))
+				implementation(kotlinx("serialization-runtime-common", "0.11.1"))
+			}
+		}
+
+		iosArm64Main {
+			dependencies {
+				implementation(kotlinx("serialization-runtime-iosarm64", "0.11.1"))
+			}
+		}
+
+		iosX64Main {
+			dependencies {
+				implementation(kotlinx("serialization-runtime-iosx64", "0.11.1"))
 			}
 		}
 
 		jvmMain {
 			dependencies {
+				implementation(kotlinx("serialization-runtime", "0.11.1"))
 				implementation("org.threeten:threetenbp:1.4.0")
 			}
 		}
 
-		objcMain {
+		macosX64Main {
 			dependencies {
-				implementation(kotlinx("serialization-runtime-native", "0.11.0"))
+				implementation(kotlinx("serialization-runtime-macosx64", "0.11.1"))
 			}
 		}
 	}
