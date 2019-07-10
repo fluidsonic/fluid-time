@@ -3,9 +3,9 @@ package com.github.fluidsonic.fluid.time
 import kotlin.math.*
 
 
-// TODO check for overflows
-@Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class Nanoseconds(override val value: Long) : DurationMeasurement.Basic<Nanoseconds>, DurationMeasurement.TimeBased<Nanoseconds> {
+inline class Nanoseconds(private val value: Long) :
+	TemporalMeasurement.LongBased<Nanoseconds>,
+	TimeMeasurement<Nanoseconds> {
 
 	constructor(value: Int) : this(value.toLong())
 
@@ -40,7 +40,7 @@ inline class Nanoseconds(override val value: Long) : DurationMeasurement.Basic<N
 
 	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
-		Nanoseconds(transform(value))
+		Nanoseconds(transform(toLong()))
 
 
 	override operator fun minus(other: Nanoseconds) =
@@ -120,15 +120,17 @@ inline class Nanoseconds(override val value: Long) : DurationMeasurement.Basic<N
 		Nanoseconds(-value)
 
 
-	companion object {
+	companion object : TimeMeasurement.CompanionInterface<Nanoseconds> {
 
+		override val max = Nanoseconds(Long.MAX_VALUE)
+		override val min = Nanoseconds(Long.MIN_VALUE)
 		val perMicrosecond = Nanoseconds(1_000L)
 		val perMillisecond = Microseconds.perMillisecond.toNanoseconds()
 		val perSecond = Milliseconds.perSecond.toNanoseconds()
 		val perMinute = Seconds.perMinute.toNanoseconds()
 		val perHour = Minutes.perHour.toNanoseconds()
 		val perDay = Hours.perDay.toNanoseconds()
-		val zero = Nanoseconds(0L)
+		override val zero = Nanoseconds(0L)
 	}
 }
 

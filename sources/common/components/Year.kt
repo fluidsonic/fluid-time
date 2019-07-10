@@ -1,16 +1,15 @@
 package com.github.fluidsonic.fluid.time
 
 
-// TODO check for overflows
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class Year internal constructor(private val _value: Int) : DateTimeComponent<Year, Years> {
+inline class Year internal constructor(private val value: Int) : DateTimeComponent<Year, Years> {
 
 	override fun compareTo(other: Year) =
-		_value.compareTo(other._value)
+		value.compareTo(other.value)
 
 
 	val isLeap
-		get() = _value % 4 == 0 && (_value % 100 != 0 || _value % 400 == 0)
+		get() = value % 4 == 0 && (value % 100 != 0 || value % 400 == 0)
 
 
 	@Suppress("OVERRIDE_BY_INLINE")
@@ -18,58 +17,38 @@ inline class Year internal constructor(private val _value: Int) : DateTimeCompon
 		of(transform(toLong()))
 
 
-	override fun minus(other: Int) =
-		minus(other.toLong())
-
-
-	override fun minus(other: Long) =
-		minus(Years(other))
-
-
 	override fun minus(other: Year) =
-		Years(value - other.value)
+		Years(toLong() - other.toLong())
 
 
 	override fun minus(other: Years) =
-		map { it - other.value }
-
-
-	override fun plus(other: Int) =
-		plus(other.toLong())
-
-
-	override fun plus(other: Long) =
-		plus(Years(other))
+		map { it - other.toLong() }
 
 
 	override fun plus(other: Years) =
-		map { it + other.value }
+		map { it + other.toLong() }
 
 
 	override fun toInt() =
-		_value
-
-
-	override fun toLong() =
 		value
 
 
+	override fun toLong() =
+		value.toLong()
+
+
 	override fun toString() =
-		_value.toString()
+		value.toString()
 
 
-	val value
-		get() = _value.toLong()
+	companion object : DateTimeComponent.CompanionInterface<Year> {
+
+		override val max = unchecked(999_999_999)
+		override val min = unchecked(-999_999_999)
 
 
-	companion object {
-
-		val max = unchecked(999_999_999)
-		val min = unchecked(-999_999_999)
-
-
-		fun of(value: Long): Year {
-			check(value, inRange = min._value .. max._value, name = "year")
+		override fun of(value: Long): Year {
+			check(value, inRange = min.toLong() .. max.toLong(), name = "year")
 
 			return unchecked(value)
 		}

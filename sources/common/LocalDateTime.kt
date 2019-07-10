@@ -55,7 +55,15 @@ class LocalDateTime private constructor(
 			of(Year.of(year), MonthOfYear.of(month), DayOfMonth.of(day), HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
 
-		fun of(year: Year, month: MonthOfYear, day: DayOfMonth, hour: HourOfDay, minute: MinuteOfHour = MinuteOfHour.zero, second: SecondOfMinute = SecondOfMinute.zero, nanosecond: NanosecondOfSecond = NanosecondOfSecond.zero) =
+		fun of(
+			year: Year,
+			month: MonthOfYear,
+			day: DayOfMonth,
+			hour: HourOfDay,
+			minute: MinuteOfHour = MinuteOfHour(0),
+			second: SecondOfMinute = SecondOfMinute(0),
+			nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
+		) =
 			of(LocalDate.of(year, month, day), LocalTime.of(hour, minute, second, nanosecond))
 
 
@@ -81,7 +89,15 @@ class LocalDateTime private constructor(
 			)
 
 
-		internal fun unchecked(year: Year, month: MonthOfYear, day: DayOfMonth, hour: HourOfDay, minute: MinuteOfHour = MinuteOfHour.zero, second: SecondOfMinute = SecondOfMinute.zero, nanosecond: NanosecondOfSecond = NanosecondOfSecond.zero) =
+		internal fun unchecked(
+			year: Year,
+			month: MonthOfYear,
+			day: DayOfMonth,
+			hour: HourOfDay,
+			minute: MinuteOfHour = MinuteOfHour(0),
+			second: SecondOfMinute = SecondOfMinute(0),
+			nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
+		) =
 			LocalDateTime(LocalDate.unchecked(year, month, day), LocalTime.unchecked(hour, minute, second, nanosecond))
 
 
@@ -91,9 +107,8 @@ class LocalDateTime private constructor(
 }
 
 
-expect val LocalDateTime.dayOfWeek: DayOfWeek
-
 expect fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp
+expect fun LocalDateTime.toDayOfWeek(): DayOfWeek
 
 
 @Serializer(forClass = LocalDateTime::class)

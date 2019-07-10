@@ -1,12 +1,11 @@
 package com.github.fluidsonic.fluid.time
 
 
-// TODO check for overflows
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class NanosecondOfSecond internal constructor(private val _value: Int) : DateTimeComponent<NanosecondOfSecond, Nanoseconds> {
+inline class NanosecondOfSecond internal constructor(private val value: Int) : DateTimeComponent<NanosecondOfSecond, Nanoseconds> {
 
 	override fun compareTo(other: NanosecondOfSecond) =
-		_value.compareTo(other._value)
+		value.compareTo(other.value)
 
 
 	@Suppress("OVERRIDE_BY_INLINE")
@@ -14,59 +13,38 @@ inline class NanosecondOfSecond internal constructor(private val _value: Int) : 
 		of(transform(toLong()))
 
 
-	override fun minus(other: Int) =
-		minus(other.toLong())
-
-
-	override fun minus(other: Long) =
-		minus(Nanoseconds(other))
-
-
 	override fun minus(other: NanosecondOfSecond) =
-		Nanoseconds(value - other.value)
+		Nanoseconds(toLong() - other.toLong())
 
 
 	override fun minus(other: Nanoseconds) =
-		map { it - other.value }
-
-
-	override fun plus(other: Int) =
-		plus(other.toLong())
-
-
-	override fun plus(other: Long) =
-		plus(Nanoseconds(other))
+		map { it - other.toLong() }
 
 
 	override fun plus(other: Nanoseconds) =
-		map { it + other.value }
+		map { it + other.toLong() }
 
 
 	override fun toInt() =
-		_value
-
-
-	override fun toLong() =
 		value
 
 
+	override fun toLong() =
+		value.toLong()
+
+
 	override fun toString() =
-		_value.toString()
+		value.toString()
 
 
-	val value
-		get() = _value.toLong()
+	companion object : DateTimeComponent.CompanionInterface<NanosecondOfSecond> {
+
+		override val max = unchecked(999_999_999)
+		override val min = unchecked(0)
 
 
-	companion object {
-
-		val zero = unchecked(0)
-		val max = unchecked(999_999_999)
-		val min = zero
-
-
-		fun of(value: Long): NanosecondOfSecond {
-			check(value, inRange = min.value .. max.value, name = "nanosecond [of second]")
+		override fun of(value: Long): NanosecondOfSecond {
+			check(value, inRange = min.toLong() .. max.toLong(), name = "nanosecond [of second]")
 
 			return unchecked(value)
 		}

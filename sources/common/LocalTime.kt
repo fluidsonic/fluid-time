@@ -63,10 +63,10 @@ class LocalTime private constructor(
 
 	fun toString(builder: StringBuilder) {
 		with(builder) {
-			val hour = hour.value
-			val minute = minute.value
-			val second = second.value
-			val nanosecond = nanosecond.value.toInt()
+			val hour = hour.toLong()
+			val minute = minute.toLong()
+			val second = second.toLong()
+			val nanosecond = nanosecond.toInt()
 
 			append(if (hour < 10) "0" else "")
 			append(hour)
@@ -113,7 +113,7 @@ class LocalTime private constructor(
 
 		private val iso8601Regex = Regex("(\\d{2}):(\\d{2})(?::(\\d{2})(?:\\.(\\d{1,9}))?)?")
 
-		internal val fullHours = Array(24) { unchecked(hour = it.toLong()) }
+		private val fullHours = Array(24) { unchecked(hour = it.toLong()) }
 
 		val max = unchecked(hour = 23, minute = 59, second = 59, nanosecond = 999_999_999)
 		val midnight = fullHours[0]
@@ -125,8 +125,13 @@ class LocalTime private constructor(
 			of(HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
 
-		fun of(hour: HourOfDay, minute: MinuteOfHour = MinuteOfHour.zero, second: SecondOfMinute = SecondOfMinute.zero, nanosecond: NanosecondOfSecond = NanosecondOfSecond.zero): LocalTime {
-			if ((minute.value or second.value or nanosecond.value) == 0L) return fullHours[hour.value.toInt()]
+		fun of(
+			hour: HourOfDay,
+			minute: MinuteOfHour = MinuteOfHour(0),
+			second: SecondOfMinute = SecondOfMinute(0),
+			nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
+		): LocalTime {
+			if ((minute.toLong() or second.toLong() or nanosecond.toLong()) == 0L) return fullHours[hour.toInt()]
 
 			return unchecked(hour, minute, second, nanosecond)
 		}
@@ -140,7 +145,7 @@ class LocalTime private constructor(
 			val second = result.groupValues[3].ifEmpty { null }?.toLong() ?: 0
 			val nanosecond = parseFraction(result.groupValues[4])
 
-			// FIXME throws
+			// FIXME throws but should return null
 			return of(hour = hour, minute = minute, second = second, nanosecond = nanosecond)
 		}
 
@@ -149,7 +154,12 @@ class LocalTime private constructor(
 			unchecked(HourOfDay.unchecked(hour), MinuteOfHour.unchecked(minute), SecondOfMinute.unchecked(second), NanosecondOfSecond.unchecked(nanosecond))
 
 
-		internal fun unchecked(hour: HourOfDay, minute: MinuteOfHour = MinuteOfHour.zero, second: SecondOfMinute = SecondOfMinute.zero, nanosecond: NanosecondOfSecond = NanosecondOfSecond.zero) =
+		internal fun unchecked(
+			hour: HourOfDay,
+			minute: MinuteOfHour = MinuteOfHour(0),
+			second: SecondOfMinute = SecondOfMinute(0),
+			nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
+		) =
 			LocalTime(hour, minute, second, nanosecond)
 	}
 }

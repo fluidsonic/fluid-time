@@ -245,7 +245,7 @@ interface Clock {
 			(interval % Nanoseconds.perMillisecond).isZero -> Timestamp.of(millisecondsSince1970())
 			else -> {
 				val timestamp = source.timestamp()
-				timestamp - (Nanoseconds(timestamp.partialNanosecond.value) % interval) // FIXME
+				timestamp - (Nanoseconds(timestamp.partialNanosecond.toLong()) % interval) // FIXME check this
 			}
 		}
 

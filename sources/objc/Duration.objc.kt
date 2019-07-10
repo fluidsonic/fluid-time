@@ -8,4 +8,4 @@ fun Duration.Companion.of(platform: NSTimeInterval) =
 
 
 fun Duration.toPlatform(): NSTimeInterval =
-	seconds.value.toDouble() + (partialNanoseconds.value.toDouble() / Nanoseconds.perSecond.value)
+	seconds.toLong().toDouble() + (partialNanoseconds.toLong().toDouble() / Nanoseconds.perSecond.toLong())

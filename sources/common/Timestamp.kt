@@ -43,8 +43,24 @@ class Timestamp private constructor(
 		secondsSince1970.hashCode() xor partialNanosecond.hashCode()
 
 
+	fun microsecondsSince(other: Timestamp) =
+		durationSince(other).toMicroseconds() // TODO optimize
+
+
+	fun microsecondsUntil(other: Timestamp) =
+		durationSince(other).toMicroseconds() // TODO optimize
+
+
+	fun millisecondsSince(other: Timestamp) =
+		durationSince(other).toMilliseconds() // TODO optimize
+
+
+	fun millisecondsUntil(other: Timestamp) =
+		durationSince(other).toMilliseconds() // TODO optimize
+
+
 	val millisecondsSince1970
-		get() = secondsSince1970.toMilliseconds() + Nanoseconds(partialNanosecond.value).toMilliseconds() // FIXME
+		get() = secondsSince1970.toMilliseconds() + Nanoseconds(partialNanosecond.toLong()).toMilliseconds() // FIXME
 
 
 	operator fun minus(other: Days) =
@@ -80,11 +96,19 @@ class Timestamp private constructor(
 
 
 	private fun minus(seconds: Seconds, nanoseconds: Nanoseconds) =
-		of(secondsSince1970 = secondsSince1970 - seconds, nanoseconds = Nanoseconds(partialNanosecond.value) - nanoseconds)
+		of(secondsSince1970 = secondsSince1970 - seconds, nanoseconds = Nanoseconds(partialNanosecond.toLong()) - nanoseconds)
 
 
 	operator fun minus(other: Timestamp) =
 		Duration.of(seconds = secondsSince1970 - other.secondsSince1970, nanoseconds = partialNanosecond - other.partialNanosecond)
+
+
+	fun nanosecondsSince(other: Timestamp) =
+		durationSince(other).toNanoseconds() // TODO optimize
+
+
+	fun nanosecondsUntil(other: Timestamp) =
+		durationSince(other).toNanoseconds() // TODO optimize
 
 
 	operator fun plus(other: Days) =
@@ -120,7 +144,15 @@ class Timestamp private constructor(
 
 
 	private fun plus(seconds: Seconds, nanoseconds: Nanoseconds) =
-		of(secondsSince1970 = secondsSince1970 + seconds, nanoseconds = Nanoseconds(partialNanosecond.value) + nanoseconds)
+		of(secondsSince1970 = secondsSince1970 + seconds, nanoseconds = Nanoseconds(partialNanosecond.toLong()) + nanoseconds)
+
+
+	fun secondsSince(other: Timestamp) =
+		durationSince(other).toSeconds() // TODO optimize
+
+
+	fun secondsUntil(other: Timestamp) =
+		durationSince(other).toSeconds() // TODO optimize
 
 
 	override fun toString() =
@@ -154,7 +186,7 @@ class Timestamp private constructor(
 
 			if (!partialNanoseconds.isZero) {
 				totalSecondsSince1970 += partialNanoseconds.toSeconds()
-				partialNanoseconds %= Nanoseconds.perSecond.value
+				partialNanoseconds %= Nanoseconds.perSecond.toLong()
 			}
 
 			return unchecked(secondsSince1970 = totalSecondsSince1970, partialNanosecond = partialNanoseconds)
@@ -180,7 +212,7 @@ class Timestamp private constructor(
 
 
 		internal fun unchecked(secondsSince1970: Seconds, partialNanosecond: Nanoseconds = Nanoseconds.zero) =
-			Timestamp(secondsSince1970 = secondsSince1970, partialNanosecond = NanosecondOfSecond.unchecked(partialNanosecond.value))
+			Timestamp(secondsSince1970 = secondsSince1970, partialNanosecond = NanosecondOfSecond.unchecked(partialNanosecond.toLong()))
 	}
 }
 

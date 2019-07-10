@@ -4,12 +4,12 @@ import org.threeten.bp.DayOfWeek as PlatformDayOfWeek
 import org.threeten.bp.LocalDateTime as PlatformLocalDateTime
 
 
-actual val LocalDateTime.dayOfWeek: DayOfWeek
-	get() = PlatformDayOfWeek.from(toPlatform()).toCommon()
-
-
 actual fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp =
 	toPlatform().atZone(timeZone.toPlatform()).toInstant().toCommon()
+
+
+actual fun LocalDateTime.toDayOfWeek() =
+	PlatformDayOfWeek.from(toPlatform()).toCommon()
 
 
 fun LocalDateTime.toPlatform(): PlatformLocalDateTime =

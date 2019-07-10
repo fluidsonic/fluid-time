@@ -1,18 +1,23 @@
 package com.github.fluidsonic.fluid.time
 
 
-interface DateTimeComponent<Component : DateTimeComponent<Component, Duration>, Duration : DurationMeasurement<Duration>> : Comparable<Component> {
+interface DateTimeComponent<Component : DateTimeComponent<Component, Measurement>, Measurement : TemporalMeasurement<Measurement>> : Comparable<Component> {
 
 	fun map(transform: (Long) -> Long): Component
-	operator fun minus(other: Int): Component
-	operator fun minus(other: Long): Component
-	operator fun minus(other: Duration): Component
-	operator fun minus(other: Component): Duration
-	operator fun plus(other: Int): Component
-	operator fun plus(other: Long): Component
-	operator fun plus(other: Duration): Component
+	operator fun minus(other: Measurement): Component
+	operator fun minus(other: Component): Measurement
+	operator fun plus(other: Measurement): Component
 	fun toInt(): Int
 	fun toLong(): Long
 
 	companion object
+
+
+	interface CompanionInterface<Component : DateTimeComponent<Component, *>> {
+
+		val max: Component
+		val min: Component
+
+		fun of(value: Long): Component
+	}
 }

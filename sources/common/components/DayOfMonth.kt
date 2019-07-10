@@ -2,10 +2,10 @@ package com.github.fluidsonic.fluid.time
 
 
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class DayOfMonth internal constructor(private val _value: Byte) : DateTimeComponent<DayOfMonth, Days> {
+inline class DayOfMonth internal constructor(private val value: Byte) : DateTimeComponent<DayOfMonth, Days> {
 
 	override fun compareTo(other: DayOfMonth) =
-		_value.compareTo(other._value)
+		value.compareTo(other.value)
 
 
 	@Suppress("OVERRIDE_BY_INLINE")
@@ -13,32 +13,16 @@ inline class DayOfMonth internal constructor(private val _value: Byte) : DateTim
 		of(transform(toLong()))
 
 
-	override fun minus(other: Int) =
-		minus(other.toLong())
-
-
-	override fun minus(other: Long) =
-		minus(Days(other))
-
-
 	override fun minus(other: DayOfMonth) =
-		Days(value - other.value)
+		Days(toLong() - other.toLong())
 
 
 	override fun minus(other: Days) =
-		map { it - other.value }
-
-
-	override fun plus(other: Int) =
-		plus(other.toLong())
-
-
-	override fun plus(other: Long) =
-		plus(Days(other))
+		map { it - other.toLong() }
 
 
 	override fun plus(other: Days) =
-		map { it + other.value }
+		map { it + other.toLong() }
 
 
 	override fun toInt() =
@@ -46,25 +30,21 @@ inline class DayOfMonth internal constructor(private val _value: Byte) : DateTim
 
 
 	override fun toLong() =
-		value
+		value.toLong()
 
 
 	override fun toString() =
-		_value.toString()
+		value.toString()
 
 
-	val value
-		get() = _value.toLong()
+	companion object : DateTimeComponent.CompanionInterface<DayOfMonth> {
+
+		override val max = unchecked(31)
+		override val min = unchecked(1)
 
 
-	companion object {
-
-		val max = unchecked(31)
-		val min = unchecked(1)
-
-
-		fun of(value: Long): DayOfMonth {
-			check(value, inRange = min.value .. max.value, name = "day [of month]")
+		override fun of(value: Long): DayOfMonth {
+			check(value, inRange = min.toLong() .. max.toLong(), name = "day [of month]")
 
 			return unchecked(value)
 		}

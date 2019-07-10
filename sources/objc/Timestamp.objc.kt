@@ -56,7 +56,7 @@ actual fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime {
 
 
 fun Timestamp.toPlatform() =
-	PlatformTimestamp.dateWithTimeIntervalSince1970(secondsSince1970.value.toDouble() + (partialNanosecond.value.toDouble() / 1_000_000_000.0))
+	PlatformTimestamp.dateWithTimeIntervalSince1970(secondsSince1970.toLong().toDouble() + (partialNanosecond.toLong().toDouble() / 1_000_000_000.0))
 
 
 fun PlatformTimestamp.toCommon(): Timestamp {

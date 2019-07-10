@@ -35,7 +35,7 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 
 
 	fun lastDayIn(year: Year) =
-		DayOfMonth.unchecked(daysIn(year).value)
+		DayOfMonth.unchecked(daysIn(year).toLong())
 
 
 	@Suppress("OVERRIDE_BY_INLINE")
@@ -43,58 +43,38 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 		of(transform(toLong()))
 
 
-	override fun minus(other: Int) =
-		minus(other.toLong())
-
-
-	override fun minus(other: Long) =
-		minus(Months(other))
-
-
 	override fun minus(other: MonthOfYear) =
-		Months(value - other.value) // FIXME
+		Months(toLong() - other.toLong()) // FIXME
 
 
 	override fun minus(other: Months) =
 		plus(-(other % 12))
 
 
-	override fun plus(other: Int) =
-		plus(other.toLong())
-
-
-	override fun plus(other: Long) =
-		plus(Months(other))
-
-
 	override fun plus(other: Months) =
-		unchecked((value + (other.value % 12) + 12) % 12)
+		unchecked((toLong() + (other.toLong() % 12) + 12) % 12)
 
 
 	override fun toInt() =
-		value.toInt()
+		ordinal + 1
 
 
 	override fun toLong() =
-		value
+		ordinal + 1L
 
 
 	override fun toString() =
 		name
 
 
-	val value: Long
-		get() = ordinal + 1L
+	companion object : DateTimeComponent.CompanionInterface<MonthOfYear> {
+
+		override val max = december
+		override val min = january
 
 
-	companion object {
-
-		val max = december
-		val min = january
-
-
-		fun of(value: Long): MonthOfYear {
-			check(value, inRange = min.value .. max.value, name = "month [of year]")
+		override fun of(value: Long): MonthOfYear {
+			check(value, inRange = min.toLong() .. max.toLong(), name = "month [of year]")
 
 			return unchecked(value)
 		}

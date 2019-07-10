@@ -1,12 +1,11 @@
 package com.github.fluidsonic.fluid.time
 
 
-// TODO check for overflows
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class HourOfDay internal constructor(private val _value: Byte) : DateTimeComponent<HourOfDay, Hours> {
+inline class HourOfDay internal constructor(private val value: Byte) : DateTimeComponent<HourOfDay, Hours> {
 
 	override fun compareTo(other: HourOfDay) =
-		_value.compareTo(other._value)
+		value.compareTo(other.value)
 
 
 	@Suppress("OVERRIDE_BY_INLINE")
@@ -14,32 +13,16 @@ inline class HourOfDay internal constructor(private val _value: Byte) : DateTime
 		of(transform(toLong()))
 
 
-	override fun minus(other: Int) =
-		minus(other.toLong())
-
-
-	override fun minus(other: Long) =
-		minus(Hours(other))
-
-
 	override fun minus(other: HourOfDay) =
-		Hours(value - other.value)
+		Hours(toLong() - other.toLong())
 
 
 	override fun minus(other: Hours) =
-		map { it - other.value }
-
-
-	override fun plus(other: Int) =
-		plus(other.toLong())
-
-
-	override fun plus(other: Long) =
-		plus(Hours(other))
+		map { it - other.toLong() }
 
 
 	override fun plus(other: Hours) =
-		map { it + other.value }
+		map { it + other.toLong() }
 
 
 	override fun toInt() =
@@ -47,26 +30,21 @@ inline class HourOfDay internal constructor(private val _value: Byte) : DateTime
 
 
 	override fun toLong() =
-		value
+		value.toLong()
 
 
 	override fun toString() =
-		_value.toString()
+		value.toString()
 
 
-	val value
-		get() = _value.toLong()
+	companion object : DateTimeComponent.CompanionInterface<HourOfDay> {
+
+		override val max = unchecked(23)
+		override val min = unchecked(0)
 
 
-	companion object {
-
-		val zero = unchecked(0)
-		val max = unchecked(23)
-		val min = zero
-
-
-		fun of(value: Long): HourOfDay {
-			check(value, inRange = min._value .. max._value, name = "hour [of day]")
+		override fun of(value: Long): HourOfDay {
+			check(value, inRange = min.toLong() .. max.toLong(), name = "hour [of day]")
 
 			return unchecked(value)
 		}

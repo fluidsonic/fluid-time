@@ -1,12 +1,11 @@
 package com.github.fluidsonic.fluid.time
 
 
-// TODO check for overflows
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class MinuteOfHour internal constructor(private val _value: Byte) : DateTimeComponent<MinuteOfHour, Minutes> {
+inline class MinuteOfHour internal constructor(private val value: Byte) : DateTimeComponent<MinuteOfHour, Minutes> {
 
 	override fun compareTo(other: MinuteOfHour) =
-		_value.compareTo(other._value)
+		value.compareTo(other.value)
 
 
 	@Suppress("OVERRIDE_BY_INLINE")
@@ -14,32 +13,16 @@ inline class MinuteOfHour internal constructor(private val _value: Byte) : DateT
 		of(transform(toLong()))
 
 
-	override fun minus(other: Int) =
-		minus(other.toLong())
-
-
-	override fun minus(other: Long) =
-		minus(Minutes(other))
-
-
 	override fun minus(other: MinuteOfHour) =
-		Minutes(value - other.value)
+		Minutes(toLong() - other.toLong())
 
 
 	override fun minus(other: Minutes) =
-		map { it - other.value }
-
-
-	override fun plus(other: Int) =
-		plus(other.toLong())
-
-
-	override fun plus(other: Long) =
-		plus(Minutes(other))
+		map { it - other.toLong() }
 
 
 	override fun plus(other: Minutes) =
-		map { it + other.value }
+		map { it + other.toLong() }
 
 
 	override fun toInt() =
@@ -47,26 +30,21 @@ inline class MinuteOfHour internal constructor(private val _value: Byte) : DateT
 
 
 	override fun toLong() =
-		value
+		value.toLong()
 
 
 	override fun toString() =
-		_value.toString()
+		value.toString()
 
 
-	val value
-		get() = _value.toLong()
+	companion object : DateTimeComponent.CompanionInterface<MinuteOfHour> {
+
+		override val max = unchecked(59)
+		override val min = unchecked(0)
 
 
-	companion object {
-
-		val zero = unchecked(0)
-		val max = unchecked(59)
-		val min = zero
-
-
-		fun of(value: Long): MinuteOfHour {
-			check(value, inRange = min._value .. max._value, name = "minute [of hour]")
+		override fun of(value: Long): MinuteOfHour {
+			check(value, inRange = min.toLong() .. max.toLong(), name = "minute [of hour]")
 
 			return unchecked(value)
 		}

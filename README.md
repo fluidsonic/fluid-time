@@ -1,7 +1,7 @@
 fluid-time
 ==========
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.40-blue.svg)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.41-blue.svg)](http://kotlinlang.org)
 [![#fluid-libraries Slack Channel](https://img.shields.io/badge/slack-%23fluid--libraries-543951.svg)](https://kotlinlang.slack.com/messages/C7UDFSVT2/)
 
 Multiplatform date & time library.  
@@ -24,6 +24,13 @@ repositories {
     maven("https://dl.bintray.com/fluidsonic/maven")
 }
 ```
+
+
+
+To-Do
+-----
+
+- [ ] Check for overflows
 
 
 

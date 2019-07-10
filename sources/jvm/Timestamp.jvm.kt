@@ -1,6 +1,5 @@
 package com.github.fluidsonic.fluid.time
 
-import org.threeten.bp.DayOfWeek as PlatformDayOfWeek
 import org.threeten.bp.Instant as PlatformTimestamp
 
 
@@ -21,7 +20,7 @@ actual fun Timestamp.toLocalTime(timeZone: TimeZone) =
 
 
 fun Timestamp.toPlatform(): PlatformTimestamp =
-	PlatformTimestamp.ofEpochSecond(secondsSince1970.value, partialNanosecond.value)
+	PlatformTimestamp.ofEpochSecond(secondsSince1970.toLong(), partialNanosecond.toLong())
 
 
 fun PlatformTimestamp.toCommon() =

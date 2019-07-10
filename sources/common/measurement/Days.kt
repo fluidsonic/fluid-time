@@ -3,9 +3,10 @@ package com.github.fluidsonic.fluid.time
 import kotlin.math.*
 
 
-// TODO check for overflows
-@Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class Days(override val value: Long) : DurationMeasurement.Basic<Days>, DurationMeasurement.TimeBased<Days> {
+inline class Days(private val value: Long) :
+	TemporalMeasurement.LongBased<Days>,
+	DateMeasurement<Days>,
+	TimeMeasurement<Days> {
 
 	constructor(value: Int) : this(value.toLong())
 
@@ -40,7 +41,7 @@ inline class Days(override val value: Long) : DurationMeasurement.Basic<Days>, D
 
 	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
-		Days(transform(value))
+		Days(transform(toLong()))
 
 
 	override operator fun minus(other: Days) =
@@ -120,9 +121,11 @@ inline class Days(override val value: Long) : DurationMeasurement.Basic<Days>, D
 		Days(-value)
 
 
-	companion object {
+	companion object : DateMeasurement.CompanionInterface<Days>, TimeMeasurement.CompanionInterface<Days> {
 
-		val zero = Days(0L)
+		override val max = Days(Long.MAX_VALUE)
+		override val min = Days(Long.MIN_VALUE)
+		override val zero = Days(0L)
 	}
 }
 

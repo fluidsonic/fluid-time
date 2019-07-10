@@ -8,27 +8,27 @@ fun TimeZone.toPlatform() =
 
 
 // not possible, see https://youtrack.jetbrains.com/issue/KT-31517
-// actual typealias Platform_TimeZone = ZoneId
+// actual typealias PlatformTimeZone = ZoneId
 
-actual class Platform_TimeZone(val value: ZoneId)
+actual class PlatformTimeZone(val value: ZoneId)
 
 
-internal actual fun Platform_TimeZone.daylightSavingTimeOffset(timestamp: Timestamp) =
+internal actual fun PlatformTimeZone.daylightSavingTimeOffset(timestamp: Timestamp) =
 	Seconds(value.rules.getDaylightSavings(timestamp.toPlatform()).seconds)
 
 
-internal actual val Platform_TimeZone.id: String get() = value.id
+internal actual val PlatformTimeZone.id: String get() = value.id
 
 
-internal actual fun Platform_TimeZone.isDaylightSavingTime(timestamp: Timestamp) =
+internal actual fun PlatformTimeZone.isDaylightSavingTime(timestamp: Timestamp) =
 	value.rules.isDaylightSavings(timestamp.toPlatform())
 
 
-internal actual fun Platform_TimeZone.nextDaylightSavingTimeTransition(after: Timestamp) =
+internal actual fun PlatformTimeZone.nextDaylightSavingTimeTransition(after: Timestamp) =
 	value.rules.nextTransition(after.toPlatform())?.instant?.toCommon()
 
 
-internal actual object Platform_TimeZone_Static {
+internal actual object PlatformTimeZoneStatic {
 
 	actual val knownTimeZoneIds: Set<String> =
 		ZoneId.getAvailableZoneIds()
@@ -38,6 +38,6 @@ internal actual object Platform_TimeZone_Static {
 		get() = ZoneId.systemDefault().id
 
 
-	actual fun timeZoneWithId(id: String): Platform_TimeZone? =
-		Platform_TimeZone(ZoneId.of(id))
+	actual fun timeZoneWithId(id: String): PlatformTimeZone? =
+		PlatformTimeZone(ZoneId.of(id))
 }

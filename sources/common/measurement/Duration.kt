@@ -10,7 +10,7 @@ import kotlin.math.*
 class Duration private constructor(
 	val seconds: Seconds,
 	val partialNanoseconds: Nanoseconds
-) : DurationMeasurement.TimeBased<Duration> {
+) : TimeMeasurement<Duration> {
 
 	init {
 		freeze()
@@ -64,7 +64,7 @@ class Duration private constructor(
 
 
 	override val isZero
-		get() = (seconds.value or partialNanoseconds.value) == 0L
+		get() = (seconds.toLong() or partialNanoseconds.toLong()) == 0L
 
 
 	override operator fun minus(other: Duration) =
@@ -192,7 +192,14 @@ class Duration private constructor(
 		microseconds: Microseconds = Microseconds.zero,
 		nanoseconds: Nanoseconds = Nanoseconds.zero
 	): Duration {
-		if ((days.value or hours.value or minutes.value or seconds.value or milliseconds.value or microseconds.value or nanoseconds.value == 0L)) return this
+		if ((days.toLong() or
+				hours.toLong() or
+				minutes.toLong() or
+				seconds.toLong() or
+				milliseconds.toLong() or
+				microseconds.toLong() or
+				nanoseconds.toLong()) == 0L
+		) return this
 
 		return of(
 			days = days,
@@ -274,8 +281,8 @@ class Duration private constructor(
 		return buildString(capacity = 24) {
 			val hours = seconds / Seconds.perHour
 			val minutes = seconds % Seconds.perHour / Seconds.perMinute
-			val seconds = (seconds % Seconds.perMinute).value
-			val nanoseconds = partialNanoseconds.value
+			val seconds = (seconds % Seconds.perMinute).toLong()
+			val nanoseconds = partialNanoseconds.toLong()
 
 			append("PT")
 			if (hours != 0L) {
@@ -366,7 +373,7 @@ class Duration private constructor(
 			)
 
 
-		// FIXME broken when value are negative
+		// FIXME broken of values are negative
 		fun of(
 			days: Days = Days.zero,
 			hours: Hours = Hours.zero,
@@ -389,7 +396,7 @@ class Duration private constructor(
 			}
 			if (!partialNanoseconds.isZero) {
 				totalSeconds += partialNanoseconds.toSeconds()
-				partialNanoseconds %= Nanoseconds.perSecond.value
+				partialNanoseconds %= Nanoseconds.perSecond.toLong()
 			}
 
 			return unchecked(seconds = totalSeconds, partialNanoseconds = partialNanoseconds)
@@ -425,7 +432,7 @@ class Duration private constructor(
 
 
 		internal fun unchecked(seconds: Seconds, partialNanoseconds: Nanoseconds = Nanoseconds.zero): Duration {
-			if ((seconds.value or partialNanoseconds.value) == 0L) return zero
+			if ((seconds.toLong() or partialNanoseconds.toLong()) == 0L) return zero
 
 			return Duration(seconds, partialNanoseconds = partialNanoseconds)
 		}

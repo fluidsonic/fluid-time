@@ -20,7 +20,12 @@ class LocalDate private constructor(
 		atTime(HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
 
-	fun atTime(hour: HourOfDay, minute: MinuteOfHour = MinuteOfHour.zero, second: SecondOfMinute = SecondOfMinute.zero, nanosecond: NanosecondOfSecond = NanosecondOfSecond.zero) =
+	fun atTime(
+		hour: HourOfDay,
+		minute: MinuteOfHour = MinuteOfHour(0),
+		second: SecondOfMinute = SecondOfMinute(0),
+		nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
+	) =
 		atTime(LocalTime.of(hour, minute, second, nanosecond))
 
 
@@ -60,13 +65,13 @@ class LocalDate private constructor(
 	fun toString(builder: StringBuilder) {
 		with(builder) {
 			when {
-				year.value < 0 -> append('-')
-				year.value > 9999 -> append('+')
+				year.toLong() < 0 -> append('-')
+				year.toLong() > 9999 -> append('+')
 			}
 
-			val year = year.value.absoluteValue
-			val month = month.value
-			val day = day.value
+			val year = year.toLong().absoluteValue
+			val month = month.toLong()
+			val day = day.toLong()
 
 			if (year < 1000) {
 				append('0')
@@ -120,7 +125,7 @@ class LocalDate private constructor(
 				else -> if (year >= 10_000) return null
 			}
 
-			// FIXME throws
+			// FIXME throws but should return null
 			return of(year = year, month = month, day = day)
 		}
 
@@ -135,11 +140,10 @@ class LocalDate private constructor(
 }
 
 
-expect val LocalDate.dayOfWeek: DayOfWeek
-
 expect fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp
 expect fun LocalDate.minusDays(daysToSubtract: Long): LocalDate
 expect fun LocalDate.plusDays(daysToAdd: Long): LocalDate
+expect fun LocalDate.toDayOfWeek(): DayOfWeek
 
 
 fun LocalDate.atStartOfDay() =

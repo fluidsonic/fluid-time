@@ -3,9 +3,9 @@ package com.github.fluidsonic.fluid.time
 import kotlin.math.*
 
 
-// TODO check for overflows
-@Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class Years(override val value: Long) : DurationMeasurement.Basic<Years>, DurationMeasurement.DateBased<Years> {
+inline class Years(private val value: Long) :
+	TemporalMeasurement.LongBased<Years>,
+	DateMeasurement<Years> {
 
 	constructor(value: Int) : this(value.toLong())
 
@@ -40,7 +40,7 @@ inline class Years(override val value: Long) : DurationMeasurement.Basic<Years>,
 
 	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
-		Years(transform(value))
+		Years(transform(toLong()))
 
 
 	override operator fun minus(other: Years) =
@@ -87,9 +87,11 @@ inline class Years(override val value: Long) : DurationMeasurement.Basic<Years>,
 		Years(-value)
 
 
-	companion object {
+	companion object : DateMeasurement.CompanionInterface<Years> {
 
-		val zero = Years(0L)
+		override val max = Years(Long.MAX_VALUE)
+		override val min = Years(Long.MIN_VALUE)
+		override val zero = Years(0L)
 	}
 }
 

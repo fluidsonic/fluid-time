@@ -3,16 +3,15 @@ package com.github.fluidsonic.fluid.time
 import org.threeten.bp.DayOfWeek as PlatformDayOfWeek
 
 
-val DayOfWeek.platform
-	get() = when (this) {
-		DayOfWeek.monday -> PlatformDayOfWeek.MONDAY
-		DayOfWeek.tuesday -> PlatformDayOfWeek.TUESDAY
-		DayOfWeek.wednesday -> PlatformDayOfWeek.WEDNESDAY
-		DayOfWeek.thursday -> PlatformDayOfWeek.THURSDAY
-		DayOfWeek.friday -> PlatformDayOfWeek.FRIDAY
-		DayOfWeek.saturday -> PlatformDayOfWeek.SATURDAY
-		DayOfWeek.sunday -> PlatformDayOfWeek.SUNDAY
-	}
+fun DayOfWeek.toPlatform() = when (this) {
+	DayOfWeek.monday -> PlatformDayOfWeek.MONDAY
+	DayOfWeek.tuesday -> PlatformDayOfWeek.TUESDAY
+	DayOfWeek.wednesday -> PlatformDayOfWeek.WEDNESDAY
+	DayOfWeek.thursday -> PlatformDayOfWeek.THURSDAY
+	DayOfWeek.friday -> PlatformDayOfWeek.FRIDAY
+	DayOfWeek.saturday -> PlatformDayOfWeek.SATURDAY
+	DayOfWeek.sunday -> PlatformDayOfWeek.SUNDAY
+}
 
 
 fun PlatformDayOfWeek.toCommon() = when (this) {

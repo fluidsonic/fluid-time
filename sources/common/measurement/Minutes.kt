@@ -3,9 +3,9 @@ package com.github.fluidsonic.fluid.time
 import kotlin.math.*
 
 
-// TODO check for overflows
-@Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class Minutes(override val value: Long) : DurationMeasurement.Basic<Minutes>, DurationMeasurement.TimeBased<Minutes> {
+inline class Minutes(private val value: Long) :
+	TemporalMeasurement.LongBased<Minutes>,
+	TimeMeasurement<Minutes> {
 
 	constructor(value: Int) : this(value.toLong())
 
@@ -40,7 +40,7 @@ inline class Minutes(override val value: Long) : DurationMeasurement.Basic<Minut
 
 	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
-		Minutes(transform(value))
+		Minutes(transform(toLong()))
 
 
 	override operator fun minus(other: Minutes) =
@@ -120,11 +120,13 @@ inline class Minutes(override val value: Long) : DurationMeasurement.Basic<Minut
 		Minutes(-value)
 
 
-	companion object {
+	companion object : TimeMeasurement.CompanionInterface<Minutes> {
 
+		override val max = Minutes(Long.MAX_VALUE)
+		override val min = Minutes(Long.MIN_VALUE)
 		val perHour = Minutes(60L)
 		val perDay = Hours.perDay.toMinutes()
-		val zero = Minutes(0L)
+		override val zero = Minutes(0L)
 	}
 }
 

@@ -3,21 +3,20 @@ package com.github.fluidsonic.fluid.time
 import org.threeten.bp.Month as PlatformMonth
 
 
-val MonthOfYear.platform
-	get() = when (this) {
-		MonthOfYear.january -> PlatformMonth.JANUARY
-		MonthOfYear.february -> PlatformMonth.FEBRUARY
-		MonthOfYear.march -> PlatformMonth.MARCH
-		MonthOfYear.april -> PlatformMonth.APRIL
-		MonthOfYear.may -> PlatformMonth.MAY
-		MonthOfYear.june -> PlatformMonth.JUNE
-		MonthOfYear.july -> PlatformMonth.JULY
-		MonthOfYear.august -> PlatformMonth.AUGUST
-		MonthOfYear.september -> PlatformMonth.SEPTEMBER
-		MonthOfYear.october -> PlatformMonth.OCTOBER
-		MonthOfYear.november -> PlatformMonth.NOVEMBER
-		MonthOfYear.december -> PlatformMonth.DECEMBER
-	}
+fun MonthOfYear.toPlatform() = when (this) {
+	MonthOfYear.january -> PlatformMonth.JANUARY
+	MonthOfYear.february -> PlatformMonth.FEBRUARY
+	MonthOfYear.march -> PlatformMonth.MARCH
+	MonthOfYear.april -> PlatformMonth.APRIL
+	MonthOfYear.may -> PlatformMonth.MAY
+	MonthOfYear.june -> PlatformMonth.JUNE
+	MonthOfYear.july -> PlatformMonth.JULY
+	MonthOfYear.august -> PlatformMonth.AUGUST
+	MonthOfYear.september -> PlatformMonth.SEPTEMBER
+	MonthOfYear.october -> PlatformMonth.OCTOBER
+	MonthOfYear.november -> PlatformMonth.NOVEMBER
+	MonthOfYear.december -> PlatformMonth.DECEMBER
+}
 
 
 fun PlatformMonth.toCommon() = when (this) {

@@ -1,14 +1,14 @@
 package com.github.fluidsonic.fluid.time
 
-import com.github.fluidsonic.fluid.time.Platform_TimeZone_Static.knownTimeZoneIds
-import com.github.fluidsonic.fluid.time.Platform_TimeZone_Static.systemTimeZoneId
-import com.github.fluidsonic.fluid.time.Platform_TimeZone_Static.timeZoneWithId
+import com.github.fluidsonic.fluid.time.PlatformTimeZoneStatic.knownTimeZoneIds
+import com.github.fluidsonic.fluid.time.PlatformTimeZoneStatic.systemTimeZoneId
+import com.github.fluidsonic.fluid.time.PlatformTimeZoneStatic.timeZoneWithId
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.*
 
 
 @Serializable(with = TimeZoneSerializer::class)
-class TimeZone private constructor(internal val platform: Platform_TimeZone) {
+class TimeZone private constructor(internal val platform: PlatformTimeZone) {
 
 	val id = platform.id
 
@@ -58,22 +58,22 @@ class TimeZone private constructor(internal val platform: Platform_TimeZone) {
 }
 
 
-expect class Platform_TimeZone
+expect class PlatformTimeZone
 
-internal expect fun Platform_TimeZone.daylightSavingTimeOffset(timestamp: Timestamp): Seconds
-internal expect val Platform_TimeZone.id: String
-internal expect fun Platform_TimeZone.isDaylightSavingTime(timestamp: Timestamp): Boolean
-internal expect fun Platform_TimeZone.nextDaylightSavingTimeTransition(after: Timestamp): Timestamp?
+internal expect fun PlatformTimeZone.daylightSavingTimeOffset(timestamp: Timestamp): Seconds
+internal expect val PlatformTimeZone.id: String
+internal expect fun PlatformTimeZone.isDaylightSavingTime(timestamp: Timestamp): Boolean
+internal expect fun PlatformTimeZone.nextDaylightSavingTimeTransition(after: Timestamp): Timestamp?
 
-internal expect object Platform_TimeZone_Static {
+internal expect object PlatformTimeZoneStatic {
 
 	val knownTimeZoneIds: Set<String>
 	val systemTimeZoneId: String
 
-	fun timeZoneWithId(id: String): Platform_TimeZone?
+	fun timeZoneWithId(id: String): PlatformTimeZone?
 }
 
-internal fun Platform_TimeZone.toCommon() =
+internal fun PlatformTimeZone.toCommon() =
 	TimeZone.withId(id)
 
 
