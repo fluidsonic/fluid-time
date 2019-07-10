@@ -17,7 +17,7 @@ This library is [available on Bintray](https://bintray.com/fluidsonic/maven/flui
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("com.github.fluidsonic:fluid-time:0.9.11")
+    implementation("com.github.fluidsonic:fluid-time:0.9.12")
 }
 
 repositories {
@@ -30,7 +30,10 @@ repositories {
 To-Do
 -----
 
+- [ ] Check all FIXMEs
 - [ ] Check for overflows
+- [ ] Add more platforms
+- [ ] Replace platform-specific dependencies with own implementation
 
 
 

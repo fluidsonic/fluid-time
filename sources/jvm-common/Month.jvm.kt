@@ -1,7 +1,5 @@
 package com.github.fluidsonic.fluid.time
 
-import org.threeten.bp.Month as PlatformMonth
-
 
 fun MonthOfYear.toPlatform() = when (this) {
 	MonthOfYear.january -> PlatformMonth.JANUARY

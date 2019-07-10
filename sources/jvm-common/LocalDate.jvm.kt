@@ -1,8 +1,5 @@
 package com.github.fluidsonic.fluid.time
 
-import org.threeten.bp.DayOfWeek as PlatformDayOfWeek
-import org.threeten.bp.LocalDate as PlatformLocalDate
-
 
 actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp =
 	toPlatform().atStartOfDay(timeZone.toPlatform()).toInstant().toCommon()

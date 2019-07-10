@@ -22,7 +22,7 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 
 
 	override fun minus(other: DayOfWeek) =
-		Days(toLong() - other.toLong()) // FIXME
+		Days(toLong() - other.toLong()) // FIXME check
 
 
 	override fun minus(other: Days) =

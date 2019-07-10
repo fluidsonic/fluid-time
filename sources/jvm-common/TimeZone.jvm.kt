@@ -1,16 +1,14 @@
 package com.github.fluidsonic.fluid.time
 
-import org.threeten.bp.*
-
 
 fun TimeZone.toPlatform() =
 	platform.value
 
 
 // not possible, see https://youtrack.jetbrains.com/issue/KT-31517
-// actual typealias PlatformTimeZone = ZoneId
+// actual typealias PlatformTimeZone = PlatformZoneId
 
-actual class PlatformTimeZone(val value: ZoneId)
+actual class PlatformTimeZone(val value: PlatformZoneId)
 
 
 internal actual fun PlatformTimeZone.daylightSavingTimeOffset(timestamp: Timestamp) =
@@ -31,13 +29,13 @@ internal actual fun PlatformTimeZone.nextDaylightSavingTimeTransition(after: Tim
 internal actual object PlatformTimeZoneStatic {
 
 	actual val knownTimeZoneIds: Set<String> =
-		ZoneId.getAvailableZoneIds()
+		PlatformZoneId.getAvailableZoneIds()
 
 
 	actual val systemTimeZoneId: String
-		get() = ZoneId.systemDefault().id
+		get() = PlatformZoneId.systemDefault().id
 
 
 	actual fun timeZoneWithId(id: String): PlatformTimeZone? =
-		PlatformTimeZone(ZoneId.of(id))
+		PlatformTimeZone(PlatformZoneId.of(id))
 }

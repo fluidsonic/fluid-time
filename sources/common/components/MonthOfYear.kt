@@ -44,7 +44,7 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 
 
 	override fun minus(other: MonthOfYear) =
-		Months(toLong() - other.toLong()) // FIXME
+		Months(toLong() - other.toLong()) // FIXME check
 
 
 	override fun minus(other: Months) =

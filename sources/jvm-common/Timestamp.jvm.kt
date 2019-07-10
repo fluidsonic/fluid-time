@@ -1,7 +1,5 @@
 package com.github.fluidsonic.fluid.time
 
-import org.threeten.bp.Instant as PlatformTimestamp
-
 
 actual fun Timestamp.toDayOfWeek(timeZone: TimeZone) =
 	toPlatform().atZone(timeZone.toPlatform()).dayOfWeek.toCommon()

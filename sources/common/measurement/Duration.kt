@@ -422,7 +422,7 @@ class Duration private constructor(
 			val seconds = parseNumber(secondsText, multiplier = multiplier)
 			val nanoseconds = parseFraction(secondFractionString) * if (seconds < 0) -1 else 1
 
-			// FIXME throws
+			// FIXME throws but should return null
 			return of(days = days, hours = hours, minutes = minutes, seconds = seconds, nanoseconds = nanoseconds.toLong())
 		}
 

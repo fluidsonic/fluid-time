@@ -60,7 +60,7 @@ class Timestamp private constructor(
 
 
 	val millisecondsSince1970
-		get() = secondsSince1970.toMilliseconds() + Nanoseconds(partialNanosecond.toLong()).toMilliseconds() // FIXME
+		get() = secondsSince1970.toMilliseconds() + Nanoseconds(partialNanosecond.toLong()).toMilliseconds() // FIXME check
 
 
 	operator fun minus(other: Days) =

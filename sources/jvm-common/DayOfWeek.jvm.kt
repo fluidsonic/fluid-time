@@ -1,7 +1,5 @@
 package com.github.fluidsonic.fluid.time
 
-import org.threeten.bp.DayOfWeek as PlatformDayOfWeek
-
 
 fun DayOfWeek.toPlatform() = when (this) {
 	DayOfWeek.monday -> PlatformDayOfWeek.MONDAY
