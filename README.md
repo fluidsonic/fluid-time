@@ -32,6 +32,7 @@ To-Do
 
 - [ ] Check all FIXMEs
 - [ ] Check for overflows
+- [ ] Add more functionality
 - [ ] Add more platforms
 - [ ] Replace platform-specific dependencies with own implementation
 
