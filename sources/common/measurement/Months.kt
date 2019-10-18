@@ -13,7 +13,7 @@ inline class Months(@PublishedApi internal val value: Long) :
 
 
 	override inline val absolute
-		get() = map(Long::absoluteValue)
+		get() = map(::abs) // cannot use Long::absoluteValue - https://youtrack.jetbrains.com/issue/KT-34469
 
 
 	override inline fun compareTo(other: Months) =
