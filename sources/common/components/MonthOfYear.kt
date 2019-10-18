@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
+
 package com.github.fluidsonic.fluid.time
 
 
@@ -38,20 +40,19 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 		DayOfMonth.unchecked(daysIn(year).toLong())
 
 
-	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
 		of(transform(toLong()))
 
 
-	override fun minus(other: MonthOfYear) =
+	override inline operator fun minus(other: MonthOfYear) =
 		Months(toLong() - other.toLong()) // FIXME check
 
 
-	override fun minus(other: Months) =
+	override inline operator fun minus(other: Months) =
 		plus(-(other % 12))
 
 
-	override fun plus(other: Months) =
+	override inline operator fun plus(other: Months) =
 		unchecked((toLong() + (other.toLong() % 12) + 12) % 12)
 
 
@@ -69,8 +70,8 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 
 	companion object : DateTimeComponent.CompanionInterface<MonthOfYear> {
 
-		override val max = december
-		override val min = january
+		/* override */ val max = december
+		/* override */ val min = january
 
 
 		override fun of(value: Long): MonthOfYear {
@@ -80,7 +81,8 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 		}
 
 
-		internal fun unchecked(value: Long) =
+		@PublishedApi
+		internal inline fun unchecked(value: Long) =
 			values()[(value - 1).toInt()]
 	}
 }

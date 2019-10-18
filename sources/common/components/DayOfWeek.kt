@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
+
 package com.github.fluidsonic.fluid.time
 
 import kotlinx.serialization.*
@@ -16,20 +18,19 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 	sunday;
 
 
-	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
 		of(transform(toLong()))
 
 
-	override fun minus(other: DayOfWeek) =
+	override operator fun minus(other: DayOfWeek) =
 		Days(toLong() - other.toLong()) // FIXME check
 
 
-	override fun minus(other: Days) =
+	override operator fun minus(other: Days) =
 		plus(-(other % 7))
 
 
-	override fun plus(other: Days) =
+	override operator fun plus(other: Days) =
 		values()[((ordinal + (other.toLong() % 7) + 7) % 7).toInt()]
 
 
@@ -47,8 +48,8 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 
 	companion object : DateTimeComponent.CompanionInterface<DayOfWeek> {
 
-		override val max = sunday
-		override val min = monday
+		/* override */ val max = sunday
+		/* override */ val min = monday
 
 
 		override fun of(value: Long) =
@@ -66,7 +67,7 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 			DayOfWeekSerializer
 
 
-		internal fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long) =
 			values()[(value - 1).toInt()]
 	}
 }

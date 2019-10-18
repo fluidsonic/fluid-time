@@ -1,143 +1,156 @@
+@file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
+
 package com.github.fluidsonic.fluid.time
 
 import kotlin.math.*
+import kotlin.time.*
+import kotlin.time.Duration
 
 
-inline class Nanoseconds(private val value: Long) :
+inline class Nanoseconds(@PublishedApi internal val value: Long) :
 	TemporalMeasurement.LongBased<Nanoseconds>,
 	TimeMeasurement<Nanoseconds> {
 
 	constructor(value: Int) : this(value.toLong())
 
 
-	override val absolute
+	override inline val absolute
 		get() = map(Long::absoluteValue)
 
 
-	override fun compareTo(other: Nanoseconds) =
+	override inline fun compareTo(other: Nanoseconds) =
 		value.compareTo(other.value)
 
 
-	override operator fun div(other: Int) =
+	override inline operator fun div(other: Int) =
 		div(other.toLong())
 
 
-	override operator fun div(other: Long) =
+	override inline operator fun div(other: Long) =
 		Nanoseconds(value / other)
 
 
-	override operator fun div(other: Nanoseconds) =
+	override inline operator fun div(other: Nanoseconds) =
 		value / other.value
 
 
-	override val isNegative
+	override inline val isNegative
 		get() = value < 0
 
 
-	override val isZero
+	override inline val isZero
 		get() = value == 0L
 
 
-	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
 		Nanoseconds(transform(toLong()))
 
 
-	override operator fun minus(other: Nanoseconds) =
+	override inline operator fun minus(other: Nanoseconds) =
 		Nanoseconds(value - other.value)
 
 
-	override operator fun plus(other: Nanoseconds) =
+	override inline operator fun plus(other: Nanoseconds) =
 		Nanoseconds(value + other.value)
 
 
-	override operator fun rem(other: Int) =
+	override inline operator fun rem(other: Int) =
 		rem(other.toLong())
 
 
-	override operator fun rem(other: Long) =
+	override inline operator fun rem(other: Long) =
 		Nanoseconds(value % other)
 
 
-	override operator fun rem(other: Nanoseconds) =
+	override inline operator fun rem(other: Nanoseconds) =
 		Nanoseconds(value % other.value)
 
 
-	override operator fun times(other: Int) =
+	override inline operator fun times(other: Int) =
 		times(other.toLong())
 
 
-	override operator fun times(other: Long) =
+	override inline operator fun times(other: Long) =
 		Nanoseconds(value * other)
 
 
-	override fun toDays() =
+	override inline fun toDays() =
 		Days(this / perDay)
 
 
-	override fun toDuration() =
-		Duration.of(nanoseconds = this)
+	@ExperimentalTime
+	override inline fun toDuration() =
+		value.nanoseconds
 
 
-	override fun toHours() =
+	override inline fun toHours() =
 		Hours(this / perHour)
 
 
-	override fun toInt() =
+	override inline fun toInt() =
 		value.toInt()
 
 
-	override fun toLong() =
+	override inline fun toLong() =
 		value
 
 
-	override fun toMicroseconds() =
+	override inline fun toMicroseconds() =
 		Microseconds(this / perMicrosecond)
 
 
-	override fun toMilliseconds() =
+	override inline fun toMilliseconds() =
 		Milliseconds(this / perMillisecond)
 
 
-	override fun toMinutes() =
+	override inline fun toMinutes() =
 		Minutes(this / perMinute)
 
 
 	@Deprecated(message = "redundant conversion", level = DeprecationLevel.HIDDEN)
-	override fun toNanoseconds() =
+	override inline fun toNanoseconds() =
 		this
 
 
-	override fun toSeconds() =
+	override inline fun toPreciseDuration() =
+		PreciseDuration.of(nanoseconds = this)
+
+
+	override inline fun toSeconds() =
 		Seconds(this / perSecond)
 
 
-	override fun toString() =
+	override inline fun toString() =
 		value.toString()
 
 
-	override operator fun unaryMinus() =
+	override inline operator fun unaryMinus() =
 		Nanoseconds(-value)
 
 
 	companion object : TimeMeasurement.CompanionInterface<Nanoseconds> {
 
-		override val max = Nanoseconds(Long.MAX_VALUE)
-		override val min = Nanoseconds(Long.MIN_VALUE)
+		/* override */ val max = Nanoseconds(Long.MAX_VALUE)
+		/* override */ val min = Nanoseconds(Long.MIN_VALUE)
 		val perMicrosecond = Nanoseconds(1_000L)
 		val perMillisecond = Microseconds.perMillisecond.toNanoseconds()
 		val perSecond = Milliseconds.perSecond.toNanoseconds()
 		val perMinute = Seconds.perMinute.toNanoseconds()
 		val perHour = Minutes.perHour.toNanoseconds()
 		val perDay = Hours.perDay.toNanoseconds()
-		override val zero = Nanoseconds(0L)
+		/* override */ val zero = Nanoseconds(0L)
 	}
 }
 
 
-operator fun Int.times(other: Nanoseconds) =
+@ExperimentalTime
+inline fun Duration.toNanoseconds() =
+	Nanoseconds(inNanoseconds.toLong())
+
+
+inline operator fun Int.times(other: Nanoseconds) =
 	other.times(this)
 
 
-operator fun Long.times(other: Nanoseconds) =
+inline operator fun Long.times(other: Nanoseconds) =
 	other.times(this)

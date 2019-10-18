@@ -15,8 +15,9 @@ interface DateTimeComponent<Component : DateTimeComponent<Component, Measurement
 
 	interface CompanionInterface<Component : DateTimeComponent<Component, *>> {
 
-		val max: Component
-		val min: Component
+		// removed due to boxing
+//		val max: Component
+//		val min: Component
 
 		fun of(value: Long): Component
 	}

@@ -1,56 +1,58 @@
+@file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
+
 package com.github.fluidsonic.fluid.time
 
 
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class MinuteOfHour internal constructor(private val value: Byte) : DateTimeComponent<MinuteOfHour, Minutes> {
+inline class MinuteOfHour @PublishedApi internal constructor(@PublishedApi internal val value: Byte) : DateTimeComponent<MinuteOfHour, Minutes> {
 
-	override fun compareTo(other: MinuteOfHour) =
+	override inline fun compareTo(other: MinuteOfHour) =
 		value.compareTo(other.value)
 
 
-	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
 		of(transform(toLong()))
 
 
-	override fun minus(other: MinuteOfHour) =
+	override inline operator fun minus(other: MinuteOfHour) =
 		Minutes(toLong() - other.toLong())
 
 
-	override fun minus(other: Minutes) =
+	override inline operator fun minus(other: Minutes) =
 		map { it - other.toLong() }
 
 
-	override fun plus(other: Minutes) =
+	override inline operator fun plus(other: Minutes) =
 		map { it + other.toLong() }
 
 
-	override fun toInt() =
+	override inline fun toInt() =
 		value.toInt()
 
 
-	override fun toLong() =
+	override inline fun toLong() =
 		value.toLong()
 
 
-	override fun toString() =
+	override inline fun toString() =
 		value.toString()
 
 
 	companion object : DateTimeComponent.CompanionInterface<MinuteOfHour> {
 
-		override val max = unchecked(59)
-		override val min = unchecked(0)
+		/* override */ val max = unchecked(59)
+		/* override */ val min = unchecked(0)
 
 
-		override fun of(value: Long): MinuteOfHour {
+		override inline fun of(value: Long): MinuteOfHour {
 			check(value, inRange = min.toLong() .. max.toLong(), name = "minute [of hour]")
 
 			return unchecked(value)
 		}
 
 
-		internal fun unchecked(value: Long) =
+		@PublishedApi
+		internal inline fun unchecked(value: Long) =
 			MinuteOfHour(value.toByte())
 	}
 }

@@ -24,9 +24,10 @@ interface TemporalMeasurement<Measurement : TemporalMeasurement<Measurement>> : 
 
 	interface CompanionInterface<Measurement : TemporalMeasurement<Measurement>> {
 
-		val max: Measurement
-		val min: Measurement
-		val zero: Measurement
+		// removed due to boxing
+//		val max: Measurement
+//		val min: Measurement
+//		val zero: Measurement
 	}
 
 

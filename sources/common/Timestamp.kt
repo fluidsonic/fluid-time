@@ -67,7 +67,7 @@ class Timestamp private constructor(
 		minus(other.toSeconds())
 
 
-	operator fun minus(other: Duration) =
+	operator fun minus(other: PreciseDuration) =
 		minus(seconds = other.seconds, nanoseconds = other.partialNanoseconds)
 
 
@@ -100,7 +100,7 @@ class Timestamp private constructor(
 
 
 	operator fun minus(other: Timestamp) =
-		Duration.of(seconds = secondsSince1970 - other.secondsSince1970, nanoseconds = partialNanosecond - other.partialNanosecond)
+		PreciseDuration.of(seconds = secondsSince1970 - other.secondsSince1970, nanoseconds = partialNanosecond - other.partialNanosecond)
 
 
 	fun nanosecondsSince(other: Timestamp) =
@@ -115,7 +115,7 @@ class Timestamp private constructor(
 		plus(other.toSeconds())
 
 
-	operator fun plus(other: Duration) =
+	operator fun plus(other: PreciseDuration) =
 		plus(seconds = other.seconds, nanoseconds = other.partialNanoseconds)
 
 
@@ -171,7 +171,7 @@ class Timestamp private constructor(
 		val firstIn1970 = unchecked(secondsSince1970 = Seconds.zero)
 
 
-		fun now(clock: Clock = Clock.systemUtc) =
+		fun now(clock: WallClock = WallClock.systemUtc) =
 			clock.timestamp()
 
 

@@ -104,8 +104,7 @@ class LocalDate private constructor(
 
 
 		fun of(year: Year, month: MonthOfYear, day: DayOfMonth): LocalDate {
-			if (day > month.lastDayIn(year))
-				throw IllegalArgumentException("'$day' is not a valid day in '${month.name} $year'")
+			require(day <= month.lastDayIn(year)) { "'$day' is not a valid day in '${month.name} $year'" }
 
 			return unchecked(year, month, day)
 		}

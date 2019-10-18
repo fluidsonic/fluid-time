@@ -1,104 +1,105 @@
+@file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
+
 package com.github.fluidsonic.fluid.time
 
 import kotlin.math.*
 
 
-inline class Years(private val value: Long) :
+inline class Years(@PublishedApi internal val value: Long) :
 	TemporalMeasurement.LongBased<Years>,
 	DateMeasurement<Years> {
 
 	constructor(value: Int) : this(value.toLong())
 
 
-	override val absolute
+	override inline val absolute
 		get() = map(Long::absoluteValue)
 
 
-	override fun compareTo(other: Years) =
+	override inline fun compareTo(other: Years) =
 		value.compareTo(other.value)
 
 
-	override operator fun div(other: Int) =
+	override inline operator fun div(other: Int) =
 		div(other.toLong())
 
 
-	override operator fun div(other: Long) =
+	override inline operator fun div(other: Long) =
 		Years(value / other)
 
 
-	override operator fun div(other: Years) =
+	override inline operator fun div(other: Years) =
 		value / other.value
 
 
-	override val isNegative
+	override inline val isNegative
 		get() = value < 0
 
 
-	override val isZero
+	override inline val isZero
 		get() = value == 0L
 
 
-	@Suppress("OVERRIDE_BY_INLINE")
 	override inline fun map(transform: (Long) -> Long) =
 		Years(transform(toLong()))
 
 
-	override operator fun minus(other: Years) =
+	override inline operator fun minus(other: Years) =
 		Years(value - other.value)
 
 
-	override operator fun plus(other: Years) =
+	override inline operator fun plus(other: Years) =
 		Years(value + other.value)
 
 
-	override operator fun rem(other: Int) =
+	override inline operator fun rem(other: Int) =
 		rem(other.toLong())
 
 
-	override operator fun rem(other: Long) =
+	override inline operator fun rem(other: Long) =
 		Years(value % other)
 
 
-	override operator fun rem(other: Years) =
+	override inline operator fun rem(other: Years) =
 		Years(value % other.value)
 
 
-	override operator fun times(other: Int) =
+	override inline operator fun times(other: Int) =
 		times(other.toLong())
 
 
-	override operator fun times(other: Long) =
+	override inline operator fun times(other: Long) =
 		Years(value * other)
 
 
-	override fun toInt() =
+	override inline fun toInt() =
 		value.toInt()
 
 
-	override fun toLong() =
+	override inline fun toLong() =
 		value
 
 
-	override fun toString() =
+	override inline fun toString() =
 		value.toString()
 
 
-	override operator fun unaryMinus() =
+	override inline operator fun unaryMinus() =
 		Years(-value)
 
 
-	companion object : DateMeasurement.CompanionInterface<Years> {
+	companion object /* : DateMeasurement.CompanionInterface<Years> */ {
 
-		override val max = Years(Long.MAX_VALUE)
-		override val min = Years(Long.MIN_VALUE)
-		override val zero = Years(0L)
+		/* override */ val max = Years(Long.MAX_VALUE)
+		/* override */ val min = Years(Long.MIN_VALUE)
+		/* override */ val zero = Years(0L)
 	}
 }
 
 
-operator fun Int.times(other: Years) =
+inline operator fun Int.times(other: Years) =
 	other.times(this)
 
 
-operator fun Long.times(other: Years) =
+inline operator fun Long.times(other: Years) =
 	other.times(this)
