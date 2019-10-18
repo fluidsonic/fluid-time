@@ -5,6 +5,7 @@ interface TemporalMeasurement<Measurement : TemporalMeasurement<Measurement>> : 
 
 	val absolute: Measurement
 	val isNegative: Boolean
+	val isPositive: Boolean
 	val isZero: Boolean
 
 	operator fun div(other: Int): Measurement

@@ -38,6 +38,10 @@ inline class Hours(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 

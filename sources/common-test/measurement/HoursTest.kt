@@ -67,12 +67,12 @@ object HoursTest {
 		assertEquals(10.hours, Hours(10).toDuration())
 		assertEquals(10, Hours(10).toInt())
 		assertEquals(10L, Hours(10).toLong())
-		assertEquals(Microseconds(36_000_000_000L), Hours(10).toMicroseconds())
-		assertEquals(Milliseconds(36_000_000L), Hours(10).toMilliseconds())
+		assertEquals(Microseconds(36_000_000_000), Hours(10).toMicroseconds())
+		assertEquals(Milliseconds(36_000_000), Hours(10).toMilliseconds())
 		assertEquals(Minutes(600L), Hours(10).toMinutes())
-		assertEquals(Nanoseconds(36_000_000_000_000L), Hours(10).toNanoseconds())
+		assertEquals(Nanoseconds(36_000_000_000_000), Hours(10).toNanoseconds())
 		assertEquals(PreciseDuration.of(hours = 10), Hours(10).toPreciseDuration())
-		assertEquals(Seconds(36_000L), Hours(10).toSeconds())
+		assertEquals(Seconds(36_000), Hours(10).toSeconds())
 		assertEquals("10", Hours(10).toString())
 
 		assertEquals(Hours(10), 10.hours.toHours())
@@ -80,23 +80,23 @@ object HoursTest {
 
 
 	@Test
-	fun testIsNegative() {
+	fun testMap() {
+		assertEquals(Hours(20), Hours(10).map { it * 2 })
+	}
+
+
+	@Test
+	fun testTests() {
 		assertTrue(Hours(-1).isNegative)
 		assertFalse(Hours(0).isNegative)
 		assertFalse(Hours(1).isNegative)
-	}
 
+		assertFalse(Hours(-1).isPositive)
+		assertFalse(Hours(0).isPositive)
+		assertTrue(Hours(1).isPositive)
 
-	@Test
-	fun testIsZero() {
 		assertFalse(Hours(-1).isZero)
 		assertTrue(Hours(0).isZero)
 		assertFalse(Hours(1).isZero)
-	}
-
-
-	@Test
-	fun testMap() {
-		assertEquals(Hours(20), Hours(10).map { it * 2 })
 	}
 }

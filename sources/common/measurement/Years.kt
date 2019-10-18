@@ -36,6 +36,10 @@ inline class Years(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 
@@ -88,7 +92,7 @@ inline class Years(@PublishedApi internal val value: Long) :
 		Years(-value)
 
 
-	companion object /* : DateMeasurement.CompanionInterface<Years> */ {
+	companion object : DateMeasurement.CompanionInterface<Years> {
 
 		/* override */ val max = Years(Long.MAX_VALUE)
 		/* override */ val min = Years(Long.MIN_VALUE)

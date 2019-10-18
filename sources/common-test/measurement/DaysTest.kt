@@ -66,12 +66,12 @@ object DaysTest {
 		assertEquals(Hours(240), Days(10).toHours())
 		assertEquals(10, Days(10).toInt())
 		assertEquals(10L, Days(10).toLong())
-		assertEquals(Microseconds(864_000_000_000L), Days(10).toMicroseconds())
-		assertEquals(Milliseconds(864_000_000L), Days(10).toMilliseconds())
+		assertEquals(Microseconds(864_000_000_000), Days(10).toMicroseconds())
+		assertEquals(Milliseconds(864_000_000), Days(10).toMilliseconds())
 		assertEquals(Minutes(14_400L), Days(10).toMinutes())
-		assertEquals(Nanoseconds(864_000_000_000_000L), Days(10).toNanoseconds())
+		assertEquals(Nanoseconds(864_000_000_000_000), Days(10).toNanoseconds())
 		assertEquals(PreciseDuration.of(days = 10), Days(10).toPreciseDuration())
-		assertEquals(Seconds(864_000L), Days(10).toSeconds())
+		assertEquals(Seconds(864_000), Days(10).toSeconds())
 		assertEquals("10", Days(10).toString())
 
 		assertEquals(Days(10), 10.days.toDays())
@@ -79,23 +79,23 @@ object DaysTest {
 
 
 	@Test
-	fun testIsNegative() {
+	fun testMap() {
+		assertEquals(Days(20), Days(10).map { it * 2 })
+	}
+
+
+	@Test
+	fun testTests() {
 		assertTrue(Days(-1).isNegative)
 		assertFalse(Days(0).isNegative)
 		assertFalse(Days(1).isNegative)
-	}
 
+		assertFalse(Days(-1).isPositive)
+		assertFalse(Days(0).isPositive)
+		assertTrue(Days(1).isPositive)
 
-	@Test
-	fun testIsZero() {
 		assertFalse(Days(-1).isZero)
 		assertTrue(Days(0).isZero)
 		assertFalse(Days(1).isZero)
-	}
-
-
-	@Test
-	fun testMap() {
-		assertEquals(Days(20), Days(10).map { it * 2 })
 	}
 }

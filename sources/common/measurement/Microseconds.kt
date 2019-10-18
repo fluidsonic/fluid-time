@@ -38,6 +38,10 @@ inline class Microseconds(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 
@@ -128,15 +132,15 @@ inline class Microseconds(@PublishedApi internal val value: Long) :
 		Microseconds(-value)
 
 
-	companion object /* : TimeMeasurement.CompanionInterface<Microseconds> */ {
+	companion object : TimeMeasurement.CompanionInterface<Microseconds> {
 
 		/* override */ val max = Microseconds(Long.MAX_VALUE)
 		/* override */ val min = Microseconds(Long.MIN_VALUE)
+		val perDay = Microseconds(86_400_000_000L)
+		val perHour = Microseconds(3_600_000_000L)
 		val perMillisecond = Microseconds(1_000L)
-		val perSecond = Milliseconds.perSecond.toMicroseconds()
-		val perMinute = Seconds.perMinute.toMicroseconds()
-		val perHour = Minutes.perHour.toMicroseconds()
-		val perDay = Hours.perDay.toMicroseconds()
+		val perMinute = Microseconds(60_000_000L)
+		val perSecond = Microseconds(1_000_000L)
 		/* override */ val zero = Microseconds(0L)
 	}
 }

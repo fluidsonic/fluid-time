@@ -38,6 +38,10 @@ inline class Minutes(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 
@@ -133,7 +137,7 @@ inline class Minutes(@PublishedApi internal val value: Long) :
 		/* override */ val max = Minutes(Long.MAX_VALUE)
 		/* override */ val min = Minutes(Long.MIN_VALUE)
 		val perHour = Minutes(60L)
-		val perDay = Hours.perDay.toMinutes()
+		val perDay = Minutes(1_440L)
 		/* override */ val zero = Minutes(0L)
 	}
 }

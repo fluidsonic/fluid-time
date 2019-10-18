@@ -4,8 +4,8 @@ package com.github.fluidsonic.fluid.time
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.*
-import kotlin.math.*
 import kotlin.time.*
+import kotlin.time.Duration
 
 
 // TODO handle overflows
@@ -16,6 +16,8 @@ class PreciseDuration private constructor(
 ) : TimeMeasurement<PreciseDuration> {
 
 	init {
+		// TODO check that both parameters have same sign
+
 		freeze()
 	}
 
@@ -33,16 +35,18 @@ class PreciseDuration private constructor(
 	}
 
 
+	@Deprecated(message = "not yet implemented", level = DeprecationLevel.HIDDEN)
 	override operator fun div(other: Int) =
-		div(other.toLong())
+		TODO("how to implement this?") // div(other.toLong())
 
 
+	@Deprecated(message = "not yet implemented", level = DeprecationLevel.HIDDEN)
 	override operator fun div(other: Long) =
 		when (other) {
 			0L -> throw ArithmeticException("/ by zero")
 			1L -> this
 			-1L -> -this
-			else -> unchecked(seconds = seconds / other, partialNanoseconds = partialNanoseconds / other) // TODO probably not correct
+			else -> TODO("how to implement this?")
 		}
 
 
@@ -65,6 +69,10 @@ class PreciseDuration private constructor(
 
 	override val isNegative
 		get() = seconds.isNegative || partialNanoseconds.isNegative
+
+
+	override val isPositive
+		get() = seconds.isPositive || partialNanoseconds.isPositive
 
 
 	override val isZero
@@ -275,12 +283,12 @@ class PreciseDuration private constructor(
 		seconds.toMilliseconds() + partialNanoseconds.toMilliseconds()
 
 
-	override inline fun toNanoseconds() =
-		seconds.toNanoseconds() + partialNanoseconds
-
-
 	override inline fun toMinutes() =
 		seconds.toMinutes()
+
+
+	override inline fun toNanoseconds() =
+		seconds.toNanoseconds() + partialNanoseconds
 
 
 	@Deprecated(message = "redundant conversion", level = DeprecationLevel.HIDDEN)
@@ -296,20 +304,27 @@ class PreciseDuration private constructor(
 		if (isZero) return "PT0S"
 
 		return buildString(capacity = 24) {
-			val hours = seconds / Seconds.perHour
-			val minutes = seconds % Seconds.perHour / Seconds.perMinute
-			val seconds = (seconds % Seconds.perMinute).toLong()
-			val nanoseconds = partialNanoseconds.toLong()
+			val totalSeconds = seconds.absolute
+			val hours = totalSeconds / Seconds.perHour
+			val minutes = totalSeconds % Seconds.perHour / Seconds.perMinute
+			val seconds = (totalSeconds % Seconds.perMinute).toLong()
+			val nanoseconds = partialNanoseconds.absolute.toLong()
+
+			if (isNegative)
+				append('-')
 
 			append("PT")
+
 			if (hours != 0L) {
 				append(hours)
 				append('H')
 			}
+
 			if (minutes != 0L) {
 				append(minutes)
 				append('M')
 			}
+
 			if (seconds != 0L || nanoseconds != 0L || length <= 2) {
 				if (seconds != 0L)
 					append(seconds)
@@ -323,7 +338,7 @@ class PreciseDuration private constructor(
 				if (nanoseconds != 0L) {
 					append('.')
 
-					val nanosecondsString = nanoseconds.absoluteValue.toString()
+					val nanosecondsString = nanoseconds.toString()
 					for (length in nanosecondsString.length until 9)
 						append('0')
 
@@ -391,7 +406,6 @@ class PreciseDuration private constructor(
 			)
 
 
-		// FIXME broken if values are negative
 		fun of(
 			days: Days = Days.zero,
 			hours: Hours = Hours.zero,
@@ -415,6 +429,20 @@ class PreciseDuration private constructor(
 			if (!partialNanoseconds.isZero) {
 				totalSeconds += partialNanoseconds.toSeconds()
 				partialNanoseconds %= Nanoseconds.perSecond.toLong()
+			}
+
+			when {
+				totalSeconds.isNegative ->
+					if (partialNanoseconds.isPositive) {
+						totalSeconds += Seconds(1)
+						partialNanoseconds = Nanoseconds(1_000_000_000) - partialNanoseconds
+					}
+
+				totalSeconds.isPositive ->
+					if (partialNanoseconds.isNegative) {
+						totalSeconds -= Seconds(1)
+						partialNanoseconds = Nanoseconds(1_000_000_000) + partialNanoseconds
+					}
 			}
 
 			return unchecked(seconds = totalSeconds, partialNanoseconds = partialNanoseconds)
@@ -458,22 +486,14 @@ class PreciseDuration private constructor(
 }
 
 
-private fun parseFraction(text: String): Int {
-	if (text.isEmpty()) return 0
-
-	var fraction = text.toInt()
-	for (i in text.length until 9)
-		fraction *= 10
-
-	return fraction
-}
-
-
-private fun parseNumber(text: String, multiplier: Int): Long {
-	if (text.isEmpty()) return 0
-
-	return text.toLong() * multiplier
-}
+@ExperimentalTime
+inline fun Duration.toPreciseDuration() =
+	inSeconds.let { seconds ->
+		PreciseDuration.of(
+			seconds = seconds.toLong(),
+			nanoseconds = ((seconds % 1) * 1_000_000_000L).toLong() % 1_000_000_000L
+		)
+	}
 
 
 operator fun Int.times(other: PreciseDuration) =
@@ -499,4 +519,22 @@ internal object PreciseDurationSerializer : KSerializer<PreciseDuration> {
 	override fun serialize(encoder: Encoder, obj: PreciseDuration) {
 		encoder.encodeString(obj.toString())
 	}
+}
+
+
+private fun parseFraction(text: String): Int {
+	if (text.isEmpty()) return 0
+
+	var fraction = text.toInt()
+	for (i in text.length until 9)
+		fraction *= 10
+
+	return fraction
+}
+
+
+private fun parseNumber(text: String, multiplier: Int): Long {
+	if (text.isEmpty()) return 0
+
+	return text.toLong() * multiplier
 }

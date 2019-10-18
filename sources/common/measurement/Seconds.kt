@@ -38,6 +38,10 @@ inline class Seconds(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 
@@ -132,9 +136,9 @@ inline class Seconds(@PublishedApi internal val value: Long) :
 
 		/* override */ val max = Seconds(Long.MAX_VALUE)
 		/* override */ val min = Seconds(Long.MIN_VALUE)
+		val perDay = Seconds(86_400L)
+		val perHour = Seconds(3_600L)
 		val perMinute = Seconds(60L)
-		val perHour = Minutes.perHour.toSeconds()
-		val perDay = Hours.perDay.toSeconds()
 		/* override */ val zero = Seconds(0L)
 	}
 }

@@ -36,6 +36,10 @@ inline class Months(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 
@@ -90,8 +94,8 @@ inline class Months(@PublishedApi internal val value: Long) :
 
 	companion object : DateMeasurement.CompanionInterface<Months> {
 
-		/* override */ val max = Months(Long.MIN_VALUE)
-		/* override */ val min = Months(Long.MAX_VALUE)
+		/* override */ val max = Months(Long.MAX_VALUE)
+		/* override */ val min = Months(Long.MIN_VALUE)
 		/* override */ val zero = Months(0L)
 	}
 }

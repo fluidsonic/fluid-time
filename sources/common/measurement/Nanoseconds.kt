@@ -38,6 +38,10 @@ inline class Nanoseconds(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 
@@ -132,12 +136,12 @@ inline class Nanoseconds(@PublishedApi internal val value: Long) :
 
 		/* override */ val max = Nanoseconds(Long.MAX_VALUE)
 		/* override */ val min = Nanoseconds(Long.MIN_VALUE)
+		val perDay = Nanoseconds(86_400_000_000_000L)
+		val perHour = Nanoseconds(3_600_000_000_000L)
 		val perMicrosecond = Nanoseconds(1_000L)
-		val perMillisecond = Microseconds.perMillisecond.toNanoseconds()
-		val perSecond = Milliseconds.perSecond.toNanoseconds()
-		val perMinute = Seconds.perMinute.toNanoseconds()
-		val perHour = Minutes.perHour.toNanoseconds()
-		val perDay = Hours.perDay.toNanoseconds()
+		val perMillisecond = Nanoseconds(1_000_000L)
+		val perMinute = Nanoseconds(60_000_000_000L)
+		val perSecond = Nanoseconds(1_000_000_000L)
 		/* override */ val zero = Nanoseconds(0L)
 	}
 }

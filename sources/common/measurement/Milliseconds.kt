@@ -38,6 +38,10 @@ inline class Milliseconds(@PublishedApi internal val value: Long) :
 		get() = value < 0
 
 
+	override inline val isPositive
+		get() = value > 0
+
+
 	override inline val isZero
 		get() = value == 0L
 
@@ -132,10 +136,10 @@ inline class Milliseconds(@PublishedApi internal val value: Long) :
 
 		/* override */ val max = Milliseconds(Long.MAX_VALUE)
 		/* override */ val min = Milliseconds(Long.MIN_VALUE)
+		val perDay = Milliseconds(86_400_000L)
+		val perHour = Milliseconds(3_600_000L)
+		val perMinute = Milliseconds(60_000L)
 		val perSecond = Milliseconds(1_000L)
-		val perMinute = Seconds.perMinute.toMilliseconds()
-		val perHour = Minutes.perHour.toMilliseconds()
-		val perDay = Hours.perDay.toMilliseconds()
 		/* override */ val zero = Milliseconds(0L)
 	}
 }
