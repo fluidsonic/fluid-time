@@ -9,6 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: xcodebuild -version
+      - run: sudo xcode-select -switch /Applications/Xcode_11.app
       - run: xcrun simctl list
       - run: ./gradlew objcTest
   jdk8:
