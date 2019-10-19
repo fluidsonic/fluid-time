@@ -13,21 +13,15 @@ jobs:
       - run: xcodebuild -version
       - run: xcrun simctl list
       - run: ./gradlew objcTest
-  jdk8:
-    name: JDK 8
+  jdk:
+    name: JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java_version: ['1.8', '9', '10', '11', '12', '13']
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-java@v1
       with:
-        java-version: '1.8'
-    - run: ./gradlew jdk7test jdk8Test
-  jdk13:
-    name: JDK 13
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '13'
+        java-version: ${{ matrix.java_version }}
     - run: ./gradlew jdk7test jdk8Test
