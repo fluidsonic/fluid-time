@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
 
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.*
@@ -76,7 +76,7 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 @Serializer(forClass = DayOfWeek::class)
 internal object DayOfWeekSerializer : KSerializer<DayOfWeek> {
 
-	override val descriptor = StringDescriptor.withName("com.github.fluidsonic.fluid.time.DayOfWeek")
+	override val descriptor = StringDescriptor.withName("io.fluidsonic.time.DayOfWeek")
 
 
 	override fun deserialize(decoder: Decoder) =

@@ -1,4 +1,4 @@
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 
 interface TemporalMeasurement<Measurement : TemporalMeasurement<Measurement>> : Comparable<Measurement> {

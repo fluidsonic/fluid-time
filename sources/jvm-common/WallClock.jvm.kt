@@ -1,4 +1,4 @@
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 
 internal actual fun platform_millisecondsSince1970() =

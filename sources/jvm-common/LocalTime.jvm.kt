@@ -1,4 +1,4 @@
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 
 fun LocalTime.toPlatform(): PlatformLocalTime =

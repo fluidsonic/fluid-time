@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
 
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.*
@@ -507,7 +507,7 @@ operator fun Long.times(other: PreciseDuration) =
 @Serializer(forClass = PreciseDuration::class)
 internal object PreciseDurationSerializer : KSerializer<PreciseDuration> {
 
-	override val descriptor = StringDescriptor.withName("com.github.fluidsonic.fluid.time.PreciseDuration")
+	override val descriptor = StringDescriptor.withName("io.fluidsonic.time.PreciseDuration")
 
 
 	override fun deserialize(decoder: Decoder) =

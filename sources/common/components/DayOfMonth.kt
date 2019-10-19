@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
 
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")

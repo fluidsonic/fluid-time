@@ -1,4 +1,4 @@
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 
 interface DateTimeComponent<Component : DateTimeComponent<Component, Measurement>, Measurement : TemporalMeasurement<Measurement>> : Comparable<Component> {

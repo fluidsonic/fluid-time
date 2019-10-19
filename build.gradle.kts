@@ -1,16 +1,13 @@
-import com.github.fluidsonic.fluid.library.*
+import io.fluidsonic.gradle.*
 
 plugins {
-	id("com.github.fluidsonic.fluid-library") version "0.9.33"
+	id("io.fluidsonic.gradle") version "1.0.0"
 }
 
-fluidLibrary {
-	name = "fluid-time"
-	version = "0.9.14"
-}
+fluidLibrary(name = "time", version = "0.9.15")
 
 fluidLibraryVariant {
-	description = "multiplatform date & time library"
+	description = "Multiplatform date & time library"
 
 	common {
 		dependencies {

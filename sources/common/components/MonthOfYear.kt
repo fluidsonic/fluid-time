@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
 
-package com.github.fluidsonic.fluid.time
+package io.fluidsonic.time
 
 
 enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
