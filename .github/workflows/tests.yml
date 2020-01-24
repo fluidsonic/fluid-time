@@ -19,6 +19,8 @@ jobs:
     strategy:
       matrix:
         java_version: ['1.8', '9', '10', '11', '12', '13']
+    env:
+      GRADLE_OPTS: -Xmx1g
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-java@v1
