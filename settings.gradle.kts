@@ -6,5 +6,3 @@ pluginManagement {
 }
 
 rootProject.name = "fluid-time"
-
-enableFeaturePreview("GRADLE_METADATA")
