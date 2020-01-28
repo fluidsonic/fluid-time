@@ -1,5 +1,7 @@
 package io.fluidsonic.time
 
+import java.util.*
+
 
 actual fun Timestamp.toDayOfWeek(timeZone: TimeZone) =
 	toPlatform().atZone(timeZone.toPlatform()).dayOfWeek.toCommon()
@@ -19,6 +21,10 @@ actual fun Timestamp.toLocalTime(timeZone: TimeZone) =
 
 fun Timestamp.toPlatform(): PlatformTimestamp =
 	PlatformTimestamp.ofEpochSecond(secondsSince1970.toLong(), partialNanosecond.toLong())
+
+
+fun Timestamp.toPlatformDate(): Date =
+	Date(millisecondsSince1970.value)
 
 
 fun PlatformTimestamp.toCommon() =
