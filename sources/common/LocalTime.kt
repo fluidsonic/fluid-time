@@ -121,6 +121,14 @@ class LocalTime private constructor(
 		val noon = fullHours[12]
 
 
+		fun now(clock: WallClock = WallClock.systemUtc) =
+			clock.localTime()
+
+
+		fun now(timeZone: TimeZone) =
+			LocalDate.now(clock = WallClock.system(timeZone))
+
+
 		fun of(hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
 			of(HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 

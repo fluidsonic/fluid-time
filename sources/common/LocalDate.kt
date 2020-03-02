@@ -58,6 +58,14 @@ class LocalDate private constructor(
 		day.hashCode() xor month.hashCode() xor year.hashCode()
 
 
+	fun periodSince(other: LocalDate) =
+		Period.between(other, this)
+
+
+	fun periodUntil(other: LocalDate) =
+		other.periodSince(this)
+
+
 	override fun toString() =
 		buildString(capacity = 10) { toString(this) }
 
@@ -97,6 +105,14 @@ class LocalDate private constructor(
 		private val iso8601Regex = Regex("([+-]?)(\\d{4,10})-(\\d{2})-(\\d{2})")
 
 		val firstIn1970 = unchecked(year = 1970, month = 1, day = 1)
+
+
+		fun now(clock: WallClock = WallClock.systemUtc) =
+			clock.localDate()
+
+
+		fun now(timeZone: TimeZone) =
+			now(clock = WallClock.system(timeZone))
 
 
 		fun of(year: Long, month: Long, day: Long) =
@@ -140,9 +156,22 @@ class LocalDate private constructor(
 
 
 expect fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp
-expect fun LocalDate.minusDays(daysToSubtract: Long): LocalDate
-expect fun LocalDate.plusDays(daysToAdd: Long): LocalDate
+expect fun LocalDate.daysSince(startExclusive: LocalDate): Days
+expect fun LocalDate.daysUntil(endExclusive: LocalDate): Days
 expect fun LocalDate.toDayOfWeek(): DayOfWeek
+
+operator fun LocalDate.minus(days: Days) =
+	this + -days
+
+operator fun LocalDate.minus(months: Months) =
+	this + -months
+
+operator fun LocalDate.minus(years: Years) =
+	this + -years
+
+expect operator fun LocalDate.plus(days: Days): LocalDate
+expect operator fun LocalDate.plus(months: Months): LocalDate
+expect operator fun LocalDate.plus(years: Years): LocalDate
 
 
 fun LocalDate.atStartOfDay() =

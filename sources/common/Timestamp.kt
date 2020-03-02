@@ -48,7 +48,7 @@ class Timestamp private constructor(
 
 
 	fun microsecondsUntil(other: Timestamp) =
-		durationSince(other).toMicroseconds() // TODO optimize
+		durationUntil(other).toMicroseconds() // TODO optimize
 
 
 	fun millisecondsSince(other: Timestamp) =
@@ -56,7 +56,7 @@ class Timestamp private constructor(
 
 
 	fun millisecondsUntil(other: Timestamp) =
-		durationSince(other).toMilliseconds() // TODO optimize
+		durationUntil(other).toMilliseconds() // TODO optimize
 
 
 	val millisecondsSince1970
@@ -108,7 +108,7 @@ class Timestamp private constructor(
 
 
 	fun nanosecondsUntil(other: Timestamp) =
-		durationSince(other).toNanoseconds() // TODO optimize
+		durationUntil(other).toNanoseconds() // TODO optimize
 
 
 	operator fun plus(other: Days) =
@@ -152,7 +152,7 @@ class Timestamp private constructor(
 
 
 	fun secondsUntil(other: Timestamp) =
-		durationSince(other).toSeconds() // TODO optimize
+		durationUntil(other).toSeconds() // TODO optimize
 
 
 	override fun toString() =
@@ -180,6 +180,7 @@ class Timestamp private constructor(
 
 
 		// FIXME handle negative nanoseconds
+		// FIXME rename to not have 1970 info as parameter name
 		fun of(secondsSince1970: Seconds, nanoseconds: Nanoseconds = Nanoseconds.zero): Timestamp {
 			var totalSecondsSince1970 = secondsSince1970
 			var partialNanoseconds = nanoseconds

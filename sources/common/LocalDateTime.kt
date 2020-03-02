@@ -51,6 +51,14 @@ class LocalDateTime private constructor(
 		val firstIn1970 = LocalDate.firstIn1970.atTime(LocalTime.min)
 
 
+		fun now(clock: WallClock = WallClock.systemUtc) =
+			clock.localDateTime()
+
+
+		fun now(timeZone: TimeZone) =
+			LocalDate.now(clock = WallClock.system(timeZone))
+
+
 		fun of(year: Long, month: Long, day: Long, hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
 			of(Year.of(year), MonthOfYear.of(month), DayOfMonth.of(day), HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
