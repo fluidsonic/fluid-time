@@ -59,7 +59,7 @@ class LocalDateTime private constructor(
 			LocalDate.now(clock = WallClock.system(timeZone))
 
 
-		fun of(year: Long, month: Long, day: Long, hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
+		fun of(year: Long, month: Long, day: Long, hour: Long = 0, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
 			of(Year.of(year), MonthOfYear.of(month), DayOfMonth.of(day), HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
 
