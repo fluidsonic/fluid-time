@@ -12,8 +12,8 @@ interface WallClock {
 	fun localDate() = timestamp().toLocalDate(timeZone)
 	fun localDateTime() = timestamp().toLocalDateTime(timeZone)
 	fun localTime() = timestamp().toLocalTime(timeZone)
-	fun millisecondsSince1970(): Milliseconds
-	fun secondsSince1970(): Seconds
+	fun millisecondsSince1970() = timestamp().millisecondsSince1970
+	fun secondsSince1970() = timestamp().secondsSince1970
 	fun timestamp(): Timestamp
 	fun withTimeZone(timeZone: TimeZone): WallClock
 
