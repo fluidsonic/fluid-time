@@ -4,7 +4,7 @@ plugins {
 	id("io.fluidsonic.gradle") version "1.0.9"
 }
 
-fluidLibrary(name = "time", version = "0.9.17")
+fluidLibrary(name = "time", version = "0.9.18")
 
 fluidLibraryVariant {
 	description = "Multiplatform date & time library"
