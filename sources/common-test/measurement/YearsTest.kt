@@ -60,7 +60,7 @@ object YearsTest {
 
 
 	@Test
-	@UseExperimental(ExperimentalTime::class)
+	@OptIn(ExperimentalTime::class)
 	fun testConversion() {
 		assertEquals(10, Years(10).toInt())
 		assertEquals(10L, Years(10).toLong())

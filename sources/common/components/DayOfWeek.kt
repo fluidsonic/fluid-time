@@ -3,7 +3,6 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.*
 
 
 @Serializable(with = DayOfWeekSerializer::class)
@@ -76,7 +75,7 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 @Serializer(forClass = DayOfWeek::class)
 internal object DayOfWeekSerializer : KSerializer<DayOfWeek> {
 
-	override val descriptor = StringDescriptor.withName("io.fluidsonic.time.DayOfWeek")
+	override val descriptor = PrimitiveDescriptor("io.fluidsonic.time.DayOfWeek", PrimitiveKind.STRING)
 
 
 	override fun deserialize(decoder: Decoder) =
@@ -86,7 +85,7 @@ internal object DayOfWeekSerializer : KSerializer<DayOfWeek> {
 		}
 
 
-	override fun serialize(encoder: Encoder, obj: DayOfWeek) {
-		encoder.encodeString(obj.name)
+	override fun serialize(encoder: Encoder, value: DayOfWeek) {
+		encoder.encodeString(value.name)
 	}
 }

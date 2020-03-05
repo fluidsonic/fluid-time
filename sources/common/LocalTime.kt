@@ -193,7 +193,7 @@ internal object LocalTimeSerializer : KSerializer<LocalTime> {
 		}
 
 
-	override fun serialize(encoder: Encoder, obj: LocalTime) {
-		encoder.encodeString(obj.toString())
+	override fun serialize(encoder: Encoder, value: LocalTime) {
+		encoder.encodeString(value.toString())
 	}
 }

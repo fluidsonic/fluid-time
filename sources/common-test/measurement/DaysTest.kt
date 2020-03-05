@@ -60,7 +60,7 @@ object DaysTest {
 
 
 	@Test
-	@UseExperimental(ExperimentalTime::class)
+	@OptIn(ExperimentalTime::class)
 	fun testConversion() {
 		assertEquals(10.days, Days(10).toDuration())
 		assertEquals(Hours(240), Days(10).toHours())

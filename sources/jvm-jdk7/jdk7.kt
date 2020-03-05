@@ -1,6 +1,7 @@
 package io.fluidsonic.time
 
 
+internal typealias PlatformChronoUnit = org.threeten.bp.temporal.ChronoUnit
 internal typealias PlatformDayOfWeek = org.threeten.bp.DayOfWeek
 internal typealias PlatformLocalDate = org.threeten.bp.LocalDate
 internal typealias PlatformLocalDateTime = org.threeten.bp.LocalDateTime

@@ -3,7 +3,6 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.*
 import kotlin.time.*
 import kotlin.time.Duration
 
@@ -507,7 +506,7 @@ operator fun Long.times(other: PreciseDuration) =
 @Serializer(forClass = PreciseDuration::class)
 internal object PreciseDurationSerializer : KSerializer<PreciseDuration> {
 
-	override val descriptor = StringDescriptor.withName("io.fluidsonic.time.PreciseDuration")
+	override val descriptor = PrimitiveDescriptor("io.fluidsonic.time.PreciseDuration", PrimitiveKind.STRING)
 
 
 	override fun deserialize(decoder: Decoder) =
@@ -516,8 +515,8 @@ internal object PreciseDurationSerializer : KSerializer<PreciseDuration> {
 		}
 
 
-	override fun serialize(encoder: Encoder, obj: PreciseDuration) {
-		encoder.encodeString(obj.toString())
+	override fun serialize(encoder: Encoder, value: PreciseDuration) {
+		encoder.encodeString(value.toString())
 	}
 }
 

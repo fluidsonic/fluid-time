@@ -4,7 +4,6 @@ import io.fluidsonic.time.PlatformTimeZoneStatic.knownTimeZoneIds
 import io.fluidsonic.time.PlatformTimeZoneStatic.systemTimeZoneId
 import io.fluidsonic.time.PlatformTimeZoneStatic.timeZoneWithId
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.*
 
 
 @Serializable(with = TimeZoneSerializer::class)
@@ -80,7 +79,7 @@ internal fun PlatformTimeZone.toCommon() =
 @Serializer(forClass = TimeZone::class)
 internal object TimeZoneSerializer : KSerializer<TimeZone> {
 
-	override val descriptor = StringDescriptor.withName("io.fluidsonic.time.TimeZone")
+	override val descriptor = PrimitiveDescriptor("io.fluidsonic.time.TimeZone", PrimitiveKind.STRING)
 
 
 	override fun deserialize(decoder: Decoder) =
@@ -89,7 +88,7 @@ internal object TimeZoneSerializer : KSerializer<TimeZone> {
 		}
 
 
-	override fun serialize(encoder: Encoder, obj: TimeZone) {
-		encoder.encodeString(obj.id)
+	override fun serialize(encoder: Encoder, value: TimeZone) {
+		encoder.encodeString(value.id)
 	}
 }

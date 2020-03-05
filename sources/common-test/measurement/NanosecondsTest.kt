@@ -66,7 +66,7 @@ object NanosecondsTest {
 
 
 	@Test
-	@UseExperimental(ExperimentalTime::class)
+	@OptIn(ExperimentalTime::class)
 	fun testConversion() {
 		assertEquals(Days(1), Nanoseconds(86_400_000_000_000).toDays())
 		assertEquals(10.nanoseconds, Nanoseconds(10).toDuration())

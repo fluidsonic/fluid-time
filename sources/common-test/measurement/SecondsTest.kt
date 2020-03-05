@@ -63,7 +63,7 @@ object SecondsTest {
 
 
 	@Test
-	@UseExperimental(ExperimentalTime::class)
+	@OptIn(ExperimentalTime::class)
 	fun testConversion() {
 		assertEquals(Days(1), Seconds(86_400).toDays())
 		assertEquals(10.seconds, Seconds(10).toDuration())

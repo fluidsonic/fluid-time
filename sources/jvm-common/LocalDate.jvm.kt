@@ -1,18 +1,16 @@
 package io.fluidsonic.time
 
-import java.time.temporal.*
-
 
 actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp =
 	toPlatform().atStartOfDay(timeZone.toPlatform()).toInstant().toCommon()
 
 
 actual fun LocalDate.daysSince(startExclusive: LocalDate): Days =
-	Days(toPlatform().until(startExclusive.toPlatform(), ChronoUnit.DAYS))
+	startExclusive.daysUntil(this) // TODO Is this correct? We're changing both dates by one day here.
 
 
 actual fun LocalDate.daysUntil(endExclusive: LocalDate): Days =
-	endExclusive.daysSince(this) // TODO Is this correct? We're changing both dates by one day here.
+	Days(toPlatform().until(endExclusive.toPlatform(), PlatformChronoUnit.DAYS))
 
 
 actual fun LocalDate.toDayOfWeek() =

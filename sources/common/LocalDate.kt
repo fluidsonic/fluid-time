@@ -187,7 +187,7 @@ internal object LocalDateSerializer : KSerializer<LocalDate> {
 		}
 
 
-	override fun serialize(encoder: Encoder, obj: LocalDate) {
-		encoder.encodeString(obj.toString())
+	override fun serialize(encoder: Encoder, value: LocalDate) {
+		encoder.encodeString(value.toString())
 	}
 }

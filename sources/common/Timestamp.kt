@@ -233,7 +233,7 @@ internal object TimestampSerializer : KSerializer<Timestamp> {
 		}
 
 
-	override fun serialize(encoder: Encoder, obj: Timestamp) {
-		encoder.encodeString(obj.toString())
+	override fun serialize(encoder: Encoder, value: Timestamp) {
+		encoder.encodeString(value.toString())
 	}
 }

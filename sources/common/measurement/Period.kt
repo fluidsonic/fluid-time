@@ -28,6 +28,22 @@ class Period internal constructor(
 		days.hashCode() xor months.hashCode() xor years.hashCode()
 
 
+	override fun toString() =
+		when {
+			this === zero -> "P0D"
+			else -> buildString {
+				append('P')
+
+				if (years.value != 0L)
+					append(years.value).append('Y')
+				if (months.value != 0L)
+					append(months.value).append('M')
+				if (days.value != 0L)
+					append(days.value).append('D')
+			}
+		}
+
+
 	companion object {
 
 		val zero = Period(years = Years.zero, months = Months.zero, days = Days.zero, disambiguation = Unit)

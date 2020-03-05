@@ -1,6 +1,7 @@
 package io.fluidsonic.time
 
 
+internal typealias PlatformChronoUnit = java.time.temporal.ChronoUnit
 internal typealias PlatformDayOfWeek = java.time.DayOfWeek
 internal typealias PlatformLocalDate = java.time.LocalDate
 internal typealias PlatformLocalDateTime = java.time.LocalDateTime

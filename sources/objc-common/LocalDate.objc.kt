@@ -15,17 +15,49 @@ actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp {
 }
 
 
-actual fun LocalDate.minusDays(daysToSubtract: Long): LocalDate =
-	plusDays(-daysToSubtract)
-
-
-actual fun LocalDate.plusDays(daysToAdd: Long): LocalDate =
-	platform_gregorianCalendar.dateByAddingUnit(
-		NSDayCalendarUnit,
-		value = daysToAdd,
+// TODO Is this correct? We're changing both dates by one day here.
+actual fun LocalDate.daysSince(startExclusive: LocalDate): Days =
+	Days(platform_gregorianCalendar.components(
+		unitFlags = NSDayCalendarUnit,
+		fromDate = startExclusive.atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
 		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
 		options = 0UL
-	)!!
+	).day)
+
+
+actual fun LocalDate.daysUntil(endExclusive: LocalDate): Days =
+	endExclusive.daysSince(this)
+
+
+actual operator fun LocalDate.plus(days: Days): LocalDate =
+	platform_gregorianCalendar.dateByAddingUnit(
+			NSDayCalendarUnit,
+			value = days.toLong(),
+			toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
+			options = 0UL
+		)!!
+		.toCommon()
+		.toLocalDate(timeZone = TimeZone.utc)
+
+
+actual operator fun LocalDate.plus(months: Months): LocalDate =
+	platform_gregorianCalendar.dateByAddingUnit(
+			NSMonthCalendarUnit,
+			value = months.toLong(),
+			toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
+			options = 0UL
+		)!!
+		.toCommon()
+		.toLocalDate(timeZone = TimeZone.utc)
+
+
+actual operator fun LocalDate.plus(years: Years): LocalDate =
+	platform_gregorianCalendar.dateByAddingUnit(
+			NSYearCalendarUnit,
+			value = years.toLong(),
+			toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
+			options = 0UL
+		)!!
 		.toCommon()
 		.toLocalDate(timeZone = TimeZone.utc)
 

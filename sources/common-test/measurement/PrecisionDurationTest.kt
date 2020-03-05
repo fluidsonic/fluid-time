@@ -195,7 +195,7 @@ object PrecisionDurationTest {
 
 
 	@Test
-	@UseExperimental(ExperimentalTime::class)
+	@OptIn(ExperimentalTime::class)
 	fun testConversion() {
 		assertEquals(Days(1), PreciseDuration.of(seconds = 86_400, nanoseconds = 999_999_999).toDays())
 		assertEquals(10.seconds, PreciseDuration.of(seconds = 10).toDuration())
