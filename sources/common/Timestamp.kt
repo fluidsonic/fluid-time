@@ -168,6 +168,8 @@ class Timestamp private constructor(
 
 	companion object {
 
+		val distantFuture = unchecked(secondsSince1970 = Seconds(31_556_889_864_403_199L), partialNanosecond = Nanoseconds(999_999_999))
+		val distantPast = unchecked(secondsSince1970 = Seconds(-31_557_014_167_219_200L))
 		val firstIn1970 = unchecked(secondsSince1970 = Seconds.zero)
 
 
