@@ -1,7 +1,7 @@
 import io.fluidsonic.gradle.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.0.9"
+	id("io.fluidsonic.gradle") version "1.0.11"
 }
 
 fluidLibrary(name = "time", version = "0.9.18")
@@ -18,7 +18,7 @@ fluidLibraryVariant {
 	jvm(JvmTarget.jdk7) {
 		dependencies {
 			implementation(kotlinx("serialization-runtime", "0.20.0"))
-			implementation("org.threeten:threetenbp:1.4.1")
+			implementation("org.threeten:threetenbp:1.4.4")
 		}
 	}
 
