@@ -198,13 +198,18 @@ class Timestamp private constructor(
 
 		// TODO this is not correct in all cases
 		fun parse(text: CharSequence): Timestamp? {
-			if (!text.endsWith('Z')) return null
+			val suffixLength = when {
+				text.endsWith('Z') -> 1
+				text.endsWith("+00:00") -> 6
+				text.endsWith("-00:00") -> 6
+				else -> return null
+			}
 
 			val splitIndex = text.indexOf('T')
-			if (splitIndex < 0 || splitIndex >= text.length - 2) return null
+			if (splitIndex < 0 || splitIndex >= text.length - suffixLength - 1) return null
 
 			val date = LocalDate.parse(text.substring(startIndex = 0, endIndex = splitIndex)) ?: return null
-			val time = LocalTime.parse(text.substring(startIndex = splitIndex + 1, endIndex = text.length - 1)) ?: return null
+			val time = LocalTime.parse(text.substring(startIndex = splitIndex + 1, endIndex = text.length - suffixLength)) ?: return null
 
 			return LocalDateTime.of(date, time).atTimeZone(TimeZone.utc)
 		}
