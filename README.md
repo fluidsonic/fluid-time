@@ -18,7 +18,7 @@ Installation
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.fluidsonic.time:fluid-time:0.9.19")
+    implementation("io.fluidsonic.time:fluid-time:0.9.20")
 }
 ```
 
