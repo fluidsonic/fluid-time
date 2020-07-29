@@ -1,12 +1,13 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
+import kotlinx.serialization.encoding.*
 
 
 @Serializable(with = TimestampSerializer::class)
-class Timestamp private constructor(
-	val secondsSince1970: Seconds,
-	val partialNanosecond: NanosecondOfSecond
+public class Timestamp private constructor(
+	public val secondsSince1970: Seconds,
+	public val partialNanosecond: NanosecondOfSecond
 ) : Comparable<Timestamp> {
 
 	init {
@@ -23,15 +24,15 @@ class Timestamp private constructor(
 	}
 
 
-	fun durationSince(other: Timestamp) =
+	public fun durationSince(other: Timestamp): PreciseDuration =
 		this - other
 
 
-	fun durationUntil(other: Timestamp) =
+	public fun durationUntil(other: Timestamp): PreciseDuration =
 		other.durationSince(this)
 
 
-	override fun equals(other: Any?) =
+	override fun equals(other: Any?): Boolean =
 		this === other || (
 			other is Timestamp
 				&& secondsSince1970 == other.secondsSince1970
@@ -39,59 +40,59 @@ class Timestamp private constructor(
 			)
 
 
-	override fun hashCode() =
+	override fun hashCode(): Int =
 		secondsSince1970.hashCode() xor partialNanosecond.hashCode()
 
 
-	fun microsecondsSince(other: Timestamp) =
+	public fun microsecondsSince(other: Timestamp): Microseconds =
 		durationSince(other).toMicroseconds() // TODO optimize
 
 
-	fun microsecondsUntil(other: Timestamp) =
+	public fun microsecondsUntil(other: Timestamp): Microseconds =
 		durationUntil(other).toMicroseconds() // TODO optimize
 
 
-	fun millisecondsSince(other: Timestamp) =
+	public fun millisecondsSince(other: Timestamp): Milliseconds =
 		durationSince(other).toMilliseconds() // TODO optimize
 
 
-	fun millisecondsUntil(other: Timestamp) =
+	public fun millisecondsUntil(other: Timestamp): Milliseconds =
 		durationUntil(other).toMilliseconds() // TODO optimize
 
 
-	val millisecondsSince1970
+	public val millisecondsSince1970: Milliseconds
 		get() = secondsSince1970.toMilliseconds() + Nanoseconds(partialNanosecond.toLong()).toMilliseconds() // FIXME check
 
 
-	operator fun minus(other: Days) =
+	public operator fun minus(other: Days): Timestamp =
 		minus(other.toSeconds())
 
 
-	operator fun minus(other: PreciseDuration) =
+	public operator fun minus(other: PreciseDuration): Timestamp =
 		minus(seconds = other.seconds, nanoseconds = other.partialNanoseconds)
 
 
-	operator fun minus(other: Hours) =
+	public operator fun minus(other: Hours): Timestamp =
 		minus(other.toSeconds())
 
 
-	operator fun minus(other: Microseconds) =
+	public operator fun minus(other: Microseconds): Timestamp =
 		minus(seconds = other.toSeconds(), nanoseconds = (other % Microseconds.perSecond).toNanoseconds())
 
 
-	operator fun minus(other: Milliseconds) =
+	public operator fun minus(other: Milliseconds): Timestamp =
 		minus(seconds = other.toSeconds(), nanoseconds = (other % Milliseconds.perSecond).toNanoseconds())
 
 
-	operator fun minus(other: Minutes) =
+	public operator fun minus(other: Minutes): Timestamp =
 		minus(other.toSeconds())
 
 
-	operator fun minus(other: Nanoseconds) =
+	public operator fun minus(other: Nanoseconds): Timestamp =
 		minus(seconds = other.toSeconds(), nanoseconds = other % Nanoseconds.perSecond)
 
 
-	operator fun minus(other: Seconds) =
+	public operator fun minus(other: Seconds): Timestamp =
 		minus(seconds = other, nanoseconds = Nanoseconds.zero)
 
 
@@ -99,47 +100,47 @@ class Timestamp private constructor(
 		of(secondsSince1970 = secondsSince1970 - seconds, nanoseconds = Nanoseconds(partialNanosecond.toLong()) - nanoseconds)
 
 
-	operator fun minus(other: Timestamp) =
+	public operator fun minus(other: Timestamp): PreciseDuration =
 		PreciseDuration.of(seconds = secondsSince1970 - other.secondsSince1970, nanoseconds = partialNanosecond - other.partialNanosecond)
 
 
-	fun nanosecondsSince(other: Timestamp) =
+	public fun nanosecondsSince(other: Timestamp): Nanoseconds =
 		durationSince(other).toNanoseconds() // TODO optimize
 
 
-	fun nanosecondsUntil(other: Timestamp) =
+	public fun nanosecondsUntil(other: Timestamp): Nanoseconds =
 		durationUntil(other).toNanoseconds() // TODO optimize
 
 
-	operator fun plus(other: Days) =
+	public operator fun plus(other: Days): Timestamp =
 		plus(other.toSeconds())
 
 
-	operator fun plus(other: PreciseDuration) =
+	public operator fun plus(other: PreciseDuration): Timestamp =
 		plus(seconds = other.seconds, nanoseconds = other.partialNanoseconds)
 
 
-	operator fun plus(other: Hours) =
+	public operator fun plus(other: Hours): Timestamp =
 		plus(other.toSeconds())
 
 
-	operator fun plus(other: Microseconds) =
+	public operator fun plus(other: Microseconds): Timestamp =
 		plus(seconds = other.toSeconds(), nanoseconds = (other % Microseconds.perSecond).toNanoseconds())
 
 
-	operator fun plus(other: Milliseconds) =
+	public operator fun plus(other: Milliseconds): Timestamp =
 		plus(seconds = other.toSeconds(), nanoseconds = (other % Milliseconds.perSecond).toNanoseconds())
 
 
-	operator fun plus(other: Minutes) =
+	public operator fun plus(other: Minutes): Timestamp =
 		plus(other.toSeconds())
 
 
-	operator fun plus(other: Nanoseconds) =
+	public operator fun plus(other: Nanoseconds): Timestamp =
 		plus(seconds = other.toSeconds(), nanoseconds = other % Nanoseconds.perSecond)
 
 
-	operator fun plus(other: Seconds) =
+	public operator fun plus(other: Seconds): Timestamp =
 		plus(seconds = other, nanoseconds = Nanoseconds.zero)
 
 
@@ -147,43 +148,43 @@ class Timestamp private constructor(
 		of(secondsSince1970 = secondsSince1970 + seconds, nanoseconds = Nanoseconds(partialNanosecond.toLong()) + nanoseconds)
 
 
-	fun secondsSince(other: Timestamp) =
+	public fun secondsSince(other: Timestamp): Seconds =
 		durationSince(other).toSeconds() // TODO optimize
 
 
-	fun secondsUntil(other: Timestamp) =
+	public fun secondsUntil(other: Timestamp): Seconds =
 		durationUntil(other).toSeconds() // TODO optimize
 
 
-	override fun toString() =
+	override fun toString(): String =
 		buildString(capacity = 30) { toString(this) }
 
 
 	// TODO this is not correct in all cases
-	fun toString(builder: StringBuilder) {
+	public fun toString(builder: StringBuilder) {
 		toLocalDateTime(TimeZone.utc).toString(builder)
 		builder.append('Z')
 	}
 
 
-	companion object {
+	public companion object {
 
-		val distantFuture = unchecked(secondsSince1970 = Seconds(31_556_889_864_403_199L), partialNanosecond = Nanoseconds(999_999_999))
-		val distantPast = unchecked(secondsSince1970 = Seconds(-31_557_014_167_219_200L))
-		val firstIn1970 = unchecked(secondsSince1970 = Seconds.zero)
+		public val distantFuture: Timestamp = unchecked(secondsSince1970 = Seconds(31_556_889_864_403_199L), partialNanosecond = Nanoseconds(999_999_999))
+		public val distantPast: Timestamp = unchecked(secondsSince1970 = Seconds(-31_557_014_167_219_200L))
+		public val firstIn1970: Timestamp = unchecked(secondsSince1970 = Seconds.zero)
 
 
-		fun now(clock: WallClock = WallClock.systemUtc) =
+		public fun now(clock: WallClock = WallClock.systemUtc): Timestamp =
 			clock.timestamp()
 
 
-		fun of(millisecondsSince1970: Milliseconds, nanoseconds: Nanoseconds = Nanoseconds.zero) =
+		public fun of(millisecondsSince1970: Milliseconds, nanoseconds: Nanoseconds = Nanoseconds.zero): Timestamp =
 			of(secondsSince1970 = millisecondsSince1970.toSeconds(), nanoseconds = nanoseconds)
 
 
 		// FIXME handle negative nanoseconds
 		// FIXME rename to not have 1970 info as parameter name
-		fun of(secondsSince1970: Seconds, nanoseconds: Nanoseconds = Nanoseconds.zero): Timestamp {
+		public fun of(secondsSince1970: Seconds, nanoseconds: Nanoseconds = Nanoseconds.zero): Timestamp {
 			var totalSecondsSince1970 = secondsSince1970
 			var partialNanoseconds = nanoseconds
 
@@ -197,7 +198,7 @@ class Timestamp private constructor(
 
 
 		// TODO this is not correct in all cases
-		fun parse(text: CharSequence): Timestamp? {
+		public fun parse(text: CharSequence): Timestamp? {
 			val suffixLength = when {
 				text.endsWith('Z') -> 1
 				text.endsWith("+00:00") -> 6
@@ -225,10 +226,10 @@ class Timestamp private constructor(
 }
 
 
-expect fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek
-expect fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate
-expect fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime
-expect fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime
+public expect fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek
+public expect fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate
+public expect fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime
+public expect fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime
 
 
 @Serializer(forClass = Timestamp::class)

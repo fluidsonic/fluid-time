@@ -5,7 +5,7 @@ import kotlin.test.*
 import kotlin.time.*
 
 
-object MonthsTest {
+class MonthsTest {
 
 	@Test
 	fun testArithmethic() {

@@ -1,38 +1,38 @@
 package io.fluidsonic.time
 
 
-interface WallClock {
+public interface WallClock {
 
-	val timeZone: TimeZone
+	public val timeZone: TimeZone
 
 	override fun equals(other: Any?): Boolean
 	override fun hashCode(): Int
 	override fun toString(): String
 
-	fun localDate() = timestamp().toLocalDate(timeZone)
-	fun localDateTime() = timestamp().toLocalDateTime(timeZone)
-	fun localTime() = timestamp().toLocalTime(timeZone)
-	fun millisecondsSince1970() = timestamp().millisecondsSince1970
-	fun secondsSince1970() = timestamp().secondsSince1970
-	fun timestamp(): Timestamp
-	fun withTimeZone(timeZone: TimeZone): WallClock
+	public fun localDate(): LocalDate = timestamp().toLocalDate(timeZone)
+	public fun localDateTime(): LocalDateTime = timestamp().toLocalDateTime(timeZone)
+	public fun localTime(): LocalTime = timestamp().toLocalTime(timeZone)
+	public fun millisecondsSince1970(): Milliseconds = timestamp().millisecondsSince1970
+	public fun secondsSince1970(): Seconds = timestamp().secondsSince1970
+	public fun timestamp(): Timestamp
+	public fun withTimeZone(timeZone: TimeZone): WallClock
 
 
-	companion object {
+	public companion object {
 
-		val systemUtc: WallClock = System(TimeZone.utc)
+		public val systemUtc: WallClock = System(TimeZone.utc)
 
 
-		fun fixed(timestamp: Timestamp, timeZone: TimeZone): WallClock =
+		public fun fixed(timestamp: Timestamp, timeZone: TimeZone): WallClock =
 			Fixed(timestamp = timestamp, timeZone = timeZone)
 
 
-		fun offset(offset: PreciseDuration, source: WallClock): WallClock =
+		public fun offset(offset: PreciseDuration, source: WallClock): WallClock =
 			if (offset.isZero) source
 			else Offset(offset = offset, source = source)
 
 
-		fun tick(interval: PreciseDuration, source: WallClock): WallClock {
+		public fun tick(interval: PreciseDuration, source: WallClock): WallClock {
 			require(!interval.isNegative) { "interval cannot be negative" }
 
 			val nanoseconds = interval.toNanoseconds()
@@ -48,19 +48,19 @@ interface WallClock {
 		}
 
 
-		fun tickMilliseconds(source: WallClock): WallClock =
+		public fun tickMilliseconds(source: WallClock): WallClock =
 			Tick(interval = Milliseconds(1).toNanoseconds(), source = source)
 
 
-		fun tickMinutes(source: WallClock): WallClock =
+		public fun tickMinutes(source: WallClock): WallClock =
 			Tick(interval = Minutes(1).toNanoseconds(), source = source)
 
 
-		fun tickSeconds(source: WallClock): WallClock =
+		public fun tickSeconds(source: WallClock): WallClock =
 			Tick(interval = Seconds(1).toNanoseconds(), source = source)
 
 
-		fun system(timeZone: TimeZone): WallClock =
+		public fun system(timeZone: TimeZone): WallClock =
 			if (timeZone == TimeZone.utc) systemUtc
 			else System(timeZone)
 	}

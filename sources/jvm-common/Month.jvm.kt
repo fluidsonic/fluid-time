@@ -1,7 +1,7 @@
 package io.fluidsonic.time
 
 
-fun MonthOfYear.toPlatform() = when (this) {
+public fun MonthOfYear.toPlatform(): PlatformMonth = when (this) {
 	MonthOfYear.january -> PlatformMonth.JANUARY
 	MonthOfYear.february -> PlatformMonth.FEBRUARY
 	MonthOfYear.march -> PlatformMonth.MARCH
@@ -17,7 +17,7 @@ fun MonthOfYear.toPlatform() = when (this) {
 }
 
 
-fun PlatformMonth.toCommon() = when (this) {
+public fun PlatformMonth.toCommon(): MonthOfYear = when (this) {
 	PlatformMonth.JANUARY -> MonthOfYear.january
 	PlatformMonth.FEBRUARY -> MonthOfYear.february
 	PlatformMonth.MARCH -> MonthOfYear.march

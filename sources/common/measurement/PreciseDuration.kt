@@ -3,15 +3,17 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
 import kotlin.time.*
 import kotlin.time.Duration
 
 
 // TODO handle overflows
 @Serializable(with = PreciseDurationSerializer::class)
-class PreciseDuration private constructor(
-	val seconds: Seconds,
-	val partialNanoseconds: Nanoseconds
+public class PreciseDuration private constructor(
+	public val seconds: Seconds,
+	public val partialNanoseconds: Nanoseconds
 ) : TimeMeasurement<PreciseDuration> {
 
 	init {
@@ -21,7 +23,7 @@ class PreciseDuration private constructor(
 	}
 
 
-	override val absolute
+	override val absolute: PreciseDuration
 		get() = if (isNegative) -this else this
 
 
@@ -35,12 +37,12 @@ class PreciseDuration private constructor(
 
 
 	@Deprecated(message = "not yet implemented", level = DeprecationLevel.HIDDEN)
-	override operator fun div(other: Int) =
+	override operator fun div(other: Int): PreciseDuration =
 		TODO("how to implement this?") // div(other.toLong())
 
 
 	@Deprecated(message = "not yet implemented", level = DeprecationLevel.HIDDEN)
-	override operator fun div(other: Long) =
+	override operator fun div(other: Long): PreciseDuration =
 		when (other) {
 			0L -> throw ArithmeticException("/ by zero")
 			1L -> this
@@ -54,7 +56,7 @@ class PreciseDuration private constructor(
 		TODO("how to implement this?")
 
 
-	override fun equals(other: Any?) =
+	override fun equals(other: Any?): Boolean =
 		this === other || (
 			other is PreciseDuration
 				&& seconds == other.seconds
@@ -62,23 +64,23 @@ class PreciseDuration private constructor(
 			)
 
 
-	override fun hashCode() =
+	override fun hashCode(): Int =
 		seconds.hashCode() xor partialNanoseconds.hashCode()
 
 
-	override val isNegative
+	override val isNegative: Boolean
 		get() = seconds.isNegative || partialNanoseconds.isNegative
 
 
-	override val isPositive
+	override val isPositive: Boolean
 		get() = seconds.isPositive || partialNanoseconds.isPositive
 
 
-	override val isZero
+	override val isZero: Boolean
 		get() = (seconds.toLong() or partialNanoseconds.toLong()) == 0L
 
 
-	override operator fun minus(other: PreciseDuration) =
+	override operator fun minus(other: PreciseDuration): PreciseDuration =
 		when {
 			isZero -> -other
 			other.isZero -> this
@@ -86,7 +88,7 @@ class PreciseDuration private constructor(
 		}
 
 
-	fun minus(
+	public fun minus(
 		days: Int = 0,
 		hours: Int = 0,
 		minutes: Int = 0,
@@ -94,7 +96,7 @@ class PreciseDuration private constructor(
 		milliseconds: Int = 0,
 		microseconds: Int = 0,
 		nanoseconds: Int = 0
-	) =
+	): PreciseDuration =
 		minus(
 			days = days.toLong(),
 			hours = hours.toLong(),
@@ -106,7 +108,7 @@ class PreciseDuration private constructor(
 		)
 
 
-	fun minus(
+	public fun minus(
 		days: Long = 0,
 		hours: Long = 0,
 		minutes: Long = 0,
@@ -114,7 +116,7 @@ class PreciseDuration private constructor(
 		milliseconds: Long = 0,
 		microseconds: Long = 0,
 		nanoseconds: Long = 0
-	) =
+	): PreciseDuration =
 		minus(
 			days = Days(days),
 			hours = Hours(hours),
@@ -126,7 +128,7 @@ class PreciseDuration private constructor(
 		)
 
 
-	fun minus(
+	public fun minus(
 		days: Days = Days.zero,
 		hours: Hours = Hours.zero,
 		minutes: Minutes = Minutes.zero,
@@ -134,7 +136,7 @@ class PreciseDuration private constructor(
 		milliseconds: Milliseconds = Milliseconds.zero,
 		microseconds: Microseconds = Microseconds.zero,
 		nanoseconds: Nanoseconds = Nanoseconds.zero
-	) =
+	): PreciseDuration =
 		plus(
 			days = -days,
 			hours = -hours,
@@ -146,7 +148,7 @@ class PreciseDuration private constructor(
 		)
 
 
-	override operator fun plus(other: PreciseDuration) =
+	override operator fun plus(other: PreciseDuration): PreciseDuration =
 		when {
 			isZero -> other
 			other.isZero -> this
@@ -154,7 +156,7 @@ class PreciseDuration private constructor(
 		}
 
 
-	fun plus(
+	public fun plus(
 		days: Int = 0,
 		hours: Int = 0,
 		minutes: Int = 0,
@@ -162,7 +164,7 @@ class PreciseDuration private constructor(
 		milliseconds: Int = 0,
 		microseconds: Int = 0,
 		nanoseconds: Int = 0
-	) =
+	): PreciseDuration =
 		plus(
 			days = days.toLong(),
 			hours = hours.toLong(),
@@ -174,7 +176,7 @@ class PreciseDuration private constructor(
 		)
 
 
-	fun plus(
+	public fun plus(
 		days: Long = 0,
 		hours: Long = 0,
 		minutes: Long = 0,
@@ -182,7 +184,7 @@ class PreciseDuration private constructor(
 		milliseconds: Long = 0,
 		microseconds: Long = 0,
 		nanoseconds: Long = 0
-	) =
+	): PreciseDuration =
 		plus(
 			days = Days(days),
 			hours = Hours(hours),
@@ -194,7 +196,7 @@ class PreciseDuration private constructor(
 		)
 
 
-	fun plus(
+	public fun plus(
 		days: Days = Days.zero,
 		hours: Hours = Hours.zero,
 		minutes: Minutes = Minutes.zero,
@@ -226,12 +228,12 @@ class PreciseDuration private constructor(
 
 	@Suppress("DEPRECATION")
 	@Deprecated(message = "not yet implemented", level = DeprecationLevel.HIDDEN)
-	override operator fun rem(other: Int) =
+	override operator fun rem(other: Int): Nothing =
 		TODO("how to implement this?")  // rem(other.toLong())
 
 
 	@Deprecated(message = "not yet implemented", level = DeprecationLevel.HIDDEN)
-	override operator fun rem(other: Long) =
+	override operator fun rem(other: Long): PreciseDuration =
 		when (other) {
 			0L -> throw ArithmeticException("/ by zero")
 			1L, -1L -> zero
@@ -244,11 +246,11 @@ class PreciseDuration private constructor(
 		TODO("how to implement this?")
 
 
-	override operator fun times(other: Int) =
+	override operator fun times(other: Int): PreciseDuration =
 		times(other.toLong())
 
 
-	override operator fun times(other: Long) =
+	override operator fun times(other: Long): PreciseDuration =
 		when (other) {
 			0L -> zero
 			1L -> this
@@ -257,45 +259,45 @@ class PreciseDuration private constructor(
 		}
 
 
-	override inline fun toDays() =
+	override inline fun toDays(): Days =
 		seconds.toDays()
 
 
 	// TODO add overflow handling
 	@ExperimentalTime
-	override inline fun toDuration() =
+	override inline fun toDuration(): Duration =
 		when {
 			partialNanoseconds.isZero -> seconds.toDuration()
 			else -> (seconds.toNanoseconds() + partialNanoseconds).toDuration()
 		}
 
 
-	override inline fun toHours() =
+	override inline fun toHours(): Hours =
 		seconds.toHours()
 
 
-	override inline fun toMicroseconds() =
+	override inline fun toMicroseconds(): Microseconds =
 		seconds.toMicroseconds() + partialNanoseconds.toMicroseconds()
 
 
-	override inline fun toMilliseconds() =
+	override inline fun toMilliseconds(): Milliseconds =
 		seconds.toMilliseconds() + partialNanoseconds.toMilliseconds()
 
 
-	override inline fun toMinutes() =
+	override inline fun toMinutes(): Minutes =
 		seconds.toMinutes()
 
 
-	override inline fun toNanoseconds() =
+	override inline fun toNanoseconds(): Nanoseconds =
 		seconds.toNanoseconds() + partialNanoseconds
 
 
 	@Deprecated(message = "redundant conversion", level = DeprecationLevel.HIDDEN)
-	override inline fun toPreciseDuration() =
+	override inline fun toPreciseDuration(): PreciseDuration =
 		this
 
 
-	override inline fun toSeconds() =
+	override inline fun toSeconds(): Seconds =
 		seconds
 
 
@@ -350,11 +352,11 @@ class PreciseDuration private constructor(
 	}
 
 
-	override operator fun unaryMinus() =
+	override operator fun unaryMinus(): PreciseDuration =
 		if (isZero) this else unchecked(seconds = -seconds, partialNanoseconds = -partialNanoseconds)
 
 
-	companion object {
+	public companion object {
 
 		private val iso8601Regex = Regex(
 			"([-+]?)P(?:([-+]?\\d+)D)?(T(?:([-+]?\\d+)H)?(?:([-+]?\\d+)M)?(?:([-+]?\\d+)(?:[.,](\\d{0,9}))?S)?)?",
@@ -362,10 +364,10 @@ class PreciseDuration private constructor(
 		)
 
 		// TODO add min/max
-		val zero = PreciseDuration(seconds = Seconds.zero, partialNanoseconds = Nanoseconds.zero)
+		public val zero: PreciseDuration = PreciseDuration(seconds = Seconds.zero, partialNanoseconds = Nanoseconds.zero)
 
 
-		fun of(
+		public fun of(
 			days: Int = 0,
 			hours: Int = 0,
 			minutes: Int = 0,
@@ -373,7 +375,7 @@ class PreciseDuration private constructor(
 			milliseconds: Int = 0,
 			microseconds: Int = 0,
 			nanoseconds: Int = 0
-		) =
+		): PreciseDuration =
 			of(
 				days = days.toLong(),
 				hours = hours.toLong(),
@@ -385,7 +387,7 @@ class PreciseDuration private constructor(
 			)
 
 
-		fun of(
+		public fun of(
 			days: Long = 0,
 			hours: Long = 0,
 			minutes: Long = 0,
@@ -393,7 +395,7 @@ class PreciseDuration private constructor(
 			milliseconds: Long = 0,
 			microseconds: Long = 0,
 			nanoseconds: Long = 0
-		) =
+		): PreciseDuration =
 			of(
 				days = Days(days),
 				hours = Hours(hours),
@@ -405,7 +407,7 @@ class PreciseDuration private constructor(
 			)
 
 
-		fun of(
+		public fun of(
 			days: Days = Days.zero,
 			hours: Hours = Hours.zero,
 			minutes: Minutes = Minutes.zero,
@@ -448,7 +450,7 @@ class PreciseDuration private constructor(
 		}
 
 
-		fun parse(text: CharSequence): PreciseDuration? {
+		public fun parse(text: CharSequence): PreciseDuration? {
 			val result = iso8601Regex.matchEntire(text) ?: return null // no match
 			if (result.groupValues[3] == "T") return null // empty time
 
@@ -486,7 +488,7 @@ class PreciseDuration private constructor(
 
 
 @ExperimentalTime
-inline fun Duration.toPreciseDuration() =
+public inline fun Duration.toPreciseDuration(): PreciseDuration =
 	inSeconds.let { seconds ->
 		PreciseDuration.of(
 			seconds = seconds.toLong(),
@@ -495,18 +497,18 @@ inline fun Duration.toPreciseDuration() =
 	}
 
 
-operator fun Int.times(other: PreciseDuration) =
+public operator fun Int.times(other: PreciseDuration): PreciseDuration =
 	other.times(this)
 
 
-operator fun Long.times(other: PreciseDuration) =
+public operator fun Long.times(other: PreciseDuration): PreciseDuration =
 	other.times(this)
 
 
 @Serializer(forClass = PreciseDuration::class)
 internal object PreciseDurationSerializer : KSerializer<PreciseDuration> {
 
-	override val descriptor = PrimitiveDescriptor("io.fluidsonic.time.PreciseDuration", PrimitiveKind.STRING)
+	override val descriptor = PrimitiveSerialDescriptor("io.fluidsonic.time.PreciseDuration", PrimitiveKind.STRING)
 
 
 	override fun deserialize(decoder: Decoder) =

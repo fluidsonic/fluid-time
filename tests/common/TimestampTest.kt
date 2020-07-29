@@ -6,7 +6,7 @@ import kotlin.test.*
 
 // Because we still rely on platform implementation for converting between Timestamp and Local(Date)(Time) we lose some precision in the
 // nanoseconds on some platforms. Thus for now the tests must be set up in a way which accounts for that.
-object TimestampTest {
+class TimestampTest {
 
 	@Test
 	fun testCreationWithMillisecondsSince1970() {

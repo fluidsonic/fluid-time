@@ -3,29 +3,29 @@ package io.fluidsonic.time
 import java.util.*
 
 
-actual fun Timestamp.toDayOfWeek(timeZone: TimeZone) =
+public actual fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek =
 	toPlatform().atZone(timeZone.toPlatform()).dayOfWeek.toCommon()
 
 
-actual fun Timestamp.toLocalDate(timeZone: TimeZone) =
+public actual fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate =
 	toPlatform().atZone(timeZone.toPlatform()).toLocalDate().toCommon()
 
 
-actual fun Timestamp.toLocalDateTime(timeZone: TimeZone) =
+public actual fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime =
 	toPlatform().atZone(timeZone.toPlatform()).toLocalDateTime().toCommon()
 
 
-actual fun Timestamp.toLocalTime(timeZone: TimeZone) =
+public actual fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime =
 	toPlatform().atZone(timeZone.toPlatform()).toLocalTime().toCommon()
 
 
-fun Timestamp.toPlatform(): PlatformTimestamp =
+public fun Timestamp.toPlatform(): PlatformTimestamp =
 	PlatformTimestamp.ofEpochSecond(secondsSince1970.toLong(), partialNanosecond.toLong())
 
 
-fun Timestamp.toPlatformDate(): Date =
+public fun Timestamp.toPlatformDate(): Date =
 	Date(millisecondsSince1970.value)
 
 
-fun PlatformTimestamp.toCommon() =
+public fun PlatformTimestamp.toCommon(): Timestamp =
 	Timestamp.of(secondsSince1970 = Seconds(epochSecond), nanoseconds = Nanoseconds(nano))

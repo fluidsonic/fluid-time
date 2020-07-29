@@ -1,11 +1,11 @@
 package io.fluidsonic.time
 
-import platform.Foundation.*
 import kotlin.math.*
+import platform.Foundation.*
 import platform.Foundation.NSDate as PlatformTimestamp
 
 
-actual fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek {
+public actual fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek {
 	val components = platform_gregorianCalendar.componentsInTimeZone(timezone = timeZone.platform, fromDate = toPlatform())
 	return when (val weekday = components.weekday) {
 		1L -> DayOfWeek.sunday
@@ -20,7 +20,7 @@ actual fun Timestamp.toDayOfWeek(timeZone: TimeZone): DayOfWeek {
 }
 
 
-actual fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate {
+public actual fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate {
 	val components = platform_gregorianCalendar.componentsInTimeZone(timezone = timeZone.platform, fromDate = toPlatform())
 	return LocalDate.of(
 		year = components.year,
@@ -30,7 +30,7 @@ actual fun Timestamp.toLocalDate(timeZone: TimeZone): LocalDate {
 }
 
 
-actual fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime {
+public actual fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime {
 	val components = platform_gregorianCalendar.componentsInTimeZone(timezone = timeZone.platform, fromDate = toPlatform())
 	return LocalDateTime.of(
 		year = components.year,
@@ -44,7 +44,7 @@ actual fun Timestamp.toLocalDateTime(timeZone: TimeZone): LocalDateTime {
 }
 
 
-actual fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime {
+public actual fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime {
 	val components = platform_gregorianCalendar.componentsInTimeZone(timezone = timeZone.platform, fromDate = toPlatform())
 	return LocalTime.of(
 		hour = components.hour,
@@ -55,11 +55,11 @@ actual fun Timestamp.toLocalTime(timeZone: TimeZone): LocalTime {
 }
 
 
-fun Timestamp.toPlatform() =
+public fun Timestamp.toPlatform(): PlatformTimestamp =
 	PlatformTimestamp.dateWithTimeIntervalSince1970(secondsSince1970.toLong().toDouble() + (partialNanosecond.toLong().toDouble() / 1_000_000_000.0))
 
 
-fun PlatformTimestamp.toCommon(): Timestamp {
+public fun PlatformTimestamp.toCommon(): Timestamp {
 	val secondsSince1970 = timeIntervalSince1970
 	return Timestamp.of(
 		secondsSince1970 = Seconds(secondsSince1970.toLong()),

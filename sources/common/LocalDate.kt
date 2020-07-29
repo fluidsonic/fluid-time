@@ -1,14 +1,15 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
+import kotlinx.serialization.encoding.*
 import kotlin.math.*
 
 
 @Serializable(with = LocalDateSerializer::class)
-class LocalDate private constructor(
-	val year: Year,
-	val month: MonthOfYear,
-	val day: DayOfMonth
+public class LocalDate private constructor(
+	public val year: Year,
+	public val month: MonthOfYear,
+	public val day: DayOfMonth
 ) : Comparable<LocalDate> {
 
 	init {
@@ -16,20 +17,20 @@ class LocalDate private constructor(
 	}
 
 
-	fun atTime(hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
+	public fun atTime(hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0): LocalDateTime =
 		atTime(HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
 
-	fun atTime(
+	public fun atTime(
 		hour: HourOfDay,
 		minute: MinuteOfHour = MinuteOfHour(0),
 		second: SecondOfMinute = SecondOfMinute(0),
 		nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
-	) =
+	): LocalDateTime =
 		atTime(LocalTime.of(hour, minute, second, nanosecond))
 
 
-	fun atTime(time: LocalTime) =
+	public fun atTime(time: LocalTime): LocalDateTime =
 		LocalDateTime.of(this, time)
 
 
@@ -45,7 +46,7 @@ class LocalDate private constructor(
 	}
 
 
-	override fun equals(other: Any?) =
+	override fun equals(other: Any?): Boolean =
 		this === other || (
 			other is LocalDate
 				&& day == other.day
@@ -54,23 +55,23 @@ class LocalDate private constructor(
 			)
 
 
-	override fun hashCode() =
+	override fun hashCode(): Int =
 		day.hashCode() xor month.hashCode() xor year.hashCode()
 
 
-	fun periodSince(other: LocalDate) =
+	public fun periodSince(other: LocalDate): Period =
 		Period.between(other, this)
 
 
-	fun periodUntil(other: LocalDate) =
+	public fun periodUntil(other: LocalDate): Period =
 		other.periodSince(this)
 
 
-	override fun toString() =
+	override fun toString(): String =
 		buildString(capacity = 10) { toString(this) }
 
 
-	fun toString(builder: StringBuilder) {
+	public fun toString(builder: StringBuilder) {
 		with(builder) {
 			when {
 				year.toLong() < 0 -> append('-')
@@ -100,33 +101,33 @@ class LocalDate private constructor(
 	}
 
 
-	companion object {
+	public companion object {
 
 		private val iso8601Regex = Regex("([+-]?)(\\d{4,10})-(\\d{2})-(\\d{2})")
 
-		val firstIn1970 = unchecked(year = 1970, month = 1, day = 1)
+		public val firstIn1970: LocalDate = unchecked(year = 1970, month = 1, day = 1)
 
 
-		fun now(clock: WallClock = WallClock.systemUtc) =
+		public fun now(clock: WallClock = WallClock.systemUtc): LocalDate =
 			clock.localDate()
 
 
-		fun now(timeZone: TimeZone) =
+		public fun now(timeZone: TimeZone): LocalDate =
 			now(clock = WallClock.system(timeZone))
 
 
-		fun of(year: Long, month: Long, day: Long) =
+		public fun of(year: Long, month: Long, day: Long): LocalDate =
 			of(Year.of(year), MonthOfYear.of(month), DayOfMonth.of(day))
 
 
-		fun of(year: Year, month: MonthOfYear, day: DayOfMonth): LocalDate {
+		public fun of(year: Year, month: MonthOfYear, day: DayOfMonth): LocalDate {
 			require(day <= month.lastDayIn(year)) { "'$day' is not a valid day in '${month.name} $year'" }
 
 			return unchecked(year, month, day)
 		}
 
 
-		fun parse(text: CharSequence): LocalDate? {
+		public fun parse(text: CharSequence): LocalDate? {
 			val result = iso8601Regex.matchEntire(text) ?: return null
 
 			val sign = result.groupValues[1]
@@ -155,26 +156,26 @@ class LocalDate private constructor(
 }
 
 
-expect fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp
-expect fun LocalDate.daysSince(startExclusive: LocalDate): Days
-expect fun LocalDate.daysUntil(endExclusive: LocalDate): Days
-expect fun LocalDate.toDayOfWeek(): DayOfWeek
+public expect fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp
+public expect fun LocalDate.daysSince(startExclusive: LocalDate): Days
+public expect fun LocalDate.daysUntil(endExclusive: LocalDate): Days
+public expect fun LocalDate.toDayOfWeek(): DayOfWeek
 
-operator fun LocalDate.minus(days: Days) =
+public operator fun LocalDate.minus(days: Days): LocalDate =
 	this + -days
 
-operator fun LocalDate.minus(months: Months) =
+public operator fun LocalDate.minus(months: Months): LocalDate =
 	this + -months
 
-operator fun LocalDate.minus(years: Years) =
+public operator fun LocalDate.minus(years: Years): LocalDate =
 	this + -years
 
-expect operator fun LocalDate.plus(days: Days): LocalDate
-expect operator fun LocalDate.plus(months: Months): LocalDate
-expect operator fun LocalDate.plus(years: Years): LocalDate
+public expect operator fun LocalDate.plus(days: Days): LocalDate
+public expect operator fun LocalDate.plus(months: Months): LocalDate
+public expect operator fun LocalDate.plus(years: Years): LocalDate
 
 
-fun LocalDate.atStartOfDay() =
+public fun LocalDate.atStartOfDay(): LocalDateTime =
 	atTime(LocalTime.midnight)
 
 

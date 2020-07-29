@@ -1,11 +1,11 @@
 package io.fluidsonic.time
 
 
-fun LocalTime.toPlatform(): PlatformLocalTime =
+public fun LocalTime.toPlatform(): PlatformLocalTime =
 	PlatformLocalTime.of(hour.toInt(), minute.toInt(), second.toInt(), nanosecond.toInt())
 
 
-fun PlatformLocalTime.toCommon() =
+public fun PlatformLocalTime.toCommon(): LocalTime =
 	LocalTime.of(
 		hour = hour.toLong(),
 		minute = minute.toLong(),

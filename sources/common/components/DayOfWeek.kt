@@ -3,10 +3,12 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
 
 
 @Serializable(with = DayOfWeekSerializer::class)
-enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
+public enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 
 	monday,
 	tuesday,
@@ -17,52 +19,52 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 	sunday;
 
 
-	override inline fun map(transform: (Long) -> Long) =
+	override inline fun map(transform: (Long) -> Long): DayOfWeek =
 		of(transform(toLong()))
 
 
-	override operator fun minus(other: DayOfWeek) =
+	override operator fun minus(other: DayOfWeek): Days =
 		Days(toLong() - other.toLong()) // FIXME check
 
 
-	override operator fun minus(other: Days) =
+	override operator fun minus(other: Days): DayOfWeek =
 		plus(-(other % 7))
 
 
-	override operator fun plus(other: Days) =
+	override operator fun plus(other: Days): DayOfWeek =
 		values()[((ordinal + (other.toLong() % 7) + 7) % 7).toInt()]
 
 
-	override fun toInt() =
+	override fun toInt(): Int =
 		ordinal + 1
 
 
-	override fun toLong() =
+	override fun toLong(): Long =
 		ordinal + 1L
 
 
-	override fun toString() =
+	override fun toString(): String =
 		name
 
 
-	companion object : DateTimeComponent.CompanionInterface<DayOfWeek> {
+	public companion object : DateTimeComponent.CompanionInterface<DayOfWeek> {
 
-		/* override */ val max = sunday
-		/* override */ val min = monday
+		/* override */public val max: DayOfWeek = sunday
+		/* override */public val min: DayOfWeek = monday
 
 
-		override fun of(value: Long) =
+		override fun of(value: Long): DayOfWeek =
 			of(value, firstDayOfWeek = monday)
 
 
-		fun of(value: Long, firstDayOfWeek: DayOfWeek): DayOfWeek {
+		public fun of(value: Long, firstDayOfWeek: DayOfWeek): DayOfWeek {
 			check(value, inRange = min.toLong() .. max.toLong(), name = "day [of week]")
 
 			return unchecked((value + firstDayOfWeek.ordinal) % 7)
 		}
 
 
-		fun serializer(): KSerializer<DayOfWeek> =
+		public fun serializer(): KSerializer<DayOfWeek> =
 			DayOfWeekSerializer
 
 
@@ -75,7 +77,7 @@ enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 @Serializer(forClass = DayOfWeek::class)
 internal object DayOfWeekSerializer : KSerializer<DayOfWeek> {
 
-	override val descriptor = PrimitiveDescriptor("io.fluidsonic.time.DayOfWeek", PrimitiveKind.STRING)
+	override val descriptor = PrimitiveSerialDescriptor("io.fluidsonic.time.DayOfWeek", PrimitiveKind.STRING)
 
 
 	override fun deserialize(decoder: Decoder) =

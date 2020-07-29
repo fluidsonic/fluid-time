@@ -3,9 +3,9 @@ package io.fluidsonic.time
 import platform.Foundation.*
 
 
-fun PreciseDuration.Companion.of(platform: NSTimeInterval) =
+public fun PreciseDuration.Companion.of(platform: NSTimeInterval): PreciseDuration =
 	of(seconds = platform.toLong(), nanoseconds = ((platform % 1) * Nanoseconds.perSecond.toLong()).toLong())
 
 
-fun PreciseDuration.toPlatform(): NSTimeInterval =
+public fun PreciseDuration.toPlatform(): NSTimeInterval =
 	seconds.toLong().toDouble() + (partialNanoseconds.toLong().toDouble() / Nanoseconds.perSecond.toLong())

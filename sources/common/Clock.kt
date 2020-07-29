@@ -6,4 +6,4 @@ package io.fluidsonic.time
 	level = DeprecationLevel.WARNING,
 	replaceWith = ReplaceWith("WallClock", "io.fluidsonic.time.WallClock")
 )
-typealias Clock = WallClock
+public typealias Clock = WallClock

@@ -1,9 +1,9 @@
 package io.fluidsonic.time
 
 
-fun PreciseDuration.toPlatform(): PlatformPreciseDuration =
+public fun PreciseDuration.toPlatform(): PlatformPreciseDuration =
 	PlatformPreciseDuration.ofSeconds(seconds.toLong(), partialNanoseconds.toLong())
 
 
-fun PlatformPreciseDuration.toCommon() =
+public fun PlatformPreciseDuration.toCommon(): PreciseDuration =
 	PreciseDuration.of(seconds = seconds, nanoseconds = nano.toLong())

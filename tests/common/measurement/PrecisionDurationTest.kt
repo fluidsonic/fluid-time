@@ -5,7 +5,7 @@ import kotlin.test.*
 import kotlin.time.*
 
 
-object PrecisionDurationTest {
+class PrecisionDurationTest {
 
 	@Test
 	fun testArithmethic() {

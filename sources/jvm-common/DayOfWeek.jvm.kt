@@ -1,7 +1,7 @@
 package io.fluidsonic.time
 
 
-fun DayOfWeek.toPlatform() = when (this) {
+public fun DayOfWeek.toPlatform(): PlatformDayOfWeek = when (this) {
 	DayOfWeek.monday -> PlatformDayOfWeek.MONDAY
 	DayOfWeek.tuesday -> PlatformDayOfWeek.TUESDAY
 	DayOfWeek.wednesday -> PlatformDayOfWeek.WEDNESDAY
@@ -12,7 +12,7 @@ fun DayOfWeek.toPlatform() = when (this) {
 }
 
 
-fun PlatformDayOfWeek.toCommon() = when (this) {
+public fun PlatformDayOfWeek.toCommon(): DayOfWeek = when (this) {
 	PlatformDayOfWeek.MONDAY -> DayOfWeek.monday
 	PlatformDayOfWeek.TUESDAY -> DayOfWeek.tuesday
 	PlatformDayOfWeek.WEDNESDAY -> DayOfWeek.wednesday

@@ -1,15 +1,15 @@
 package io.fluidsonic.time
 
 
-actual fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp =
+public actual fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp =
 	toPlatform().atZone(timeZone.toPlatform()).toInstant().toCommon()
 
 
-actual fun LocalDateTime.toDayOfWeek() =
+public actual fun LocalDateTime.toDayOfWeek(): DayOfWeek =
 	PlatformDayOfWeek.from(toPlatform()).toCommon()
 
 
-fun LocalDateTime.toPlatform(): PlatformLocalDateTime =
+public fun LocalDateTime.toPlatform(): PlatformLocalDateTime =
 	PlatformLocalDateTime.of(
 		date.year.toInt(),
 		date.month.toInt(),
@@ -21,7 +21,7 @@ fun LocalDateTime.toPlatform(): PlatformLocalDateTime =
 	)
 
 
-fun PlatformLocalDateTime.toCommon() =
+public fun PlatformLocalDateTime.toCommon(): LocalDateTime =
 	LocalDateTime.of(
 		year = year.toLong(),
 		month = monthValue.toLong(),

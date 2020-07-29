@@ -1,12 +1,13 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
+import kotlinx.serialization.encoding.*
 
 
 @Serializable(with = LocalDateTimeSerializer::class)
-class LocalDateTime private constructor(
-	val date: LocalDate,
-	val time: LocalTime
+public class LocalDateTime private constructor(
+	public val date: LocalDate,
+	public val time: LocalTime
 ) : Comparable<LocalDateTime> {
 
 	init {
@@ -23,7 +24,7 @@ class LocalDateTime private constructor(
 	}
 
 
-	override fun equals(other: Any?) =
+	override fun equals(other: Any?): Boolean =
 		this === other || (
 			other is LocalDateTime
 				&& date == other.date
@@ -31,39 +32,39 @@ class LocalDateTime private constructor(
 			)
 
 
-	override fun hashCode() =
+	override fun hashCode(): Int =
 		date.hashCode() xor time.hashCode()
 
 
-	override fun toString() =
+	override fun toString(): String =
 		buildString(capacity = 29) { toString(this) }
 
 
-	fun toString(builder: StringBuilder) {
+	public fun toString(builder: StringBuilder) {
 		date.toString(builder)
 		builder.append('T')
 		time.toString(builder)
 	}
 
 
-	companion object {
+	public companion object {
 
-		val firstIn1970 = LocalDate.firstIn1970.atTime(LocalTime.min)
+		public val firstIn1970: LocalDateTime = LocalDate.firstIn1970.atTime(LocalTime.min)
 
 
-		fun now(clock: WallClock = WallClock.systemUtc) =
+		public fun now(clock: WallClock = WallClock.systemUtc): LocalDateTime =
 			clock.localDateTime()
 
 
-		fun now(timeZone: TimeZone) =
-			LocalDate.now(clock = WallClock.system(timeZone))
+		public fun now(timeZone: TimeZone): LocalDateTime =
+			now(clock = WallClock.system(timeZone))
 
 
-		fun of(year: Long, month: Long, day: Long, hour: Long = 0, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
+		public fun of(year: Long, month: Long, day: Long, hour: Long = 0, minute: Long = 0, second: Long = 0, nanosecond: Long = 0): LocalDateTime =
 			of(Year.of(year), MonthOfYear.of(month), DayOfMonth.of(day), HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
 
-		fun of(
+		public fun of(
 			year: Year,
 			month: MonthOfYear,
 			day: DayOfMonth,
@@ -71,15 +72,15 @@ class LocalDateTime private constructor(
 			minute: MinuteOfHour = MinuteOfHour(0),
 			second: SecondOfMinute = SecondOfMinute(0),
 			nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
-		) =
+		): LocalDateTime =
 			of(LocalDate.of(year, month, day), LocalTime.of(hour, minute, second, nanosecond))
 
 
-		fun of(date: LocalDate, time: LocalTime) =
+		public fun of(date: LocalDate, time: LocalTime): LocalDateTime =
 			unchecked(date, time)
 
 
-		fun parse(text: CharSequence): LocalDateTime? {
+		public fun parse(text: CharSequence): LocalDateTime? {
 			val splitIndex = text.indexOf('T')
 			if (splitIndex < 0 || splitIndex >= text.length - 1) return null
 
@@ -115,8 +116,8 @@ class LocalDateTime private constructor(
 }
 
 
-expect fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp
-expect fun LocalDateTime.toDayOfWeek(): DayOfWeek
+public expect fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp
+public expect fun LocalDateTime.toDayOfWeek(): DayOfWeek
 
 
 @Serializer(forClass = LocalDateTime::class)

@@ -6,4 +6,4 @@ package io.fluidsonic.time
 	level = DeprecationLevel.WARNING,
 	replaceWith = ReplaceWith("PreciseDuration", "io.fluidsonic.time.PreciseDuration")
 )
-typealias Duration = PreciseDuration
+public typealias Duration = PreciseDuration

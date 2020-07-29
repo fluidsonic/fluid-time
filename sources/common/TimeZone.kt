@@ -4,12 +4,14 @@ import io.fluidsonic.time.PlatformTimeZoneStatic.knownTimeZoneIds
 import io.fluidsonic.time.PlatformTimeZoneStatic.systemTimeZoneId
 import io.fluidsonic.time.PlatformTimeZoneStatic.timeZoneWithId
 import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
 
 
 @Serializable(with = TimeZoneSerializer::class)
-class TimeZone private constructor(internal val platform: PlatformTimeZone) {
+public class TimeZone private constructor(internal val platform: PlatformTimeZone) {
 
-	val id = platform.id
+	public val id: String = platform.id
 
 
 	init {
@@ -17,39 +19,39 @@ class TimeZone private constructor(internal val platform: PlatformTimeZone) {
 	}
 
 
-	fun daylightSavingTimeOffset(timestamp: Timestamp) =
+	public fun daylightSavingTimeOffset(timestamp: Timestamp): Seconds =
 		platform.daylightSavingTimeOffset(timestamp)
 
 
-	override fun equals(other: Any?) =
+	override fun equals(other: Any?): Boolean =
 		this === other || (other is TimeZone && id == other.id)
 
 
-	override fun hashCode() =
+	override fun hashCode(): Int =
 		id.hashCode()
 
 
-	fun isInDaylightSavingTime(timestamp: Timestamp) =
+	public fun isInDaylightSavingTime(timestamp: Timestamp): Boolean =
 		platform.isDaylightSavingTime(timestamp)
 
 
-	fun nextDaylightSavingTimeTransition(after: Timestamp) =
+	public fun nextDaylightSavingTimeTransition(after: Timestamp): Timestamp? =
 		platform.nextDaylightSavingTimeTransition(after)
 
 
-	override fun toString() =
+	override fun toString(): String =
 		id
 
 
-	companion object {
+	public companion object {
 
-		val knownIds get() = knownTimeZoneIds
-		val system get() = withId(systemTimeZoneId)!!
-		val utc = TimeZone(timeZoneWithId("UTC")!!)
+		public val knownIds: Set<String> get() = knownTimeZoneIds
+		public val system: TimeZone get() = withId(systemTimeZoneId)!!
+		public val utc: TimeZone = TimeZone(timeZoneWithId("UTC")!!)
 
 
 		// TODO add some caching
-		fun withId(id: String) = when (id) {
+		public fun withId(id: String): TimeZone? = when (id) {
 			"UTC" -> utc
 			else -> timeZoneWithId(id)?.let(::TimeZone)
 		}
@@ -57,7 +59,7 @@ class TimeZone private constructor(internal val platform: PlatformTimeZone) {
 }
 
 
-expect class PlatformTimeZone
+public expect class PlatformTimeZone
 
 internal expect fun PlatformTimeZone.daylightSavingTimeOffset(timestamp: Timestamp): Seconds
 internal expect val PlatformTimeZone.id: String
@@ -79,7 +81,7 @@ internal fun PlatformTimeZone.toCommon() =
 @Serializer(forClass = TimeZone::class)
 internal object TimeZoneSerializer : KSerializer<TimeZone> {
 
-	override val descriptor = PrimitiveDescriptor("io.fluidsonic.time.TimeZone", PrimitiveKind.STRING)
+	override val descriptor = PrimitiveSerialDescriptor("io.fluidsonic.time.TimeZone", PrimitiveKind.STRING)
 
 
 	override fun deserialize(decoder: Decoder) =

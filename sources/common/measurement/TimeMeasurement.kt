@@ -4,30 +4,30 @@ import kotlin.time.*
 import kotlin.time.Duration
 
 
-interface TimeMeasurement<Measurement : TimeMeasurement<Measurement>> : TemporalMeasurement<Measurement> {
+public interface TimeMeasurement<Measurement : TimeMeasurement<Measurement>> : TemporalMeasurement<Measurement> {
 
-	fun toDays(): Days
+	public fun toDays(): Days
 
 	@ExperimentalTime
-	fun toDuration(): Duration
+	public fun toDuration(): Duration
 
-	fun toHours(): Hours
+	public fun toHours(): Hours
 
-	fun toMicroseconds(): Microseconds
+	public fun toMicroseconds(): Microseconds
 
-	fun toMilliseconds(): Milliseconds
+	public fun toMilliseconds(): Milliseconds
 
-	fun toMinutes(): Minutes
+	public fun toMinutes(): Minutes
 
-	fun toNanoseconds(): Nanoseconds
+	public fun toNanoseconds(): Nanoseconds
 
-	fun toPreciseDuration(): PreciseDuration
+	public fun toPreciseDuration(): PreciseDuration
 
-	fun toSeconds(): Seconds
-
-
-	companion object
+	public fun toSeconds(): Seconds
 
 
-	interface CompanionInterface<Measurement : TimeMeasurement<Measurement>> : TemporalMeasurement.CompanionInterface<Measurement>
+	public companion object;
+
+
+	public interface CompanionInterface<Measurement : TimeMeasurement<Measurement>> : TemporalMeasurement.CompanionInterface<Measurement>
 }

@@ -7,149 +7,149 @@ import kotlin.time.*
 import kotlin.time.Duration
 
 
-inline class Hours(@PublishedApi internal val value: Long) :
+public inline class Hours(@PublishedApi internal val value: Long) :
 	TemporalMeasurement.LongBased<Hours>,
 	TimeMeasurement<Hours> {
 
-	constructor(value: Int) : this(value.toLong())
+	public constructor(value: Int) : this(value.toLong())
 
 
-	override inline val absolute
+	override inline val absolute: Hours
 		get() = map(::abs) // cannot use Long::absoluteValue - https://youtrack.jetbrains.com/issue/KT-34469
 
 
-	override inline fun compareTo(other: Hours) =
+	override inline fun compareTo(other: Hours): Int =
 		value.compareTo(other.value)
 
 
-	override inline operator fun div(other: Int) =
+	override inline operator fun div(other: Int): Hours =
 		div(other.toLong())
 
 
-	override inline operator fun div(other: Long) =
+	override inline operator fun div(other: Long): Hours =
 		Hours(value / other)
 
 
-	override inline operator fun div(other: Hours) =
+	override inline operator fun div(other: Hours): Long =
 		value / other.value
 
 
-	override inline val isNegative
+	override inline val isNegative: Boolean
 		get() = value < 0
 
 
-	override inline val isPositive
+	override inline val isPositive: Boolean
 		get() = value > 0
 
 
-	override inline val isZero
+	override inline val isZero: Boolean
 		get() = value == 0L
 
 
-	override inline fun map(transform: (Long) -> Long) =
+	override inline fun map(transform: (Long) -> Long): Hours =
 		Hours(transform(toLong()))
 
 
-	override inline operator fun minus(other: Hours) =
+	override inline operator fun minus(other: Hours): Hours =
 		Hours(value - other.value)
 
 
-	override inline operator fun plus(other: Hours) =
+	override inline operator fun plus(other: Hours): Hours =
 		Hours(value + other.value)
 
 
-	override inline operator fun rem(other: Int) =
+	override inline operator fun rem(other: Int): Hours =
 		rem(other.toLong())
 
 
-	override inline operator fun rem(other: Long) =
+	override inline operator fun rem(other: Long): Hours =
 		Hours(value % other)
 
 
-	override inline operator fun rem(other: Hours) =
+	override inline operator fun rem(other: Hours): Hours =
 		Hours(value % other.value)
 
 
-	override inline operator fun times(other: Int) =
+	override inline operator fun times(other: Int): Hours =
 		times(other.toLong())
 
 
-	override inline operator fun times(other: Long) =
+	override inline operator fun times(other: Long): Hours =
 		Hours(value * other)
 
 
-	override inline fun toDays() =
+	override inline fun toDays(): Days =
 		Days(this / perDay)
 
 
 	@ExperimentalTime
-	override inline fun toDuration() =
+	override inline fun toDuration(): Duration =
 		value.hours
 
 
 	@Deprecated(message = "redundant conversion", level = DeprecationLevel.HIDDEN)
-	override inline fun toHours() =
+	override inline fun toHours(): Hours =
 		this
 
 
-	override inline fun toInt() =
+	override inline fun toInt(): Int =
 		value.toInt()
 
 
-	override inline fun toLong() =
+	override inline fun toLong(): Long =
 		value
 
 
-	override inline fun toMicroseconds() =
+	override inline fun toMicroseconds(): Microseconds =
 		Microseconds.perHour * value
 
 
-	override inline fun toMilliseconds() =
+	override inline fun toMilliseconds(): Milliseconds =
 		Milliseconds.perHour * value
 
 
-	override inline fun toMinutes() =
+	override inline fun toMinutes(): Minutes =
 		Minutes.perHour * value
 
 
-	override inline fun toNanoseconds() =
+	override inline fun toNanoseconds(): Nanoseconds =
 		Nanoseconds.perHour * value
 
 
-	override inline fun toPreciseDuration() =
+	override inline fun toPreciseDuration(): PreciseDuration =
 		PreciseDuration.of(hours = this)
 
 
-	override inline fun toSeconds() =
+	override inline fun toSeconds(): Seconds =
 		Seconds.perHour * value
 
 
-	override inline fun toString() =
+	override inline fun toString(): String =
 		value.toString()
 
 
-	override inline operator fun unaryMinus() =
+	override inline operator fun unaryMinus(): Hours =
 		Hours(-value)
 
 
-	companion object : TimeMeasurement.CompanionInterface<Hours> {
+	public companion object : TimeMeasurement.CompanionInterface<Hours> {
 
-		/* override */ val max = Hours(Long.MAX_VALUE)
-		/* override */ val min = Hours(Long.MIN_VALUE)
-		val perDay = Hours(24L)
-		/* override */ val zero = Hours(0L)
+		/* override */ public val max: Hours = Hours(Long.MAX_VALUE)
+		/* override */public val min: Hours = Hours(Long.MIN_VALUE)
+		public val perDay: Hours = Hours(24L)
+		/* override */ public val zero: Hours = Hours(0L)
 	}
 }
 
 
 @ExperimentalTime
-inline fun Duration.toHours() =
+public inline fun Duration.toHours(): Hours =
 	Hours(inHours.toLong())
 
 
-inline operator fun Int.times(other: Hours) =
+public inline operator fun Int.times(other: Hours): Hours =
 	other.times(this)
 
 
-inline operator fun Long.times(other: Hours) =
+public inline operator fun Long.times(other: Hours): Hours =
 	other.times(this)

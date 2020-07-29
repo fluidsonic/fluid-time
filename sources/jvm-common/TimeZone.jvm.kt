@@ -1,14 +1,14 @@
 package io.fluidsonic.time
 
 
-fun TimeZone.toPlatform() =
+public fun TimeZone.toPlatform(): PlatformZoneId /* = java.time.ZoneId */ =
 	platform.value
 
 
 // not possible, see https://youtrack.jetbrains.com/issue/KT-31517
 // actual typealias PlatformTimeZone = PlatformZoneId
 
-actual class PlatformTimeZone(val value: PlatformZoneId)
+public actual class PlatformTimeZone(internal val value: PlatformZoneId)
 
 
 internal actual fun PlatformTimeZone.daylightSavingTimeOffset(timestamp: Timestamp) =

@@ -3,7 +3,7 @@ package io.fluidsonic.time
 import platform.Foundation.*
 
 
-actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp {
+public actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp {
 	val components = toPlatformComponents()
 	components.hour = 0
 	components.minute = 0
@@ -16,7 +16,7 @@ actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp {
 
 
 // TODO Is this correct? We're changing both dates by one day here.
-actual fun LocalDate.daysSince(startExclusive: LocalDate): Days =
+public actual fun LocalDate.daysSince(startExclusive: LocalDate): Days =
 	Days(platform_gregorianCalendar.components(
 		unitFlags = NSDayCalendarUnit,
 		fromDate = startExclusive.atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
@@ -25,44 +25,44 @@ actual fun LocalDate.daysSince(startExclusive: LocalDate): Days =
 	).day)
 
 
-actual fun LocalDate.daysUntil(endExclusive: LocalDate): Days =
+public actual fun LocalDate.daysUntil(endExclusive: LocalDate): Days =
 	endExclusive.daysSince(this)
 
 
-actual operator fun LocalDate.plus(days: Days): LocalDate =
+public actual operator fun LocalDate.plus(days: Days): LocalDate =
 	platform_gregorianCalendar.dateByAddingUnit(
-			NSDayCalendarUnit,
-			value = days.toLong(),
-			toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-			options = 0UL
-		)!!
+		NSDayCalendarUnit,
+		value = days.toLong(),
+		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
+		options = 0UL
+	)!!
 		.toCommon()
 		.toLocalDate(timeZone = TimeZone.utc)
 
 
-actual operator fun LocalDate.plus(months: Months): LocalDate =
+public actual operator fun LocalDate.plus(months: Months): LocalDate =
 	platform_gregorianCalendar.dateByAddingUnit(
-			NSMonthCalendarUnit,
-			value = months.toLong(),
-			toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-			options = 0UL
-		)!!
+		NSMonthCalendarUnit,
+		value = months.toLong(),
+		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
+		options = 0UL
+	)!!
 		.toCommon()
 		.toLocalDate(timeZone = TimeZone.utc)
 
 
-actual operator fun LocalDate.plus(years: Years): LocalDate =
+public actual operator fun LocalDate.plus(years: Years): LocalDate =
 	platform_gregorianCalendar.dateByAddingUnit(
-			NSYearCalendarUnit,
-			value = years.toLong(),
-			toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-			options = 0UL
-		)!!
+		NSYearCalendarUnit,
+		value = years.toLong(),
+		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
+		options = 0UL
+	)!!
 		.toCommon()
 		.toLocalDate(timeZone = TimeZone.utc)
 
 
-actual fun LocalDate.toDayOfWeek() =
+public actual fun LocalDate.toDayOfWeek(): DayOfWeek =
 	atStartOfDay(TimeZone.utc).toDayOfWeek(TimeZone.utc)
 
 

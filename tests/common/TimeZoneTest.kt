@@ -4,7 +4,7 @@ import io.fluidsonic.time.*
 import kotlin.test.*
 
 
-object TimeZoneTest {
+class TimeZoneTest {
 
 	@Test
 	fun testJsonUTC() = assertJsonSerialization(

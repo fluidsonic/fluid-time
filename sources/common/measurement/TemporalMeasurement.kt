@@ -1,29 +1,29 @@
 package io.fluidsonic.time
 
 
-interface TemporalMeasurement<Measurement : TemporalMeasurement<Measurement>> : Comparable<Measurement> {
+public interface TemporalMeasurement<Measurement : TemporalMeasurement<Measurement>> : Comparable<Measurement> {
 
-	val absolute: Measurement
-	val isNegative: Boolean
-	val isPositive: Boolean
-	val isZero: Boolean
+	public val absolute: Measurement
+	public val isNegative: Boolean
+	public val isPositive: Boolean
+	public val isZero: Boolean
 
-	operator fun div(other: Int): Measurement
-	operator fun div(other: Long): Measurement
-	operator fun div(other: Measurement): Long
-	operator fun minus(other: Measurement): Measurement
-	operator fun plus(other: Measurement): Measurement
-	operator fun rem(other: Int): Measurement
-	operator fun rem(other: Long): Measurement
-	operator fun rem(other: Measurement): Measurement
-	operator fun times(other: Int): Measurement
-	operator fun times(other: Long): Measurement
-	operator fun unaryMinus(): Measurement
+	public operator fun div(other: Int): Measurement
+	public operator fun div(other: Long): Measurement
+	public operator fun div(other: Measurement): Long
+	public operator fun minus(other: Measurement): Measurement
+	public operator fun plus(other: Measurement): Measurement
+	public operator fun rem(other: Int): Measurement
+	public operator fun rem(other: Long): Measurement
+	public operator fun rem(other: Measurement): Measurement
+	public operator fun times(other: Int): Measurement
+	public operator fun times(other: Long): Measurement
+	public operator fun unaryMinus(): Measurement
 
-	companion object
+	public companion object;
 
 
-	interface CompanionInterface<Measurement : TemporalMeasurement<Measurement>> {
+	public interface CompanionInterface<Measurement : TemporalMeasurement<Measurement>> {
 
 		// removed due to boxing
 //		val max: Measurement
@@ -32,10 +32,10 @@ interface TemporalMeasurement<Measurement : TemporalMeasurement<Measurement>> : 
 	}
 
 
-	interface LongBased<Measurement : LongBased<Measurement>> : TemporalMeasurement<Measurement> {
+	public interface LongBased<Measurement : LongBased<Measurement>> : TemporalMeasurement<Measurement> {
 
-		fun map(transform: (Long) -> Long): Measurement
-		fun toInt(): Int
-		fun toLong(): Long
+		public fun map(transform: (Long) -> Long): Measurement
+		public fun toInt(): Int
+		public fun toLong(): Long
 	}
 }

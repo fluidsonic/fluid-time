@@ -4,44 +4,44 @@ package io.fluidsonic.time
 
 
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class HourOfDay @PublishedApi internal constructor(@PublishedApi internal val value: Byte) : DateTimeComponent<HourOfDay, Hours> {
+public inline class HourOfDay @PublishedApi internal constructor(@PublishedApi internal val value: Byte) : DateTimeComponent<HourOfDay, Hours> {
 
-	override inline fun compareTo(other: HourOfDay) =
+	override inline fun compareTo(other: HourOfDay): Int =
 		value.compareTo(other.value)
 
 
-	override inline fun map(transform: (Long) -> Long) =
+	override inline fun map(transform: (Long) -> Long): HourOfDay =
 		of(transform(toLong()))
 
 
-	override inline operator fun minus(other: HourOfDay) =
+	override inline operator fun minus(other: HourOfDay): Hours =
 		Hours(toLong() - other.toLong())
 
 
-	override inline operator fun minus(other: Hours) =
+	override inline operator fun minus(other: Hours): HourOfDay =
 		map { it - other.toLong() }
 
 
-	override inline operator fun plus(other: Hours) =
+	override inline operator fun plus(other: Hours): HourOfDay =
 		map { it + other.toLong() }
 
 
-	override inline fun toInt() =
+	override inline fun toInt(): Int =
 		value.toInt()
 
 
-	override inline fun toLong() =
+	override inline fun toLong(): Long =
 		value.toLong()
 
 
-	override inline fun toString() =
+	override inline fun toString(): String =
 		value.toString()
 
 
-	companion object : DateTimeComponent.CompanionInterface<HourOfDay> {
+	public companion object : DateTimeComponent.CompanionInterface<HourOfDay> {
 
-		/* override */ val max = unchecked(23)
-		/* override */ val min = unchecked(0)
+		/* override */ public val max: HourOfDay = unchecked(23)
+		/* override */ public val min: HourOfDay = unchecked(0)
 
 
 		override inline fun of(value: Long): HourOfDay {

@@ -1,14 +1,15 @@
 package io.fluidsonic.time
 
 import kotlinx.serialization.*
+import kotlinx.serialization.encoding.*
 
 
 @Serializable(with = LocalTimeSerializer::class)
-class LocalTime private constructor(
-	val hour: HourOfDay,
-	val minute: MinuteOfHour,
-	val second: SecondOfMinute,
-	val nanosecond: NanosecondOfSecond
+public class LocalTime private constructor(
+	public val hour: HourOfDay,
+	public val minute: MinuteOfHour,
+	public val second: SecondOfMinute,
+	public val nanosecond: NanosecondOfSecond
 ) : Comparable<LocalTime> {
 
 	init {
@@ -16,15 +17,15 @@ class LocalTime private constructor(
 	}
 
 
-	fun atDate(year: Long, month: Long, day: Long) =
+	public fun atDate(year: Long, month: Long, day: Long): LocalDateTime =
 		atDate(Year.of(year), MonthOfYear.of(month), DayOfMonth.of(day))
 
 
-	fun atDate(year: Year, month: MonthOfYear, day: DayOfMonth) =
+	public fun atDate(year: Year, month: MonthOfYear, day: DayOfMonth): LocalDateTime =
 		atDate(LocalDate.of(year, month, day))
 
 
-	fun atDate(date: LocalDate) =
+	public fun atDate(date: LocalDate): LocalDateTime =
 		LocalDateTime.of(date, this)
 
 
@@ -43,7 +44,7 @@ class LocalTime private constructor(
 	}
 
 
-	override fun equals(other: Any?) =
+	override fun equals(other: Any?): Boolean =
 		this === other || (
 			other is LocalTime
 				&& hour == other.hour
@@ -53,15 +54,15 @@ class LocalTime private constructor(
 			)
 
 
-	override fun hashCode() =
+	override fun hashCode(): Int =
 		hour.hashCode() xor minute.hashCode() xor second.hashCode() xor nanosecond.hashCode()
 
 
-	override fun toString() =
+	override fun toString(): String =
 		buildString(capacity = 18) { toString(this) }
 
 
-	fun toString(builder: StringBuilder) {
+	public fun toString(builder: StringBuilder) {
 		with(builder) {
 			val hour = hour.toLong()
 			val minute = minute.toLong()
@@ -109,31 +110,31 @@ class LocalTime private constructor(
 	}
 
 
-	companion object {
+	public companion object {
 
 		private val iso8601Regex = Regex("(\\d{2}):(\\d{2})(?::(\\d{2})(?:\\.(\\d{1,9}))?)?")
 
 		private val fullHours = Array(24) { unchecked(hour = it.toLong()) }
 
-		val max = unchecked(hour = 23, minute = 59, second = 59, nanosecond = 999_999_999)
-		val midnight = fullHours[0]
-		val min = midnight
-		val noon = fullHours[12]
+		public val max: LocalTime = unchecked(hour = 23, minute = 59, second = 59, nanosecond = 999_999_999)
+		public val midnight: LocalTime = fullHours[0]
+		public val min: LocalTime = midnight
+		public val noon: LocalTime = fullHours[12]
 
 
-		fun now(clock: WallClock = WallClock.systemUtc) =
+		public fun now(clock: WallClock = WallClock.systemUtc): LocalTime =
 			clock.localTime()
 
 
-		fun now(timeZone: TimeZone) =
+		public fun now(timeZone: TimeZone): LocalDate =
 			LocalDate.now(clock = WallClock.system(timeZone))
 
 
-		fun of(hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0) =
+		public fun of(hour: Long, minute: Long = 0, second: Long = 0, nanosecond: Long = 0): LocalTime =
 			of(HourOfDay.of(hour), MinuteOfHour.of(minute), SecondOfMinute.of(second), NanosecondOfSecond.of(nanosecond))
 
 
-		fun of(
+		public fun of(
 			hour: HourOfDay,
 			minute: MinuteOfHour = MinuteOfHour(0),
 			second: SecondOfMinute = SecondOfMinute(0),
@@ -145,7 +146,7 @@ class LocalTime private constructor(
 		}
 
 
-		fun parse(text: CharSequence): LocalTime? {
+		public fun parse(text: CharSequence): LocalTime? {
 			val result = iso8601Regex.matchEntire(text) ?: return null
 
 			val hour = result.groupValues[1].toLong()

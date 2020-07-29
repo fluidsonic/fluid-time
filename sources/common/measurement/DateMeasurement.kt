@@ -1,10 +1,10 @@
 package io.fluidsonic.time
 
 
-interface DateMeasurement<Measurement : DateMeasurement<Measurement>> : TemporalMeasurement<Measurement> {
+public interface DateMeasurement<Measurement : DateMeasurement<Measurement>> : TemporalMeasurement<Measurement> {
 
-	companion object
+	public companion object;
 
 
-	interface CompanionInterface<Measurement : DateMeasurement<Measurement>> : TemporalMeasurement.CompanionInterface<Measurement>
+	public interface CompanionInterface<Measurement : DateMeasurement<Measurement>> : TemporalMeasurement.CompanionInterface<Measurement>
 }

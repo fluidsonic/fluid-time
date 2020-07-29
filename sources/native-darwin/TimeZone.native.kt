@@ -3,11 +3,11 @@ package io.fluidsonic.time
 import platform.Foundation.*
 
 
-fun TimeZone.toPlatform() =
+public fun TimeZone.toPlatform(): PlatformTimeZone =
 	platform
 
 
-actual typealias PlatformTimeZone = NSTimeZone
+public actual typealias PlatformTimeZone = NSTimeZone
 
 
 internal actual fun PlatformTimeZone.daylightSavingTimeOffset(timestamp: Timestamp) =

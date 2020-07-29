@@ -3,7 +3,7 @@
 package io.fluidsonic.time
 
 
-enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
+public enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 
 	january,
 	february,
@@ -19,7 +19,7 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 	december;
 
 
-	fun daysIn(year: Year) =
+	public fun daysIn(year: Year): Days =
 		Days(when (this) {
 			january -> 31
 			february -> if (year.isLeap) 29 else 28
@@ -36,42 +36,42 @@ enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 		})
 
 
-	fun lastDayIn(year: Year) =
+	public fun lastDayIn(year: Year): DayOfMonth =
 		DayOfMonth.unchecked(daysIn(year).toLong())
 
 
-	override inline fun map(transform: (Long) -> Long) =
+	override inline fun map(transform: (Long) -> Long): MonthOfYear =
 		of(transform(toLong()))
 
 
-	override inline operator fun minus(other: MonthOfYear) =
+	override inline operator fun minus(other: MonthOfYear): Months =
 		Months(toLong() - other.toLong()) // FIXME check
 
 
-	override inline operator fun minus(other: Months) =
+	override inline operator fun minus(other: Months): MonthOfYear =
 		plus(-(other % 12))
 
 
-	override inline operator fun plus(other: Months) =
+	override inline operator fun plus(other: Months): MonthOfYear =
 		unchecked((toLong() + (other.toLong() % 12) + 12) % 12)
 
 
-	override fun toInt() =
+	override fun toInt(): Int =
 		ordinal + 1
 
 
-	override fun toLong() =
+	override fun toLong(): Long =
 		ordinal + 1L
 
 
-	override fun toString() =
+	override fun toString(): String =
 		name
 
 
-	companion object : DateTimeComponent.CompanionInterface<MonthOfYear> {
+	public companion object : DateTimeComponent.CompanionInterface<MonthOfYear> {
 
-		/* override */ val max = december
-		/* override */ val min = january
+		/* override */ public val max: MonthOfYear = december
+		/* override */ public val min: MonthOfYear = january
 
 
 		override fun of(value: Long): MonthOfYear {

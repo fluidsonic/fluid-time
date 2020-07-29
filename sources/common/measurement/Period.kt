@@ -3,10 +3,10 @@ package io.fluidsonic.time
 
 // TODO add more functionality
 // TODO add serializer
-class Period internal constructor(
-	val years: Years,
-	val months: Months,
-	val days: Days,
+public class Period internal constructor(
+	public val years: Years,
+	public val months: Months,
+	public val days: Days,
 	@Suppress("UNUSED_PARAMETER") disambiguation: Unit
 ) {
 
@@ -15,7 +15,7 @@ class Period internal constructor(
 	}
 
 
-	override fun equals(other: Any?) =
+	override fun equals(other: Any?): Boolean =
 		this === other || (
 			other is Period
 				&& days == other.days
@@ -24,11 +24,11 @@ class Period internal constructor(
 			)
 
 
-	override fun hashCode() =
+	override fun hashCode(): Int =
 		days.hashCode() xor months.hashCode() xor years.hashCode()
 
 
-	override fun toString() =
+	override fun toString(): String =
 		when {
 			this === zero -> "P0D"
 			else -> buildString {
@@ -44,16 +44,16 @@ class Period internal constructor(
 		}
 
 
-	companion object {
+	public companion object {
 
-		val zero = Period(years = Years.zero, months = Months.zero, days = Days.zero, disambiguation = Unit)
+		public val zero: Period = Period(years = Years.zero, months = Months.zero, days = Days.zero, disambiguation = Unit)
 	}
 }
 
 
 @Suppress("FunctionName", "INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
 @kotlin.internal.InlineOnly
-inline fun Period(
+public inline fun Period(
 	years: Int = 0,
 	months: Int = 0,
 	days: Int = 0
@@ -67,7 +67,7 @@ inline fun Period(
 
 @Suppress("FunctionName", "INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
 @kotlin.internal.InlineOnly
-inline fun Period(
+public inline fun Period(
 	years: Long = 0,
 	months: Long = 0,
 	days: Long = 0
@@ -80,7 +80,7 @@ inline fun Period(
 
 
 @Suppress("FunctionName")
-fun Period(
+public fun Period(
 	years: Years = Years.zero,
 	months: Months = Months.zero,
 	days: Days = Days.zero

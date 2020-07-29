@@ -3,7 +3,7 @@ package io.fluidsonic.time
 import platform.Foundation.*
 
 
-actual fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp {
+public actual fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp {
 	val components = toPlatformComponents()
 	components.timeZone = timeZone.platform
 
@@ -11,7 +11,7 @@ actual fun LocalDateTime.atTimeZone(timeZone: TimeZone): Timestamp {
 }
 
 
-actual fun LocalDateTime.toDayOfWeek() =
+public actual fun LocalDateTime.toDayOfWeek(): DayOfWeek =
 	atTimeZone(TimeZone.utc).toDayOfWeek(TimeZone.utc)
 
 

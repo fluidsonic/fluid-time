@@ -5,7 +5,7 @@ import kotlin.test.*
 import kotlin.time.*
 
 
-object MillisecondsTest {
+class MillisecondsTest {
 
 	@Test
 	fun testArithmethic() {

@@ -1,11 +1,11 @@
 package io.fluidsonic.time
 
 
-fun Period.toPlatform(): PlatformPeriod =
+public fun Period.toPlatform(): PlatformPeriod =
 	PlatformPeriod.of(years.toInt(), months.toInt(), days.toInt())
 
 
-fun PlatformPeriod.toCommon(): Period =
+public fun PlatformPeriod.toCommon(): Period =
 	Period(years = years, months = months, days = days)
 
 

@@ -4,44 +4,44 @@ package io.fluidsonic.time
 
 
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class DayOfMonth @PublishedApi internal constructor(@PublishedApi internal val value: Byte) : DateTimeComponent<DayOfMonth, Days> {
+public inline class DayOfMonth @PublishedApi internal constructor(@PublishedApi internal val value: Byte) : DateTimeComponent<DayOfMonth, Days> {
 
-	override inline fun compareTo(other: DayOfMonth) =
+	override inline fun compareTo(other: DayOfMonth): Int =
 		value.compareTo(other.value)
 
 
-	override inline fun map(transform: (Long) -> Long) =
+	override inline fun map(transform: (Long) -> Long): DayOfMonth =
 		of(transform(toLong()))
 
 
-	override inline operator fun minus(other: DayOfMonth) =
+	override inline operator fun minus(other: DayOfMonth): Days =
 		Days(toLong() - other.toLong())
 
 
-	override inline operator fun minus(other: Days) =
+	override inline operator fun minus(other: Days): DayOfMonth =
 		map { it - other.toLong() }
 
 
-	override inline operator fun plus(other: Days) =
+	override inline operator fun plus(other: Days): DayOfMonth =
 		map { it + other.toLong() }
 
 
-	override inline fun toInt() =
+	override inline fun toInt(): Int =
 		value.toInt()
 
 
-	override inline fun toLong() =
+	override inline fun toLong(): Long =
 		value.toLong()
 
 
-	override inline fun toString() =
+	override inline fun toString(): String =
 		value.toString()
 
 
-	companion object : DateTimeComponent.CompanionInterface<DayOfMonth> {
+	public companion object : DateTimeComponent.CompanionInterface<DayOfMonth> {
 
-		/* override */ val max = unchecked(31)
-		/* override */ val min = unchecked(1)
+		/* override */ public val max: DayOfMonth = unchecked(31)
+		/* override */ public val min: DayOfMonth = unchecked(1)
 
 
 		override inline fun of(value: Long): DayOfMonth {

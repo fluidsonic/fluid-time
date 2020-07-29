@@ -7,149 +7,149 @@ import kotlin.time.*
 import kotlin.time.Duration
 
 
-inline class Days(@PublishedApi internal val value: Long) :
+public inline class Days(@PublishedApi internal val value: Long) :
 	TemporalMeasurement.LongBased<Days>,
 	DateMeasurement<Days>,
 	TimeMeasurement<Days> {
 
-	constructor(value: Int) : this(value.toLong())
+	public constructor(value: Int) : this(value.toLong())
 
 
-	override inline val absolute
+	override inline val absolute: Days
 		get() = map(::abs) // cannot use Long::absoluteValue - https://youtrack.jetbrains.com/issue/KT-34469
 
 
-	override inline fun compareTo(other: Days) =
+	override inline fun compareTo(other: Days): Int =
 		value.compareTo(other.value)
 
 
-	override inline operator fun div(other: Int) =
+	override inline operator fun div(other: Int): Days =
 		div(other.toLong())
 
 
-	override inline operator fun div(other: Long) =
+	override inline operator fun div(other: Long): Days =
 		Days(value / other)
 
 
-	override inline operator fun div(other: Days) =
+	override inline operator fun div(other: Days): Long =
 		value / other.value
 
 
-	override inline val isNegative
+	override inline val isNegative: Boolean
 		get() = value < 0
 
 
-	override inline val isPositive
+	override inline val isPositive: Boolean
 		get() = value > 0
 
 
-	override inline val isZero
+	override inline val isZero: Boolean
 		get() = value == 0L
 
 
-	override inline fun map(transform: (Long) -> Long) =
+	override inline fun map(transform: (Long) -> Long): Days =
 		Days(transform(toLong()))
 
 
-	override inline operator fun minus(other: Days) =
+	override inline operator fun minus(other: Days): Days =
 		Days(value - other.value)
 
 
-	override inline operator fun plus(other: Days) =
+	override inline operator fun plus(other: Days): Days =
 		Days(value + other.value)
 
 
-	override inline operator fun rem(other: Int) =
+	override inline operator fun rem(other: Int): Days =
 		rem(other.toLong())
 
 
-	override inline operator fun rem(other: Long) =
+	override inline operator fun rem(other: Long): Days =
 		Days(value % other)
 
 
-	override inline operator fun rem(other: Days) =
+	override inline operator fun rem(other: Days): Days =
 		Days(value % other.value)
 
 
-	override inline operator fun times(other: Int) =
+	override inline operator fun times(other: Int): Days =
 		times(other.toLong())
 
 
-	override inline operator fun times(other: Long) =
+	override inline operator fun times(other: Long): Days =
 		Days(value * other)
 
 
 	@Deprecated(message = "redundant conversion", level = DeprecationLevel.HIDDEN)
-	override inline fun toDays() =
+	override inline fun toDays(): Days =
 		this
 
 
 	@ExperimentalTime
-	override inline fun toDuration() =
+	override inline fun toDuration(): Duration =
 		value.days
 
 
-	override inline fun toHours() =
+	override inline fun toHours(): Hours =
 		Hours.perDay * value
 
 
-	override inline fun toInt() =
+	override inline fun toInt(): Int =
 		value.toInt()
 
 
-	override inline fun toLong() =
+	override inline fun toLong(): Long =
 		value
 
 
-	override inline fun toMicroseconds() =
+	override inline fun toMicroseconds(): Microseconds =
 		Microseconds.perDay * value
 
 
-	override inline fun toMilliseconds() =
+	override inline fun toMilliseconds(): Milliseconds =
 		Milliseconds.perDay * value
 
 
-	override inline fun toMinutes() =
+	override inline fun toMinutes(): Minutes =
 		Minutes.perDay * value
 
 
-	override inline fun toNanoseconds() =
+	override inline fun toNanoseconds(): Nanoseconds =
 		Nanoseconds.perDay * value
 
 
-	override inline fun toPreciseDuration() =
+	override inline fun toPreciseDuration(): PreciseDuration =
 		PreciseDuration.of(days = this)
 
 
-	override inline fun toSeconds() =
+	override inline fun toSeconds(): Seconds =
 		Seconds.perDay * value
 
 
-	override inline fun toString() =
+	override inline fun toString(): String =
 		value.toString()
 
 
-	override inline operator fun unaryMinus() =
+	override inline operator fun unaryMinus(): Days =
 		Days(-value)
 
 
-	companion object : DateMeasurement.CompanionInterface<Days>, TimeMeasurement.CompanionInterface<Days> {
+	public companion object : DateMeasurement.CompanionInterface<Days>, TimeMeasurement.CompanionInterface<Days> {
 
-		/* override */ val max = Days(Long.MAX_VALUE)
-		/* override */ val min = Days(Long.MIN_VALUE)
-		/* override */ val zero = Days(0L)
+		/* override */ public val max: Days = Days(Long.MAX_VALUE)
+		/* override */ public val min: Days = Days(Long.MIN_VALUE)
+		/* override */ public val zero: Days = Days(0L)
 	}
 }
 
 
 @ExperimentalTime
-inline fun Duration.toDays() =
+public inline fun Duration.toDays(): Days =
 	Days(inDays.toLong())
 
 
-inline operator fun Int.times(other: Days) =
+public inline operator fun Int.times(other: Days): Days =
 	other.times(this)
 
 
-inline operator fun Long.times(other: Days) =
+public inline operator fun Long.times(other: Days): Days =
 	other.times(this)

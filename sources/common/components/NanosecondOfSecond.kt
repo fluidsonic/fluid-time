@@ -4,44 +4,44 @@ package io.fluidsonic.time
 
 
 @Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
-inline class NanosecondOfSecond @PublishedApi internal constructor(@PublishedApi internal val value: Int) : DateTimeComponent<NanosecondOfSecond, Nanoseconds> {
+public inline class NanosecondOfSecond @PublishedApi internal constructor(@PublishedApi internal val value: Int) : DateTimeComponent<NanosecondOfSecond, Nanoseconds> {
 
-	override inline fun compareTo(other: NanosecondOfSecond) =
+	override inline fun compareTo(other: NanosecondOfSecond): Int =
 		value.compareTo(other.value)
 
 
-	override inline fun map(transform: (Long) -> Long) =
+	override inline fun map(transform: (Long) -> Long): NanosecondOfSecond =
 		of(transform(toLong()))
 
 
-	override inline operator fun minus(other: NanosecondOfSecond) =
+	override inline operator fun minus(other: NanosecondOfSecond): Nanoseconds =
 		Nanoseconds(toLong() - other.toLong())
 
 
-	override inline operator fun minus(other: Nanoseconds) =
+	override inline operator fun minus(other: Nanoseconds): NanosecondOfSecond =
 		map { it - other.toLong() }
 
 
-	override inline operator fun plus(other: Nanoseconds) =
+	override inline operator fun plus(other: Nanoseconds): NanosecondOfSecond =
 		map { it + other.toLong() }
 
 
-	override inline fun toInt() =
+	override inline fun toInt(): Int =
 		value
 
 
-	override inline fun toLong() =
+	override inline fun toLong(): Long =
 		value.toLong()
 
 
-	override inline fun toString() =
+	override inline fun toString(): String =
 		value.toString()
 
 
-	companion object : DateTimeComponent.CompanionInterface<NanosecondOfSecond> {
+	public companion object : DateTimeComponent.CompanionInterface<NanosecondOfSecond> {
 
-		/* override */ val max = unchecked(999_999_999)
-		/* override */ val min = unchecked(0)
+		/* override */ public val max: NanosecondOfSecond = unchecked(999_999_999)
+		/* override */ public val min: NanosecondOfSecond = unchecked(0)
 
 
 		override inline fun of(value: Long): NanosecondOfSecond {
