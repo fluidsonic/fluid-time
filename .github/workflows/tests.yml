@@ -3,18 +3,35 @@ name: Tests
 on: [push]
 
 jobs:
-  macOS:
-    name: macOS
+  iOS:
+    name: iOS x64
     runs-on: macos-latest
-    env:
-      GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx4g
     steps:
       - uses: actions/checkout@v1
       - run: xcodebuild -version
       - run: sudo xcode-select -switch /Applications/Xcode_11.app
       - run: xcodebuild -version
       - run: xcrun simctl list
-      - run: ./gradlew objcTest
+      - run: ./gradlew iosX64Test
+  macOS:
+    name: macOS x64
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: xcodebuild -version
+      - run: sudo xcode-select -switch /Applications/Xcode_11.app
+      - run: xcodebuild -version
+      - run: xcrun simctl list
+      - run: ./gradlew macosX64Test
+  jdk7:
+    name: JDK 7 (on JDK 8)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - run: ./gradlew jvmJdk7test
   jdk:
     name: JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
@@ -22,17 +39,8 @@ jobs:
       matrix:
         java_version: ['8', '9', '10', '11', '12', '13']
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java_version }}
-    - run: ./gradlew jvmTest
-  jdk:
-    name: JDK 7
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 7
-    - run: ./gradlew jvmJdk7test
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java_version }}
+      - run: ./gradlew jvmTest
