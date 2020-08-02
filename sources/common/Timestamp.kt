@@ -179,7 +179,7 @@ public class Timestamp private constructor(
 
 
 		public fun of(millisecondsSince1970: Milliseconds, nanoseconds: Nanoseconds = Nanoseconds.zero): Timestamp =
-			of(secondsSince1970 = millisecondsSince1970.toSeconds(), nanoseconds = nanoseconds)
+			of(secondsSince1970 = millisecondsSince1970.toSeconds(), nanoseconds = nanoseconds + (millisecondsSince1970 % Milliseconds.perSecond).toNanoseconds())
 
 
 		// FIXME handle negative nanoseconds
