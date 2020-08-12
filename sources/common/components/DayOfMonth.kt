@@ -10,6 +10,10 @@ public inline class DayOfMonth @PublishedApi internal constructor(@PublishedApi 
 		value.compareTo(other.value)
 
 
+	public fun isValidIn(month: MonthOfYear, year: Year): Boolean =
+		this <= lastIn(month, year)
+
+
 	override inline fun map(transform: (Long) -> Long): DayOfMonth =
 		of(transform(toLong()))
 
@@ -44,8 +48,24 @@ public inline class DayOfMonth @PublishedApi internal constructor(@PublishedApi 
 		/* override */ public val min: DayOfMonth = unchecked(1)
 
 
+		override inline fun isValid(value: Long): Boolean =
+			value in min.toLong() .. max.toLong()
+
+
+		public fun lastIn(month: MonthOfYear, year: Year): DayOfMonth =
+			unchecked(month.daysIn(year).toLong())
+
+
 		override inline fun of(value: Long): DayOfMonth {
-			check(value, inRange = min.toLong() .. max.toLong(), name = "day [of month]")
+			require(isValid(value)) { "Day of month must be in range $min .. $max: $value" }
+
+			return unchecked(value)
+		}
+
+
+		override inline fun ofOrNull(value: Long): DayOfMonth? {
+			if (!isValid(value))
+				return null
 
 			return unchecked(value)
 		}

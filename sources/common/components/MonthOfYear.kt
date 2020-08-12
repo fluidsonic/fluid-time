@@ -36,10 +36,6 @@ public enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 		})
 
 
-	public fun lastDayIn(year: Year): DayOfMonth =
-		DayOfMonth.unchecked(daysIn(year).toLong())
-
-
 	override inline fun map(transform: (Long) -> Long): MonthOfYear =
 		of(transform(toLong()))
 
@@ -74,8 +70,20 @@ public enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 		/* override */ public val min: MonthOfYear = january
 
 
-		override fun of(value: Long): MonthOfYear {
-			check(value, inRange = min.toLong() .. max.toLong(), name = "month [of year]")
+		override inline fun isValid(value: Long): Boolean =
+			value in min.toLong() .. max.toLong()
+
+
+		override inline fun of(value: Long): MonthOfYear {
+			require(isValid(value)) { "Month of year must be in range ${min.toLong()} .. ${max.toLong()}: $value" }
+
+			return unchecked(value)
+		}
+
+
+		override inline fun ofOrNull(value: Long): MonthOfYear? {
+			if (!isValid(value))
+				return null
 
 			return unchecked(value)
 		}

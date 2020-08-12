@@ -19,6 +19,8 @@ public interface DateTimeComponent<Component : DateTimeComponent<Component, Meas
 //		val max: Component
 //		val min: Component
 
+		public fun isValid(value: Long): Boolean
 		public fun of(value: Long): Component
+		public fun ofOrNull(value: Long): Component?
 	}
 }

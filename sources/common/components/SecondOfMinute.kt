@@ -44,8 +44,20 @@ public inline class SecondOfMinute @PublishedApi internal constructor(@Published
 		/* override */ public val min: SecondOfMinute = unchecked(0)
 
 
+		override inline fun isValid(value: Long): Boolean =
+			value in min.toLong() .. max.toLong()
+
+
 		override inline fun of(value: Long): SecondOfMinute {
-			check(value, inRange = min.toLong() .. max.toLong(), name = "second [of minute]")
+			require(isValid(value)) { "Second of minute must be in range $min .. $max: $value" }
+
+			return unchecked(value)
+		}
+
+
+		override inline fun ofOrNull(value: Long): SecondOfMinute? {
+			if (!isValid(value))
+				return null
 
 			return unchecked(value)
 		}

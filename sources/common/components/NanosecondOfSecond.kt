@@ -44,8 +44,20 @@ public inline class NanosecondOfSecond @PublishedApi internal constructor(@Publi
 		/* override */ public val min: NanosecondOfSecond = unchecked(0)
 
 
+		override inline fun isValid(value: Long): Boolean =
+			value in min.toLong() .. max.toLong()
+
+
 		override inline fun of(value: Long): NanosecondOfSecond {
-			check(value, inRange = min.toLong() .. max.toLong(), name = "nanosecond [of second]")
+			require(isValid(value)) { "Nanosecond of second must be in range $min .. $max: $value" }
+
+			return unchecked(value)
+		}
+
+
+		override inline fun ofOrNull(value: Long): NanosecondOfSecond? {
+			if (!isValid(value))
+				return null
 
 			return unchecked(value)
 		}

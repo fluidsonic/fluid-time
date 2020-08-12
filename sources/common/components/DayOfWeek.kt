@@ -53,12 +53,35 @@ public enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 		/* override */public val min: DayOfWeek = monday
 
 
-		override fun of(value: Long): DayOfWeek =
-			of(value, firstDayOfWeek = monday)
+		override fun isValid(value: Long): Boolean =
+			value in min.toLong() .. max.toLong()
+
+
+		override fun of(value: Long): DayOfWeek {
+			require(isValid(value)) { "Day of week must be in range ${min.toLong()} .. ${max.toLong()}: $value" }
+
+			return unchecked(value)
+		}
 
 
 		public fun of(value: Long, firstDayOfWeek: DayOfWeek): DayOfWeek {
-			check(value, inRange = min.toLong() .. max.toLong(), name = "day [of week]")
+			require(isValid(value)) { "Day of week must be in range ${min.toLong()} .. ${max.toLong()}: $value" }
+
+			return unchecked((value + firstDayOfWeek.ordinal) % 7)
+		}
+
+
+		override fun ofOrNull(value: Long): DayOfWeek? {
+			if (!isValid(value))
+				return null
+
+			return unchecked(value)
+		}
+
+
+		public fun ofOrNull(value: Long, firstDayOfWeek: DayOfWeek): DayOfWeek? {
+			if (!isValid(value))
+				return null
 
 			return unchecked((value + firstDayOfWeek.ordinal) % 7)
 		}

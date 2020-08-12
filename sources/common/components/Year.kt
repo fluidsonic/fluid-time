@@ -49,8 +49,20 @@ public inline class Year @PublishedApi internal constructor(@PublishedApi intern
 		/* override */ public val min: Year = unchecked(-999_999_999)
 
 
+		override inline fun isValid(value: Long): Boolean =
+			value in min.toLong() .. max.toLong()
+
+
 		override inline fun of(value: Long): Year {
-			check(value, inRange = min.toLong() .. max.toLong(), name = "year")
+			require(isValid(value)) { "Year must be in range $min .. $max: $value" }
+
+			return unchecked(value)
+		}
+
+
+		override inline fun ofOrNull(value: Long): Year? {
+			if (!isValid(value))
+				return null
 
 			return unchecked(value)
 		}

@@ -1,15 +1,15 @@
 package io.fluidsonic.time
 
+import kotlin.math.*
 import kotlinx.serialization.*
 import kotlinx.serialization.encoding.*
-import kotlin.math.*
 
 
 @Serializable(with = LocalDateSerializer::class)
 public class LocalDate private constructor(
 	public val year: Year,
 	public val month: MonthOfYear,
-	public val day: DayOfMonth
+	public val day: DayOfMonth,
 ) : Comparable<LocalDate> {
 
 	init {
@@ -25,7 +25,7 @@ public class LocalDate private constructor(
 		hour: HourOfDay,
 		minute: MinuteOfHour = MinuteOfHour(0),
 		second: SecondOfMinute = SecondOfMinute(0),
-		nanosecond: NanosecondOfSecond = NanosecondOfSecond(0)
+		nanosecond: NanosecondOfSecond = NanosecondOfSecond(0),
 	): LocalDateTime =
 		atTime(LocalTime.of(hour, minute, second, nanosecond))
 
@@ -121,7 +121,23 @@ public class LocalDate private constructor(
 
 
 		public fun of(year: Year, month: MonthOfYear, day: DayOfMonth): LocalDate {
-			require(day <= month.lastDayIn(year)) { "'$day' is not a valid day in '${month.name} $year'" }
+			require(day.isValidIn(month, year)) { "Day is not a valid day in '$month $year': $day" }
+
+			return unchecked(year, month, day)
+		}
+
+
+		public fun ofOrNull(year: Long, month: Long, day: Long): LocalDate? {
+			if (!Year.isValid(year) || !MonthOfYear.isValid(month) || !DayOfMonth.isValid(day))
+				return null
+
+			return ofOrNull(Year.of(year), MonthOfYear.of(month), DayOfMonth.of(day))
+		}
+
+
+		public fun ofOrNull(year: Year, month: MonthOfYear, day: DayOfMonth): LocalDate? {
+			if (!day.isValidIn(month, year))
+				return null
 
 			return unchecked(year, month, day)
 		}
@@ -131,18 +147,22 @@ public class LocalDate private constructor(
 			val result = iso8601Regex.matchEntire(text) ?: return null
 
 			val sign = result.groupValues[1]
-			var year = result.groupValues[2].toLong()
+			val year = result.groupValues[2].toLong().let { year ->
+				when (sign) {
+					"-" -> -year
+					else -> year
+				}
+			}
 			val month = result.groupValues[3].toLong()
 			val day = result.groupValues[4].toLong()
 
 			when (sign) {
-				"+" -> if (year < 10_000) return null
-				"-" -> year = -year
-				else -> if (year >= 10_000) return null
+				"+" -> if (year <= 9999) return null
+				"-" -> Unit
+				else -> if (year > 9999) return null
 			}
 
-			// FIXME throws but should return null
-			return of(year = year, month = month, day = day)
+			return ofOrNull(year = year, month = month, day = day)
 		}
 
 

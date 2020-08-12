@@ -44,8 +44,20 @@ public inline class HourOfDay @PublishedApi internal constructor(@PublishedApi i
 		/* override */ public val min: HourOfDay = unchecked(0)
 
 
+		override inline fun isValid(value: Long): Boolean =
+			value in min.toLong() .. max.toLong()
+
+
 		override inline fun of(value: Long): HourOfDay {
-			check(value, inRange = min.toLong() .. max.toLong(), name = "hour [of day]")
+			require(isValid(value)) { "Hour of day must be in range $min .. $max: $value" }
+
+			return unchecked(value)
+		}
+
+
+		override inline fun ofOrNull(value: Long): HourOfDay? {
+			if (!isValid(value))
+				return null
 
 			return unchecked(value)
 		}
