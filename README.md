@@ -7,7 +7,7 @@ fluid-time
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.4.0--rc-blue.svg)](https://github.com/JetBrains/kotlin/releases/v1.4.0-rc)
 [![#fluid-libraries Slack Channel](https://img.shields.io/badge/slack-%23fluid--libraries-543951.svg?label=Slack)](https://kotlinlang.slack.com/messages/C7UDFSVT2/)
 
-Multiplatform date & time library.
+Kotlin multiplatform date & time library.
 Very early stage.
 
 
@@ -18,7 +18,7 @@ Installation
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.fluidsonic.time:fluid-time:0.10.1")
+    implementation("io.fluidsonic.time:fluid-time:0.10.2")
 }
 ```
 
