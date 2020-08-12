@@ -176,6 +176,7 @@ public class LocalDate private constructor(
 }
 
 
+public expect fun LocalDate.atEndOfDay(timeZone: TimeZone): Timestamp
 public expect fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp
 public expect fun LocalDate.daysSince(startExclusive: LocalDate): Days
 public expect fun LocalDate.daysUntil(endExclusive: LocalDate): Days
@@ -195,8 +196,12 @@ public expect operator fun LocalDate.plus(months: Months): LocalDate
 public expect operator fun LocalDate.plus(years: Years): LocalDate
 
 
+public fun LocalDate.atEndOfDay(): LocalDateTime =
+	atTime(LocalTime.max)
+
+
 public fun LocalDate.atStartOfDay(): LocalDateTime =
-	atTime(LocalTime.midnight)
+	atTime(LocalTime.min)
 
 
 @Serializer(forClass = LocalDate::class)

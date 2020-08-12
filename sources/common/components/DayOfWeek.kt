@@ -2,6 +2,7 @@
 
 package io.fluidsonic.time
 
+import io.fluidsonic.locale.*
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -17,6 +18,10 @@ public enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 	friday,
 	saturday,
 	sunday;
+
+
+	public fun displayName(locale: Locale, format: Format = Format.full): String =
+		DayOfWeek_displayName(this, locale = locale, format = format)
 
 
 	override inline fun map(transform: (Long) -> Long): DayOfWeek =
@@ -94,6 +99,19 @@ public enum class DayOfWeek : DateTimeComponent<DayOfWeek, Days> {
 		internal inline fun unchecked(value: Long) =
 			values()[(value - 1).toInt()]
 	}
+
+
+	public enum class Format {
+
+		character,            // M T W T F S S
+		characterStandalone,  // M T W T F S S
+		short,                // Mo Tu We Th Fr Sa Su
+		shortStandalone,      // Mo Tu We Th Fr Sa Su
+		medium,               // Mon Tue Wed Thu Fri Sat Sun
+		mediumStandalone,     // Mon Tue Wed Thu Fri Sat Sun
+		full,                 // Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+		fullStandalone        // Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+	}
 }
 
 
@@ -114,3 +132,6 @@ internal object DayOfWeekSerializer : KSerializer<DayOfWeek> {
 		encoder.encodeString(value.name)
 	}
 }
+
+
+internal expect fun DayOfWeek_displayName(dayOfWeek: DayOfWeek, locale: Locale, format: DayOfWeek.Format): String

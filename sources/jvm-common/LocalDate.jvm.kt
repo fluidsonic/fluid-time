@@ -1,6 +1,23 @@
 package io.fluidsonic.time
 
 
+public actual fun LocalDate.atEndOfDay(timeZone: TimeZone): Timestamp {
+	val platformDate = toPlatform()
+	val platformTimeZone = timeZone.toPlatform()
+
+	var localDateTime = platformDate.atTime(PlatformLocalTime.MAX)
+	if (platformTimeZone !is PlatformZoneOffset) {
+		val rules = platformTimeZone.rules
+		val transition = rules.getTransition(localDateTime)
+		if (transition != null && transition.isGap) {
+			localDateTime = transition.dateTimeBefore
+		}
+	}
+
+	return localDateTime.toCommon().atTimeZone(timeZone)
+}
+
+
 public actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp =
 	toPlatform().atStartOfDay(timeZone.toPlatform()).toInstant().toCommon()
 

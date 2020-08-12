@@ -3,6 +3,11 @@ package io.fluidsonic.time
 import platform.Foundation.*
 
 
+// TODO Do we have to consider any time zone rules here? If not then make common and remove special handling for JVM.
+public actual fun LocalDate.atEndOfDay(timeZone: TimeZone): Timestamp =
+	atTime(LocalTime.max).atTimeZone(timeZone)
+
+
 public actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp {
 	val components = toPlatformComponents()
 	components.hour = 0
