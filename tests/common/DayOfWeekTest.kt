@@ -7,7 +7,7 @@ import kotlin.test.*
 
 class DayOfWeekTest {
 
-	private val locale = Locale.parseOrNull("en-US")!!
+	private val locale = Locale.forLanguageTag("en-US")
 
 
 	@Test

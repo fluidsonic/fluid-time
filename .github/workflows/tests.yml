@@ -1,10 +1,10 @@
 name: Tests
 
-on: [push]
+on: [ push ]
 
 jobs:
-  iOS:
-    name: iOS x64
+  darwin:
+    name: Darwin
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
@@ -12,35 +12,25 @@ jobs:
       - run: sudo xcode-select -switch /Applications/Xcode_11.app
       - run: xcodebuild -version
       - run: xcrun simctl list
-      - run: ./gradlew iosX64Test
-  macOS:
-    name: macOS x64
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v1
-      - run: xcodebuild -version
-      - run: sudo xcode-select -switch /Applications/Xcode_11.app
-      - run: xcodebuild -version
-      - run: xcrun simctl list
-      - run: ./gradlew macosX64Test
-  jdk7:
-    name: JDK 7 (on JDK 8)
+      - run: ./gradlew iosX64Test macosX64Test tvosX64Test watchosX86Test
+  jdk:
+    name: JDK 6 (on 8)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
         with:
           java-version: 8
-      - run: ./gradlew jvmJdk7test
-  jdk:
-    name: JDK ${{ matrix.java_version }}
+      - run: ./gradlew jvmTest
+  jdk8:
+    name: JDK 8 (on ${{ matrix.java_version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java_version: ['8', '9', '10', '11', '12', '13', '14']
+        java_version: [ '8', '9', '10', '11', '12', '13', '14' ]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java_version }}
-      - run: ./gradlew jvmTest
+      - run: ./gradlew jvmJdk8Test

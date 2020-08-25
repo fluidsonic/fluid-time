@@ -8,8 +8,8 @@ internal actual fun Period.Companion.between(startInclusive: LocalDate, endExclu
 		unitFlags = NSDayCalendarUnit or NSMonthCalendarUnit or NSYearCalendarUnit,
 		fromDate = startInclusive.atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
 		toDate = endExclusive.atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-		options = 0UL
+		options = 0UL.toNSUInteger()
 	)
 
-	return Period(years = components.year, months = components.month, days = components.day)
+	return Period(years = components.year.toLong(), months = components.month.toLong(), days = components.day.toLong())
 }

@@ -10,10 +10,10 @@ public actual fun LocalDate.atEndOfDay(timeZone: TimeZone): Timestamp =
 
 public actual fun LocalDate.atStartOfDay(timeZone: TimeZone): Timestamp {
 	val components = toPlatformComponents()
-	components.hour = 0
-	components.minute = 0
-	components.second = 0
-	components.nanosecond = 0
+	components.hour = 0.toNSInteger()
+	components.minute = 0.toNSInteger()
+	components.second = 0.toNSInteger()
+	components.nanosecond = 0.toNSInteger()
 	components.timeZone = timeZone.platform
 
 	return platform_gregorianCalendar.dateFromComponents(components)!!.toCommon()
@@ -26,8 +26,8 @@ public actual fun LocalDate.daysSince(startExclusive: LocalDate): Days =
 		unitFlags = NSDayCalendarUnit,
 		fromDate = startExclusive.atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
 		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-		options = 0UL
-	).day)
+		options = 0UL.toNSUInteger()
+	).day.toLong())
 
 
 public actual fun LocalDate.daysUntil(endExclusive: LocalDate): Days =
@@ -37,9 +37,9 @@ public actual fun LocalDate.daysUntil(endExclusive: LocalDate): Days =
 public actual operator fun LocalDate.plus(days: Days): LocalDate =
 	platform_gregorianCalendar.dateByAddingUnit(
 		NSDayCalendarUnit,
-		value = days.toLong(),
+		value = days.toLong().toNSInteger(),
 		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-		options = 0UL
+		options = 0UL.toNSUInteger()
 	)!!
 		.toCommon()
 		.toLocalDate(timeZone = TimeZone.utc)
@@ -48,9 +48,9 @@ public actual operator fun LocalDate.plus(days: Days): LocalDate =
 public actual operator fun LocalDate.plus(months: Months): LocalDate =
 	platform_gregorianCalendar.dateByAddingUnit(
 		NSMonthCalendarUnit,
-		value = months.toLong(),
+		value = months.toLong().toNSInteger(),
 		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-		options = 0UL
+		options = 0UL.toNSUInteger()
 	)!!
 		.toCommon()
 		.toLocalDate(timeZone = TimeZone.utc)
@@ -59,9 +59,9 @@ public actual operator fun LocalDate.plus(months: Months): LocalDate =
 public actual operator fun LocalDate.plus(years: Years): LocalDate =
 	platform_gregorianCalendar.dateByAddingUnit(
 		NSYearCalendarUnit,
-		value = years.toLong(),
+		value = years.toLong().toNSInteger(),
 		toDate = atStartOfDay(timeZone = TimeZone.utc).toPlatform(),
-		options = 0UL
+		options = 0UL.toNSUInteger()
 	)!!
 		.toCommon()
 		.toLocalDate(timeZone = TimeZone.utc)
@@ -73,8 +73,8 @@ public actual fun LocalDate.toDayOfWeek(): DayOfWeek =
 
 internal fun LocalDate.toPlatformComponents(): NSDateComponents {
 	val components = NSDateComponents()
-	components.year = year.toLong()
-	components.month = month.toLong()
-	components.day = day.toLong()
+	components.year = year.toLong().toNSInteger()
+	components.month = month.toLong().toNSInteger()
+	components.day = day.toLong().toNSInteger()
 	return components
 }
