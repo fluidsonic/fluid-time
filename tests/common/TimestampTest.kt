@@ -27,6 +27,14 @@ class TimestampTest {
 
 
 	@Test
+	fun testJson() = assertJsonSerialization(
+		value = Timestamp.firstIn1970 + Milliseconds(500),
+		json = """ "1970-01-01T00:00:00.500Z" """,
+		serializer = Timestamp.serializer()
+	)
+
+
+	@Test
 	fun testMillisecondsSince1970() {
 		assertEquals(
 			expected = Milliseconds(12 * 60 * 60 * 1000),
@@ -69,9 +77,8 @@ class TimestampTest {
 
 
 	@Test
-	fun testJson() = assertJsonSerialization(
-		value = Timestamp.firstIn1970 + Milliseconds(500),
-		json = """ "1970-01-01T00:00:00.500Z" """,
-		serializer = Timestamp.serializer()
+	fun testToStringWithZeroSeconds() = assertEquals(
+		expected = "1970-01-01T00:00:00Z",
+		actual = Timestamp.firstIn1970.toString()
 	)
 }

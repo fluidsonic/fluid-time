@@ -162,7 +162,12 @@ public class Timestamp private constructor(
 
 	// TODO this is not correct in all cases
 	public fun toString(builder: StringBuilder) {
-		toLocalDateTime(TimeZone.utc).toString(builder)
+		val localDateTime = toLocalDateTime(TimeZone.utc)
+		localDateTime.toString(builder)
+
+		if (localDateTime.time.second == SecondOfMinute.min && localDateTime.time.nanosecond == NanosecondOfSecond.min)
+			builder.append(":00")
+
 		builder.append('Z')
 	}
 
