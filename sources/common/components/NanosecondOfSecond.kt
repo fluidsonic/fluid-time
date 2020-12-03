@@ -64,7 +64,7 @@ public inline class NanosecondOfSecond @PublishedApi internal constructor(@Publi
 
 
 		@PublishedApi
-		internal inline fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long): NanosecondOfSecond =
 			NanosecondOfSecond(value.toInt())
 	}
 }

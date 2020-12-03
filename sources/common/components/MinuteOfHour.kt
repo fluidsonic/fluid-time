@@ -64,7 +64,7 @@ public inline class MinuteOfHour @PublishedApi internal constructor(@PublishedAp
 
 
 		@PublishedApi
-		internal inline fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long): MinuteOfHour =
 			MinuteOfHour(value.toByte())
 	}
 }

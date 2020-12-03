@@ -72,7 +72,7 @@ public inline class DayOfMonth @PublishedApi internal constructor(@PublishedApi 
 
 
 		@PublishedApi
-		internal inline fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long): DayOfMonth =
 			DayOfMonth(value.toByte())
 	}
 }

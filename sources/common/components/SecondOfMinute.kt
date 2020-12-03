@@ -64,7 +64,7 @@ public inline class SecondOfMinute @PublishedApi internal constructor(@Published
 
 
 		@PublishedApi
-		internal inline fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long): SecondOfMinute =
 			SecondOfMinute(value.toByte())
 	}
 }

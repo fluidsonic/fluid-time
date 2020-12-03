@@ -69,7 +69,7 @@ public inline class Year @PublishedApi internal constructor(@PublishedApi intern
 
 
 		@PublishedApi
-		internal inline fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long): Year =
 			Year(value.toInt())
 	}
 }

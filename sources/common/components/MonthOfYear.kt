@@ -90,7 +90,7 @@ public enum class MonthOfYear : DateTimeComponent<MonthOfYear, Months> {
 
 
 		@PublishedApi
-		internal inline fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long): MonthOfYear =
 			values()[(value - 1).toInt()]
 	}
 }

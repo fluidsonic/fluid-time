@@ -64,7 +64,7 @@ public inline class HourOfDay @PublishedApi internal constructor(@PublishedApi i
 
 
 		@PublishedApi
-		internal inline fun unchecked(value: Long) =
+		internal inline fun unchecked(value: Long): HourOfDay =
 			HourOfDay(value.toByte())
 	}
 }
