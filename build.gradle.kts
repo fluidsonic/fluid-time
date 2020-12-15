@@ -1,10 +1,10 @@
 import io.fluidsonic.gradle.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.1.14"
+	id("io.fluidsonic.gradle") version "1.1.15"
 }
 
-fluidLibrary(name = "time", version = "0.10.5")
+fluidLibrary(name = "time", version = "0.11.0")
 
 fluidLibraryModule(description = "Kotlin multiplatform date & time library") {
 	language {
@@ -14,8 +14,9 @@ fluidLibraryModule(description = "Kotlin multiplatform date & time library") {
 	targets {
 		common {
 			dependencies {
-				implementation(fluid("locale", "0.9.4"))
 				implementation(kotlinx("serialization-core", "1.0.1"))
+
+				api(kotlinx("datetime", "0.1.1"))
 			}
 
 			testDependencies {
@@ -25,11 +26,12 @@ fluidLibraryModule(description = "Kotlin multiplatform date & time library") {
 
 		darwin()
 
-		jvm {
-			dependencies {
-				implementation("org.threeten:threetenbp:1.5.0")
+		js {
+			testDependencies {
+				implementation(npm("@js-joda/timezone", "2.5.0"))
 			}
 		}
-		jvmJdk8()
+
+		jvm()
 	}
 }
