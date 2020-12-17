@@ -22,11 +22,11 @@ class ManualClockTests {
 		clock.advance(period = DateTimePeriod(), timeZone = TimeZone.UTC)
 		assertEquals(expected = epoch, actual = clock.now())
 
-		clock.advance(1.hours + 2.minutes + 3.seconds + 4.nanoseconds)
+		clock.advance(duration = 1.hours + 2.minutes + 3.seconds + 4.nanoseconds)
 		assertEquals(expected = aLittleAfterEpoch, actual = clock.now())
 
 		clock.set(epoch)
-		clock.advance(DateTimePeriod(1, 2, 3, 4, 5, 6, 7), timeZone = TimeZone.UTC)
+		clock.advance(period = DateTimePeriod(1, 2, 3, 4, 5, 6, 7), timeZone = TimeZone.UTC)
 		assertEquals(expected = aLotAfterEpoch, actual = clock.now())
 
 		clock.set(epoch)
@@ -59,13 +59,13 @@ class ManualClockTests {
 		val epoch = Timestamp.fromEpochSeconds(0)
 		val aLittleAfterEpoch = epoch.plus(DateTimePeriod(hours = 1, minutes = 2, seconds = 3, nanoseconds = 4), timeZone = TimeZone.UTC)
 
-		clock.set(LocalDate(1970, 1, 1), timeZone = TimeZone.UTC)
+		clock.set(date = LocalDate(1970, 1, 1), timeZone = TimeZone.UTC)
 		assertEquals(expected = epoch, actual = clock.now())
 
 		clock.set(null)
 		assertNull(clock.nowOrNull())
 
-		clock.set(LocalDateTime(1970, 1, 1, 1, 2, 3, 4), timeZone = TimeZone.UTC)
+		clock.set(dateTime = LocalDateTime(1970, 1, 1, 1, 2, 3, 4), timeZone = TimeZone.UTC)
 		assertEquals(expected = aLittleAfterEpoch, actual = clock.now())
 
 		clock.set(null)

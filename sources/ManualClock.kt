@@ -81,8 +81,8 @@ public fun ManualClock.advance(period: DateTimePeriod, timeZone: TimeZone): Time
 		.also(::set)
 
 
-public fun ManualClock.set(dateTime: LocalDate?, timeZone: TimeZone) {
-	set(dateTime?.atTime(LocalTime.midnight), timeZone = timeZone)
+public fun ManualClock.set(date: LocalDate?, timeZone: TimeZone) {
+	set(date?.atTime(LocalTime.midnight), timeZone = timeZone)
 }
 
 
