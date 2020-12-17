@@ -56,7 +56,7 @@ public expect class LocalTime
 		 * - `18:43:00.500`
 		 * - `18:43:00.123456789`
 		 *
-		 * @throws DateTimeFormatException if the text cannot be parsed or the boundaries of [LocalTime] are exceeded.
+		 * @throws IllegalArgumentException if the text cannot be parsed or the boundaries of [LocalTime] are exceeded.
 		 */
 		public fun parse(isoString: String): LocalTime
 
@@ -91,7 +91,7 @@ public fun LocalTime.Companion.parseOrNull(isoString: String): LocalTime? =
  *
  * See [LocalTime.parse] for examples of time string representations.
  *
- * @throws DateTimeFormatException if the text cannot be parsed or the boundaries of [LocalTime] are exceeded.
+ * @throws IllegalArgumentException if the text cannot be parsed or the boundaries of [LocalTime] are exceeded.
  */
 public fun String.toLocalTime(): LocalTime =
 	LocalTime.parse(this)
