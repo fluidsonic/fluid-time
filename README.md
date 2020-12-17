@@ -41,6 +41,7 @@ Additions
 - `Timestamp.toLocalDate(TimeZone)` - shortcut for `.toLocalDateTime(timeZone).date`
 - `Timestamp.toLocalTime(TimeZone)` - shortcut for `.toLocalDateTime(timeZone).time`
 - `Timestamp.toJavaDate(): Date` - converts a `Timestamp` to `java.util.Date` (JVM only)
+- `ManualClock` - a `Clock` implementation suitable for unit testing
 - **JVM**, **JS** and **Darwin** are supported. `linuxX64` and `mingwX64` are not supported.
 
 Previous library
