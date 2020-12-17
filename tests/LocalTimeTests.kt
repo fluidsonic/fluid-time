@@ -18,8 +18,9 @@ class LocalTimeTest {
 
 	@Test
 	fun testConstant() {
-		assertEquals(expected = LocalTime(23, 59, 59, 999_999_999), actual = LocalTime.MAX)
-		assertEquals(expected = LocalTime(0, 0), actual = LocalTime.MIN)
+		assertEquals(expected = LocalTime(23, 59, 59, 999_999_999), actual = LocalTime.max)
+		assertEquals(expected = LocalTime(0, 0), actual = LocalTime.midnight)
+		assertEquals(expected = LocalTime(0, 0), actual = LocalTime.min)
 	}
 
 

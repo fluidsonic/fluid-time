@@ -60,8 +60,8 @@ public expect class LocalTime
 		 */
 		public fun parse(isoString: String): LocalTime
 
-		public val MIN: LocalTime
-		public val MAX: LocalTime
+		public val min: LocalTime
+		public val max: LocalTime
 	}
 }
 
@@ -76,6 +76,10 @@ public fun LocalTime.atDate(date: LocalDate): LocalDateTime =
 		second = second,
 		nanosecond = nanosecond
 	)
+
+
+public val LocalTime.Companion.midnight: LocalTime
+	get() = min
 
 
 public fun LocalTime.Companion.parseOrNull(isoString: String): LocalTime? =

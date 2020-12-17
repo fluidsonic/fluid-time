@@ -35,8 +35,8 @@ public actual class LocalTime private constructor(private val delegate: KLocalTi
 
 	public actual companion object {
 
-		public actual val MIN: LocalTime = LocalTime(KLocalTime.MIN)
-		public actual val MAX: LocalTime = LocalTime(KLocalTime.MAX)
+		public actual val min: LocalTime = LocalTime(KLocalTime.MIN)
+		public actual val max: LocalTime = LocalTime(KLocalTime.MAX)
 
 
 		public actual fun parse(isoString: String): LocalTime =

@@ -30,6 +30,7 @@ Additions
 ---------
 
 - `LocalTime` - similar to the existing `LocalDate` and `LocalDateTime`
+- `LocalTime.midnight` - `00:00`
 - `LocalTime.atDate(LocalDate): LocalDateTime` - create `LocalDateTime` from `LocalDate` and `LocalTime`
 - `LocalDate.atTime(LocalTime): LocalDateTime` - create `LocalDateTime` from `LocalDate` and `LocalTime`
 - `LocalDateTime.time` - returns its time components as `LocalTime`
