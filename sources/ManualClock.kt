@@ -82,14 +82,22 @@ public fun ManualClock.advance(period: DateTimePeriod, timeZone: TimeZone): Time
 		.also(::set)
 
 
-public fun ManualClock.set(date: LocalDate?, timeZone: TimeZone) {
+public fun ManualClock.set(date: LocalDate, timeZone: TimeZone): Timestamp =
+	set(date.atTime(LocalTime.midnight), timeZone = timeZone)
+
+
+@JvmName("setOrNull")
+public fun ManualClock.set(date: LocalDate?, timeZone: TimeZone): Timestamp? =
 	set(date?.atTime(LocalTime.midnight), timeZone = timeZone)
-}
 
 
-public fun ManualClock.set(dateTime: LocalDateTime?, timeZone: TimeZone) {
-	set(dateTime?.toTimestamp(timeZone))
-}
+public fun ManualClock.set(dateTime: LocalDateTime, timeZone: TimeZone): Timestamp =
+	dateTime.toTimestamp(timeZone).also(::set)
+
+
+@JvmName("setOrNull")
+public fun ManualClock.set(dateTime: LocalDateTime?, timeZone: TimeZone): Timestamp? =
+	dateTime?.toTimestamp(timeZone).also(::set)
 
 
 public fun ManualClock.set(
@@ -101,6 +109,5 @@ public fun ManualClock.set(
 	second: Int = 0,
 	nanosecond: Int = 0,
 	timeZone: TimeZone,
-) {
+): Timestamp =
 	set(LocalDateTime(year, month, day, hour, minute, second, nanosecond), timeZone = timeZone)
-}
