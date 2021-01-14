@@ -1,4 +1,5 @@
-import io.fluidsonic.time.*
+package io.fluidsonic.time
+
 import kotlin.js.*
 import kotlin.jvm.*
 import kotlin.time.*
