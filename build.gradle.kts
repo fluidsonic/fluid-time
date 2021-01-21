@@ -4,7 +4,7 @@ plugins {
 	id("io.fluidsonic.gradle") version "1.1.17"
 }
 
-fluidLibrary(name = "time", version = "0.13.0")
+fluidLibrary(name = "time", version = "0.13.1")
 
 fluidLibraryModule(description = "Kotlin multiplatform date & time library") {
 	language {
