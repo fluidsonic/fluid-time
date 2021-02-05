@@ -4,7 +4,7 @@ fluid-time
 [![Maven Central](https://img.shields.io/maven-central/v/io.fluidsonic.time/fluid-time?label=Maven%20Central)](https://search.maven.org/artifact/io.fluidsonic.time/fluid-time)
 [![JCenter](https://img.shields.io/bintray/v/fluidsonic/kotlin/time?label=JCenter)](https://bintray.com/fluidsonic/kotlin/time)
 [![Tests](https://github.com/fluidsonic/fluid-time/workflows/Tests/badge.svg)](https://github.com/fluidsonic/fluid-time/actions?workflow=Tests)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.21%20(Darwin,%20JS,%20JVM)-blue.svg)](https://github.com/JetBrains/kotlin/releases/v1.4.21)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.30%20(Darwin,%20JS,%20JVM)-blue.svg)](https://github.com/JetBrains/kotlin/releases/v1.4.30)
 [![kotlinx-datetime](https://img.shields.io/badge/kotlinx--datetime-0.1.1-blue.svg)](https://github.com/Kotlin/kotlinx-datetime/releases/tag/v0.1.1)
 [![#fluid-libraries Slack Channel](https://img.shields.io/badge/slack-%23fluid--libraries-543951.svg?label=Slack)](https://kotlinlang.slack.com/messages/C7UDFSVT2/)
 
