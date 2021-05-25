@@ -9,3 +9,13 @@ public fun LocalDate.atTime(time: LocalTime): LocalDateTime =
 
 public fun LocalDate.Companion.parseOrNull(isoString: String): LocalDate? =
 	runCatching { parse(isoString) }.getOrNull()
+
+
+@Suppress("FunctionName")
+public fun LocalDateOrNull(year: Int, month: Int, day: Int): LocalDate? =
+	runCatching { LocalDate(year, month, day) }.getOrNull()
+
+
+@Suppress("FunctionName")
+public fun LocalDateOrNull(year: Int, month: Month, day: Int): LocalDate? =
+	runCatching { LocalDate(year, month, day) }.getOrNull()
