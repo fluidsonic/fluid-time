@@ -1,14 +1,34 @@
 import io.fluidsonic.time.*
 import kotlin.test.*
+import kotlin.time.*
 import kotlinx.datetime.*
 
 
+@OptIn(ExperimentalTime::class)
 class TimestampTests {
 
 	@Test
 	fun testInstantIsTimestamp() {
 		@Suppress("USELESS_CAST")
 		assertNotNull(Clock.System.now() as Timestamp)
+	}
+
+
+	@Test
+	fun testDurationSince() {
+		assertEquals(
+			expected = Duration.seconds(1),
+			actual = Timestamp.fromEpochSeconds(1).durationSince(Timestamp.fromEpochSeconds(0)),
+		)
+	}
+
+
+	@Test
+	fun testDurationUntil() {
+		assertEquals(
+			expected = Duration.seconds(1),
+			actual = Timestamp.fromEpochSeconds(0).durationUntil(Timestamp.fromEpochSeconds(1)),
+		)
 	}
 
 

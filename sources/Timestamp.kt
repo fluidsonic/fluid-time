@@ -1,10 +1,21 @@
 package io.fluidsonic.time
 
+import kotlin.time.*
 import kotlinx.datetime.*
 
 
 // https://kotlinlang.slack.com/archives/C01923PC6A0/p1597788327006500
 public typealias Timestamp = Instant
+
+
+@ExperimentalTime
+public fun Timestamp.durationSince(other: Timestamp): Duration =
+	this - other
+
+
+@ExperimentalTime
+public fun Timestamp.durationUntil(other: Timestamp): Duration =
+	other - this
 
 
 public fun Instant.Companion.parseOrNull(isoString: String): Timestamp? =

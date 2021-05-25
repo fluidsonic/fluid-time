@@ -4,7 +4,7 @@ import kotlin.time.*
 import kotlinx.serialization.json.*
 
 
-@ExperimentalTime
+@OptIn(ExperimentalTime::class)
 class SerializationTests {
 
 	@Test

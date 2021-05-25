@@ -3,7 +3,7 @@ import kotlin.test.*
 import kotlin.time.*
 
 
-@ExperimentalTime
+@OptIn(ExperimentalTime::class)
 class DurationTests {
 
 	@Test
