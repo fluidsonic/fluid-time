@@ -28,6 +28,9 @@ dependencies {
 Additions
 ---------
 
+- `Duration(days, hours, minutes, seconds, nanoseconds)` factory function.
+- `Duration.parse()/.parseOrNull()` to parse ISO-8601 durations.
+- `DurationSerializer` for `kotlinx-serialization` of `Duration`.
 - `LocalTime` - similar to the existing `LocalDate` and `LocalDateTime`
 - `LocalTime.midnight` - `00:00`
 - `LocalTime.atDate(LocalDate): LocalDateTime` - create `LocalDateTime` from `LocalDate` and `LocalTime`
