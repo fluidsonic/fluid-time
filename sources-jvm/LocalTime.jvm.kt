@@ -11,7 +11,8 @@ public actual class LocalTime internal constructor(internal val value: jtLocalTi
 	public actual constructor(hour: Int, minute: Int, second: Int, nanosecond: Int) :
 		this(try {
 			jtLocalTime.of(hour, minute, second, nanosecond)
-		} catch (e: DateTimeException) {
+		}
+		catch (e: DateTimeException) {
 			throw IllegalArgumentException(e)
 		})
 
@@ -35,7 +36,8 @@ public actual class LocalTime internal constructor(internal val value: jtLocalTi
 		public actual fun parse(isoString: String): LocalTime =
 			try {
 				jtLocalTime.parse(isoString).let(::LocalTime)
-			} catch (e: DateTimeParseException) {
+			}
+			catch (e: DateTimeParseException) {
 				@Suppress("INVISIBLE_MEMBER")
 				throw DateTimeFormatException(e)
 			}
@@ -44,3 +46,6 @@ public actual class LocalTime internal constructor(internal val value: jtLocalTi
 		public actual val max: LocalTime = LocalTime(jtLocalTime.MAX)
 	}
 }
+
+
+public fun LocalTime.toJavaLocalTime(): java.time.LocalTime = this.value
