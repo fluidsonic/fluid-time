@@ -28,9 +28,9 @@ dependencies {
 Additions
 ---------
 
-- `Duration(days, hours, minutes, seconds, nanoseconds)` factory function.
-- `Duration.parse()/.parseOrNull()` to parse ISO-8601 durations.
-- `DurationSerializer` for `kotlinx-serialization` of `Duration`.
+- `Duration(days, hours, minutes, seconds, nanoseconds)` – `Duration` factory function using components
+- `Duration.parse()/.parseOrNull()` - parse `Duration` from ISO-8601 string
+- `DurationSerializer` - `kotlinx-serialization` serializer for `Duration`
 - `LocalTime` - similar to the existing `LocalDate` and `LocalDateTime`
 - `LocalTime.midnight` - `00:00`
 - `LocalTime.atDate(LocalDate): LocalDateTime` - create `LocalDateTime` from `LocalDate` and `LocalTime`
@@ -39,6 +39,7 @@ Additions
 - `Timestamp` - alias of `Instant` for those who prefer that name ([Discussion](https://kotlinlang.slack.com/archives/C01923PC6A0/p1597788327006500))
 - `(LocalDate|LocalDateTime|LocalTime|Timestamp).parseOrNull(String)` - like `parse()` but returns `null` instead of throwing
 - `TimeZone.ofOrNull(String)` - like `of()` but returns `null` instead of throwing
+- `Timestamp.durationSince(Timestamp)/.durationUntil(Timestamp)` - get `Duration` between two timestamps
 - `Timestamp.toLocalDate(TimeZone)` - shortcut for `.toLocalDateTime(timeZone).date`
 - `Timestamp.toLocalTime(TimeZone)` - shortcut for `.toLocalDateTime(timeZone).time`
 - `Timestamp.toJavaDate(): Date` - converts a `Timestamp` to `java.util.Date` (JVM only)
