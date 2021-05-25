@@ -17,4 +17,5 @@ public fun Month.daysIn(year: Int): Int =
 		Month.OCTOBER -> 31
 		Month.NOVEMBER -> 30
 		Month.DECEMBER -> 31
+		else -> error("Unknown month: $this") // https://github.com/Kotlin/kotlinx-datetime/issues/96
 	}

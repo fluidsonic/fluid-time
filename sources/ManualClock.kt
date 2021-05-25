@@ -4,7 +4,6 @@ import kotlin.js.*
 import kotlin.jvm.*
 import kotlin.time.*
 import kotlinx.datetime.*
-import kotlinx.datetime.Clock
 
 
 public interface ManualClock : Clock {
@@ -58,7 +57,7 @@ public fun ManualClock.advance(
 	days: Int = 0,
 	hours: Int = 0,
 	minutes: Int = 0,
-	seconds: Long = 0,
+	seconds: Int = 0,
 	nanoseconds: Long = 0,
 	timeZone: TimeZone,
 ): Timestamp =
