@@ -51,6 +51,16 @@ public fun ManualClock.advance(duration: Duration): Timestamp =
 		.also(::set)
 
 
+@OptIn(ExperimentalTime::class)
+public fun ManualClock.advance(
+	hours: Int = 0,
+	minutes: Int = 0,
+	seconds: Int = 0,
+	nanoseconds: Int = 0,
+): Timestamp =
+	advance(Duration(hours = hours, minutes = minutes, seconds = seconds, nanoseconds = nanoseconds))
+
+
 public fun ManualClock.advance(
 	years: Int = 0,
 	months: Int = 0,
@@ -58,7 +68,7 @@ public fun ManualClock.advance(
 	hours: Int = 0,
 	minutes: Int = 0,
 	seconds: Int = 0,
-	nanoseconds: Long = 0,
+	nanoseconds: Int = 0,
 	timeZone: TimeZone,
 ): Timestamp =
 	advance(
@@ -69,7 +79,7 @@ public fun ManualClock.advance(
 			hours = hours,
 			minutes = minutes,
 			seconds = seconds,
-			nanoseconds = nanoseconds
+			nanoseconds = nanoseconds.toLong()
 		),
 		timeZone = timeZone,
 	)
