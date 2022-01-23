@@ -22,13 +22,13 @@ class ManualClockTests {
 		clock.set(epoch)
 
 		clock.advance() // odd, should we prevent this?
-		clock.advance(seconds(0))
+		clock.advance(0.seconds)
 		clock.advance(hours = 0)
 		clock.advance(period = DatePeriod(), timeZone = TimeZone.UTC)
 		clock.advance(period = DateTimePeriod(), timeZone = TimeZone.UTC)
 		assertEquals(expected = epoch, actual = clock.now())
 
-		clock.advance(duration = hours(1) + minutes(2) + seconds(3) + nanoseconds(4))
+		clock.advance(duration = 1.hours + 2.minutes + 3.seconds + 4.nanoseconds)
 		assertEquals(expected = aLittleAfterEpoch, actual = clock.now())
 
 		clock.set(epoch)

@@ -1,6 +1,7 @@
 import io.fluidsonic.time.*
 import kotlin.test.*
 import kotlin.time.*
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.datetime.*
 
 
@@ -17,7 +18,7 @@ class TimestampTests {
 	@Test
 	fun testDurationSince() {
 		assertEquals(
-			expected = Duration.seconds(1),
+			expected = 1.seconds,
 			actual = Timestamp.fromEpochSeconds(1).durationSince(Timestamp.fromEpochSeconds(0)),
 		)
 	}
@@ -26,7 +27,7 @@ class TimestampTests {
 	@Test
 	fun testDurationUntil() {
 		assertEquals(
-			expected = Duration.seconds(1),
+			expected = 1.seconds,
 			actual = Timestamp.fromEpochSeconds(0).durationUntil(Timestamp.fromEpochSeconds(1)),
 		)
 	}

@@ -7,6 +7,7 @@
 !/.idea/runConfigurations/**
 !/.idea/gradle.xml
 !/.idea/saveactions_settings.xml
+/kotlin-js-store
 .DS_Store
 .gradle
 build
