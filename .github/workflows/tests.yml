@@ -9,8 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: xcodebuild -version
-      - run: sudo xcode-select -switch /Applications/Xcode_13.app
-      - run: xcodebuild -version
       - run: xcrun simctl list
       - run: ./gradlew iosX64Test macosX64Test tvosX64Test watchosX86Test
   js:
