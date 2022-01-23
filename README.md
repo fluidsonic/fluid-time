@@ -21,7 +21,7 @@ Installation
 
 ```kotlin
 dependencies {
-	implementation("io.fluidsonic.time:fluid-time:0.14.0")
+	implementation("io.fluidsonic.time:fluid-time:0.15.0")
 }
 ```
 
@@ -29,7 +29,6 @@ Additions
 ---------
 
 - `Duration(days, hours, minutes, seconds, nanoseconds)` – `Duration` factory function using components
-- `Duration.parse()/.parseOrNull()` - parse `Duration` from ISO-8601 string
 - `DurationSerializer` - `kotlinx-serialization` serializer for `Duration`
 - `LocalDate.atTime(LocalTime): LocalDateTime` - create `LocalDateTime` from `LocalDate` and `LocalTime`
 - `LocalDateOrNull(year, month, day)` - like `LocalDate()` but returns `null` instead of throwing
