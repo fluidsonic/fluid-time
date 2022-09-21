@@ -30,12 +30,10 @@ Additions
 
 - `Duration(days, hours, minutes, seconds, nanoseconds)` – `Duration` factory function using components
 - `DurationSerializer` - `kotlinx-serialization` serializer for `Duration`
-- `LocalDate.atTime(LocalTime): LocalDateTime` - create `LocalDateTime` from `LocalDate` and `LocalTime`
 - `LocalDateOrNull(year, month, day)` - like `LocalDate()` but returns `null` instead of throwing
-- `LocalDateTime.time` - returns its time components as `LocalTime`
-- `LocalTime` - similar to the existing `LocalDate` and `LocalDateTime`
+- `LocalTime.max` - `23:59:59.999999999`
 - `LocalTime.midnight` - `00:00`
-- `LocalTime.atDate(LocalDate): LocalDateTime` - create `LocalDateTime` from `LocalDate` and `LocalTime`
+- `LocalTime.min` - `00:00`
 - `Timestamp` - alias of `Instant` for those who prefer that name ([Discussion](https://kotlinlang.slack.com/archives/C01923PC6A0/p1597788327006500))
 - `(LocalDate|LocalDateTime|LocalTime|Timestamp).parseOrNull(String)` - like `parse()` but returns `null` instead of throwing
 - `TimeZone.ofOrNull(String)` - like `of()` but returns `null` instead of throwing
