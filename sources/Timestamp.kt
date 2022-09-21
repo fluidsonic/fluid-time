@@ -8,12 +8,10 @@ import kotlinx.datetime.*
 public typealias Timestamp = Instant
 
 
-@ExperimentalTime
 public fun Timestamp.durationSince(other: Timestamp): Duration =
 	this - other
 
 
-@ExperimentalTime
 public fun Timestamp.durationUntil(other: Timestamp): Duration =
 	other - this
 

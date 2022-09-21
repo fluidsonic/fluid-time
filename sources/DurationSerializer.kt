@@ -6,12 +6,11 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 
-@ExperimentalTime
 @Serializer(forClass = Duration::class)
 public object DurationSerializer : KSerializer<Duration> {
 
 	override val descriptor: SerialDescriptor =
-		PrimitiveSerialDescriptor("Duration", PrimitiveKind.STRING)
+		PrimitiveSerialDescriptor("io.fluidsonic.time.Duration", PrimitiveKind.STRING)
 
 
 	override fun serialize(encoder: Encoder, value: Duration) {

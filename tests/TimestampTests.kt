@@ -1,11 +1,9 @@
 import io.fluidsonic.time.*
 import kotlin.test.*
-import kotlin.time.*
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.datetime.*
 
 
-@OptIn(ExperimentalTime::class)
 class TimestampTests {
 
 	@Test

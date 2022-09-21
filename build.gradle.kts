@@ -2,10 +2,10 @@ import io.fluidsonic.gradle.*
 import org.jetbrains.kotlin.gradle.plugin.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.1.25"
+	id("io.fluidsonic.gradle") version "1.2.1"
 }
 
-fluidLibrary(name = "time", version = "0.15.0")
+fluidLibrary(name = "time", version = "0.16.0")
 
 fluidLibraryModule(description = "Kotlin multiplatform date & time library") {
 	language {
@@ -15,24 +15,22 @@ fluidLibraryModule(description = "Kotlin multiplatform date & time library") {
 	targets {
 		common {
 			dependencies {
-				implementation(kotlinx("serialization-core", "1.3.2"))
+				implementation(kotlinx("serialization-core", "1.4.0"))
 
-				api(kotlinx("datetime", "0.3.2"))
+				api(kotlinx("datetime", "0.4.0"))
 			}
 
 			testDependencies {
-				implementation(kotlinx("serialization-json", "1.3.2"))
+				implementation(kotlinx("serialization-json", "1.4.0"))
 			}
 		}
 
 		darwin()
-
 		js(KotlinJsCompilerType.BOTH) {
 			testDependencies {
 				implementation(npm("@js-joda/timezone", "2.12.0"))
 			}
 		}
-
 		jvm()
 	}
 }

@@ -13,15 +13,6 @@ class LocalDateTimeTests {
 
 
 	@Test
-	fun testTime() {
-		assertEquals(
-			expected = LocalTime(1, 2, 3, 4),
-			actual = LocalDateTime(2020, 12, 15, 1, 2, 3, 4).time
-		)
-	}
-
-
-	@Test
 	fun testToTimestamp() {
 		assertEquals(
 			expected = LocalDateTime(2020, 12, 15, 1, 2, 3, 4).toInstant(TimeZone.UTC),

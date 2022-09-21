@@ -44,14 +44,12 @@ private class DefaultManualClock : ManualClock {
 public fun ManualClock(): ManualClock = DefaultManualClock()
 
 
-@ExperimentalTime
 public fun ManualClock.advance(duration: Duration): Timestamp =
 	now()
 		.plus(duration)
 		.also(::set)
 
 
-@OptIn(ExperimentalTime::class)
 public fun ManualClock.advance(
 	hours: Int = 0,
 	minutes: Int = 0,
@@ -79,7 +77,7 @@ public fun ManualClock.advance(
 			hours = hours,
 			minutes = minutes,
 			seconds = seconds,
-			nanoseconds = nanoseconds.toLong()
+			nanoseconds = nanoseconds.toLong(),
 		),
 		timeZone = timeZone,
 	)
