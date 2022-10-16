@@ -28,6 +28,7 @@ dependencies {
 Additions
 ---------
 
+- `Clock.toJavaClock(TimeZone)` – wraps a `Clock` into a `java.time.Clock` (JVM only)
 - `Duration(days, hours, minutes, seconds, nanoseconds)` – `Duration` factory function using components
 - `DurationSerializer` - `kotlinx-serialization` serializer for `Duration`
 - `LocalDateOrNull(year, month, day)` - like `LocalDate()` but returns `null` instead of throwing
