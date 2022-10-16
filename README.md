@@ -21,7 +21,7 @@ Installation
 
 ```kotlin
 dependencies {
-	implementation("io.fluidsonic.time:fluid-time:0.16.0")
+	implementation("io.fluidsonic.time:fluid-time:0.17.0")
 }
 ```
 
