@@ -15,20 +15,20 @@ fluidLibraryModule(description = "Kotlin multiplatform date & time library") {
 	targets {
 		common {
 			dependencies {
-				implementation(kotlinx("serialization-core", "1.4.0"))
+				implementation(kotlinx("serialization-core", "1.4.1"))
 
 				api(kotlinx("datetime", "0.4.0"))
 			}
 
 			testDependencies {
-				implementation(kotlinx("serialization-json", "1.4.0"))
+				implementation(kotlinx("serialization-json", "1.4.1"))
 			}
 		}
 
 		darwin()
 		js(KotlinJsCompilerType.BOTH) {
 			testDependencies {
-				implementation(npm("@js-joda/timezone", "2.12.0"))
+				implementation(npm("@js-joda/timezone", "2.14.0"))
 			}
 		}
 		jvm()
