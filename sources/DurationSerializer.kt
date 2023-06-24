@@ -6,7 +6,6 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 
-@Serializer(forClass = Duration::class)
 public object DurationSerializer : KSerializer<Duration> {
 
 	override val descriptor: SerialDescriptor =
