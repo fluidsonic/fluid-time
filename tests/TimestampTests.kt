@@ -2,6 +2,8 @@ import io.fluidsonic.time.*
 import kotlin.test.*
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.datetime.*
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 
 class TimestampTests {

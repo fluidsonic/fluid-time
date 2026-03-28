@@ -16,6 +16,6 @@ class LocalTimeTest {
 	@Test
 	fun testParseOrNull() {
 		assertEquals(expected = LocalTime.parse("18:43:15"), actual = LocalTime.parseOrNull("18:43:15"))
-		assertNull(Timestamp.parseOrNull("x"))
+		assertNull(LocalTime.parseOrNull("x"))
 	}
 }

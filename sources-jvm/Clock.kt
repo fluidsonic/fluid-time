@@ -3,10 +3,12 @@ package io.fluidsonic.time
 import java.time.Clock as JavaClock
 import java.time.*
 import java.time.Instant
+import kotlin.time.Clock
+import kotlin.time.toJavaInstant
 import kotlinx.datetime.*
-import kotlinx.datetime.Clock
 
 
+/** Wraps this Kotlin [Clock] as a [java.time.Clock][JavaClock]. */
 public fun Clock.toJavaClock(timeZone: TimeZone = TimeZone.UTC): JavaClock =
 	KotlinClock(this, timeZone.toJavaZoneId())
 

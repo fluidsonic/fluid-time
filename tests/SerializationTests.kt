@@ -1,10 +1,9 @@
 import io.fluidsonic.time.*
 import kotlin.test.*
-import kotlin.time.*
+import kotlin.time.Duration
 import kotlinx.serialization.json.*
 
 
-@OptIn(ExperimentalTime::class)
 class SerializationTests {
 
 	@Test

@@ -3,6 +3,7 @@ package io.fluidsonic.time
 import kotlinx.datetime.*
 
 
+/** Returns the number of days in this month for the given [year]. */
 public fun Month.daysIn(year: Int): Int =
 	when (this) {
 		Month.JANUARY -> 31
@@ -17,5 +18,4 @@ public fun Month.daysIn(year: Int): Int =
 		Month.OCTOBER -> 31
 		Month.NOVEMBER -> 30
 		Month.DECEMBER -> 31
-		else -> error("Unknown month: $this") // https://github.com/Kotlin/kotlinx-datetime/issues/96
 	}

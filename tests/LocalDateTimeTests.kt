@@ -8,7 +8,7 @@ class LocalDateTimeTests {
 	@Test
 	fun testParseOrNull() {
 		assertEquals(expected = LocalDateTime.parse("2019-10-01T18:43:15"), actual = LocalDateTime.parseOrNull("2019-10-01T18:43:15"))
-		assertNull(Timestamp.parseOrNull("x"))
+		assertNull(LocalDateTime.parseOrNull("x"))
 	}
 
 

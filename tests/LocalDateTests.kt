@@ -26,6 +26,6 @@ class LocalDateTests {
 	@Test
 	fun testParseOrNull() {
 		assertEquals(expected = LocalDate.parse("2019-10-01"), actual = LocalDate.parseOrNull("2019-10-01"))
-		assertNull(Timestamp.parseOrNull("x"))
+		assertNull(LocalDate.parseOrNull("x"))
 	}
 }
